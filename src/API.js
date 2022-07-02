@@ -1,4 +1,4 @@
-const API_URL = 'https://brooms.herokuapp.com';
+// const API_URL = 'https://brooms.herokuapp.com';
 
 export const API = {
 	characters: async () => {
