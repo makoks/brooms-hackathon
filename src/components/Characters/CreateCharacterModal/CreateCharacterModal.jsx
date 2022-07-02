@@ -5,7 +5,7 @@ import {UploadOutlined} from "@ant-design/icons";
 const {Option} = Select
 
 const CreateCharacterModal = ({isModalVisible, createCharacter, onCancel}) => {
-	const fieldNames = ['nickname', 'race', 'class', 'about', 'avatar', 'guild']
+	const fieldNames = ['nickname', 'race', 'heroClass', 'about', 'avatar', 'guild']
 	const [form] = Form.useForm()
 
 	return (
@@ -29,7 +29,7 @@ const CreateCharacterModal = ({isModalVisible, createCharacter, onCancel}) => {
 						<Option value="Орк">Орк</Option>
 					</Select>
 				</Form.Item>
-				<Form.Item name="class" label="Класс" rules={[{required: true}]}>
+				<Form.Item name="heroClass" label="Класс" rules={[{required: true}]}>
 					<Select>
 						<Option value="Лучник">Лучник</Option>
 						<Option value="Вор">Вор</Option>

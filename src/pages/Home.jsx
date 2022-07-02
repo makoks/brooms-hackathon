@@ -27,8 +27,9 @@ export const Home = () => {
 	// initial set characters
 	useEffect(() => {
 		const getCharacters = async () => {
-			const data = await API.characters()
-			setCharacters(data)
+			const response = await API.getCharacters()
+			console.log(response.data)
+			setCharacters(response.data._embedded.hero)
 		}
 
 		getCharacters()

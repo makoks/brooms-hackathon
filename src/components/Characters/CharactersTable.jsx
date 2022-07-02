@@ -39,31 +39,34 @@ export const CharactersTable = ({
 	const columns = [
 		{
 			title: 'Аватар',
-			dataIndex: 'avatar',
-			key: 'avatar',
-			render: (_, {avatar}) => <Avatar size='large' src={avatar}/>
+			dataIndex: 'avatarHero',
+			key: 'avatarHero',
+			render: (_, {avatarHero}) => <Avatar size='large' src={avatarHero}/>
 		},
 		{
 			title: 'Никнейм',
 			dataIndex: 'nickname',
 			key: 'nickname',
-			render: (_, character) => <NavLink to={`character/${character.id}`}>{character.nickname}</NavLink>,
-			sorter: (a, b) => a.nickname - b.nickname,
+			render: (_, {id, heroName}) => <NavLink to={`hero/${id}`}>{heroName}</NavLink>,
+			sorter: (a, b) => a.heroName - b.heroName,
 		},
 		{
 			title: 'Раса',
-			dataIndex: 'race',
-			key: 'race',
+			dataIndex: 'heroRace',
+			key: 'heroRace',
+			render: (_, {heroRace: {raceName}}) => raceName
 		},
 		{
 			title: 'Класс',
-			dataIndex: 'class',
-			key: 'class',
+			dataIndex: 'heroClass.nameClass',
+			key: 'heroClass.nameClass',
+			render: (_, {heroClass: {nameClass}}) => nameClass
 		},
 		{
 			title: 'Гильдия',
-			dataIndex: 'guild',
-			key: 'guild',
+			dataIndex: 'heroGuild.nameGuild',
+			key: 'heroGuild.nameGuild',
+			render: (_, {heroGuild: {nameGuild}}) => nameGuild
 		},
 		{
 			title: '',

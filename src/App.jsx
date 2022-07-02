@@ -18,7 +18,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="reference" element={<HeroPropertiesReference />} />
-          <Route path="changing" element={<HeroPropertiesChanging />} />
+          <Route path={`hero/:id`} element={<HeroPropertiesChanging />} />
           <Route path="comparison" element={<Comparison />} />
           <Route path="history" element={<History />} />
         </Route>
