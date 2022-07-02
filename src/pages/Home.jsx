@@ -18,7 +18,7 @@ export const Home = () => {
 			.then(() => {
 				message.success('Герой успешно создан')
 				getCharacters()
-					.then(() => closeModal())
+				closeModal()
 
 			})
 			.catch(() => message.error('Что-то пошло не так :('))
@@ -65,10 +65,13 @@ export const Home = () => {
 		localStorage.setItem('compareList', JSON.stringify(newList))
 	}
 
-	const getCharacters = async () => {
-		const response = await API.getHeroes()
-		console.log(response.data)
-		setCharacters(response.data._embedded.hero)
+	const getCharacters = () => {
+		const get = async () => {
+			const response = await API.getHeroes()
+			setCharacters(response.data._embedded.hero)
+		}
+
+		get()
 	}
 
 	// initial set characters

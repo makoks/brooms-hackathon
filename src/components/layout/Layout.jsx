@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Layout as AntdLayout, Menu, Space, Typography, Switch, Badge} from 'antd';
 import {Link, NavLink, Outlet} from 'react-router-dom';
 import {ProfileOutlined, BulbOutlined, BulbFilled, UnorderedListOutlined} from '@ant-design/icons';
@@ -8,8 +8,6 @@ import {useCurrentPage} from '../../hooks';
 export const Layout = () => {
 	const currentPage = useCurrentPage();
 	const [compareLength, setCompareLength] = useState(JSON.parse(localStorage.getItem('compareList'))?.length ?? 0)
-
-	useEffect(() => setCompareLength(JSON.parse(localStorage.getItem('compareList'))?.length ?? 0), [localStorage])
 
 	const handleThemeChange = (checked) => {
 		if (checked) {
