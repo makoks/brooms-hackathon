@@ -1,3 +1,5 @@
 export { Home } from './Home';
-export { Page } from './Page';
-export { LoginPage } from './LoginPage';
+export { History } from './History';
+export { Comparison } from './Comparison';
+export { HeroPropertiesChanging } from './HeroPropertiesChanging';
+export { HeroPropertiesReference } from './HeroPropertiesReference';
