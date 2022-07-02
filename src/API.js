@@ -71,4 +71,14 @@ export const API = {
 		const response = await axios.get(`${API_URL}cluster`);
 		return response.data._embedded.cluster;
 	},
+	addCluster: async nameCluster => {
+		const response = await axios.post(`${API_URL}cluster`, { nameCluster });
+		return response.data;
+	},
+	editCluster: async (id, body) => {
+		await axios.put(`${API_URL}cluster/${id}`, { ...body });
+	},
+	deleteCluster: async id => {
+		await axios.delete(`${API_URL}cluster/${id}`);
+	},
 };
