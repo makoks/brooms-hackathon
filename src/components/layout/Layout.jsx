@@ -7,7 +7,7 @@ import {useCurrentPage} from '../../hooks';
 
 export const Layout = () => {
 	const currentPage = useCurrentPage();
-	const [compareLength, setCompareLength] = useState(JSON.parse(localStorage.getItem('compareList'))?.length ?? 0)
+	const [compareLength] = useState(JSON.parse(localStorage.getItem('compareList'))?.length ?? 0)
 
 	const handleThemeChange = (checked) => {
 		if (checked) {

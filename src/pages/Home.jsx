@@ -23,7 +23,6 @@ export const Home = () => {
 			})
 			.catch(() => message.error('Что-то пошло не так :('))
 			.finally(() => setCreatingHero(false))
-
 	}
 
 	const showModal = () => {
