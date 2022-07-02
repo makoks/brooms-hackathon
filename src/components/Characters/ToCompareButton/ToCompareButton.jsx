@@ -1,5 +1,4 @@
 import React from 'react'
-import {CloseSquareOutlined, UnorderedListOutlined} from "@ant-design/icons";
 import {Button} from "antd";
 
 
@@ -15,8 +14,8 @@ const ToCompareButton = ({inCompareList, onAdd, onRemove}) => {
 	return (
 		<Button onClick={handleClick}>{
 			inCompareList
-				? <CloseSquareOutlined />
-				: <UnorderedListOutlined/>
+				? 'Убрать из сравнения'
+				: 'Добавить в сравнение'
 		}</Button>
 	)
 }
