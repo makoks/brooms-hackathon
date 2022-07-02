@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://176.119.147.104:8081/';
+const API_URL = 'https://brooms.herokuapp.com/';
 const config = {
 	headers: {
 		'content-type': 'application/json'
