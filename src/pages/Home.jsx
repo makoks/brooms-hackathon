@@ -8,6 +8,10 @@ export const Home = () => {
 	const [characters, setCharacters] = useState([])
 	const [compareList, setCompareList] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
 
+	const removeFromCharacters = (id) => {
+		setCharacters(characters.filter(character => character.id !== id))
+	}
+
 	const addInCompareList = (id) => {
 		const newList = [...compareList, id]
 		setCompareList(newList)
@@ -39,6 +43,7 @@ export const Home = () => {
 					compareList={compareList}
 					addInCompareList={addInCompareList}
 					removeFromCompareList={removeFromCompareList}
+					removeFromCharacters={removeFromCharacters}
 				/>
 			</Layout.Content>
 		</Layout>
