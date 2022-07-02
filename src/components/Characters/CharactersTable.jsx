@@ -3,34 +3,16 @@ import {NavLink} from "react-router-dom";
 import React, {useState, useEffect} from "react";
 import ToCompareButton from "./ToCompareButton/ToCompareButton";
 import {DeleteOutlined} from "@ant-design/icons";
-import CreateCharacterModal from "./CreateCharacterModal/CreateCharacterModal";
 
 export const CharactersTable = ({
 	                                compareList,
 	                                addInCompareList,
 	                                removeFromCompareList,
-	                                removeFromCharacters,
+	                                deleteHero,
+	                                deletingIds,
 	                                ...props
                                 }) => {
 	const [characters, setCharacters] = useState(props.characters ?? [])
-	const [isModalVisible, setIsModalVisible] = useState(false);
-
-	const createCharacter = (characterData) => {
-		setCharacters([...characters, characterData])
-		closeModal()
-	}
-
-	const showModal = () => {
-		setIsModalVisible(true);
-	};
-
-	const closeModal = () => {
-		setIsModalVisible(false);
-	};
-
-	const handleCancel = () => {
-		setIsModalVisible(false);
-	};
 
 	useEffect(() => {
 		setCharacters(props.characters.map(character => ({...character, key: character.id,})))
@@ -48,7 +30,6 @@ export const CharactersTable = ({
 			dataIndex: 'nickname',
 			key: 'nickname',
 			render: (_, {id, heroName}) => <NavLink to={`hero/${id}`}>{heroName}</NavLink>,
-			sorter: (a, b) => a.heroName - b.heroName,
 		},
 		{
 			title: 'Раса',
@@ -83,37 +64,22 @@ export const CharactersTable = ({
 			title: '',
 			dataIndex: 'remove',
 			key: 'remove',
-			render: (_, {id}) => <Button onClick={() => removeFromCharacters(id)}><DeleteOutlined/></Button>,
+			render: (_, {id}) => <Button onClick={() => deleteHero(id)}
+			                             loading={deletingIds.indexOf(id) !== -1}><DeleteOutlined/></Button>,
 			width: '5%'
 		},
 	]
 
 	return (
-		<>
-			<Button
-				onClick={showModal}
-				type="primary"
-				style={{
-					marginBottom: 16,
-				}}
-			>
-				Добавить персонажа
-			</Button>
-			<Table
-				columns={columns}
-				dataSource={characters}
-				expandable={{
-					expandedRowRender: (record) => (
-						<Typography.Paragraph style={{margin: 0}}>{record.about}</Typography.Paragraph>
-					),
-				}}
-			/>
-			<CreateCharacterModal
-				isModalVisible={isModalVisible}
-				createCharacter={createCharacter}
-				onCancel={handleCancel}
-			/>
-		</>
+		<Table
+			columns={columns}
+			dataSource={characters}
+			expandable={{
+				expandedRowRender: (record) => (
+					<Typography.Paragraph style={{margin: 0}}>{record.about}</Typography.Paragraph>
+				),
+			}}
+		/>
 	)
 }
 

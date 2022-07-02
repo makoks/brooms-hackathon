@@ -50,7 +50,7 @@ export const HeroPropertiesChanging = () => {
 
 	useEffect(() => {
 		const getCharacter = async (id) => {
-			const response = await API.character(id)
+			const response = await API.getHero(id)
 			setCharacter(response.data)
 			setEditableClusters(response.data.clusters)
 		}

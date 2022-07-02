@@ -1,12 +1,13 @@
-import React from 'react';
-import {Layout as AntdLayout, Menu, Space, Typography, Switch} from 'antd';
-import {Link, Outlet} from 'react-router-dom';
-import {ProfileOutlined, BulbOutlined, BulbFilled} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Layout as AntdLayout, Menu, Space, Typography, Switch, Badge} from 'antd';
+import {Link, NavLink, Outlet} from 'react-router-dom';
+import {ProfileOutlined, BulbOutlined, BulbFilled, UnorderedListOutlined} from '@ant-design/icons';
 import {Logo} from '../../images';
 import {useCurrentPage} from '../../hooks';
 
 export const Layout = () => {
 	const currentPage = useCurrentPage();
+	const [compareLength] = useState(JSON.parse(localStorage.getItem('compareList'))?.length ?? 0)
 
 	const handleThemeChange = (checked) => {
 		if (checked) {
@@ -38,6 +39,12 @@ export const Layout = () => {
 						unCheckedChildren={<BulbFilled/>}
 						onChange={handleThemeChange}
 					/>
+					<Badge count={compareLength} size='small'>
+						<NavLink to='/reference'>
+							<UnorderedListOutlined style={{color: 'white', fontSize: 20}}/>
+						</NavLink>
+					</Badge>
+
 				</Space>
 			</AntdLayout.Header>
 			<AntdLayout>

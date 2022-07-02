@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://176.119.147.104:8081/';
+const API_URL = 'https://brooms.herokuapp.com/';
 const config = {
 	headers: {
 		'content-type': 'application/json'
@@ -8,7 +8,7 @@ const config = {
 }
 
 export const API = {
-	getCharacters: async () => {
+	getHeroes: async () => {
 		return axios.get(`${API_URL}hero`, config)
 		// return [
 		// 	{
@@ -43,7 +43,8 @@ export const API = {
 		// 	},
 		// ];
 	},
-	character: async (id) => {
+
+	getHero: async (id) => {
 		return axios.get(`${API_URL}hero/${id}`, config)
 		// return await {
 		// 	id: '1',
@@ -67,6 +68,27 @@ export const API = {
 		// 	]
 		// }
 	},
+
+	deleteHero: (id) => {
+		return axios.delete(`${API_URL}hero/${id}`, config)
+	},
+
+	createHero: (heroData) => {
+		return axios.post(`${API_URL}hero`, JSON.stringify(heroData), config)
+	},
+
+	getHeroRaces: () => {
+		return axios.get(`${API_URL}heroRaces`, config)
+	},
+
+	getHeroClasses: () => {
+		return axios.get(`${API_URL}heroClasses`, config)
+	},
+
+	getHeroGuilds: () => {
+		return axios.get(`${API_URL}heroGuilds`, config)
+	},
+
 	clusters: async () => {
 		const response = await axios.get(`${API_URL}cluster`);
 		return response.data._embedded.cluster;
