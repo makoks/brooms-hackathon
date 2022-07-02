@@ -66,5 +66,9 @@ export const API = {
 		// 		}
 		// 	]
 		// }
-	}
+	},
+	clusters: async () => {
+		const response = await axios.get(`${API_URL}cluster`);
+		return response.data._embedded.cluster;
+	},
 };
