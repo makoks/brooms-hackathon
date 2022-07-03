@@ -1,9 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	Row,
 	Col,
-	Card,
-	List,
 	Space,
 	Layout,
 	Select,
@@ -11,9 +9,23 @@ import {
 	TreeSelect,
 	Typography,
 } from 'antd';
-import { ContentHeader } from '../components';
+import {ContentHeader} from '../components';
+import {API} from "../API";
+
 
 export const Comparison = () => {
+	const [heroesIds] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
+	const [heroes, setHeroes] = useState([])
+
+	useEffect(() => {
+		const getHero = (id) => {
+			return API.getHero(id)
+		}
+
+		Promise.all(heroesIds.map(id => getHero(id)))
+			.then(res => setHeroes(res))
+	}, [])
+
 	const mutableProperties = [
 		{
 			title: 'Cluster 1',
@@ -56,7 +68,8 @@ export const Comparison = () => {
 		},
 	];
 
-	const onChange = () => {};
+	const onChange = () => {
+	};
 
 	return (
 		<Layout>
@@ -68,7 +81,7 @@ export const Comparison = () => {
 					onChange={onChange}
 					filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
 					mode="multiple"
-					style={{ width: '100%' }}
+					style={{width: '100%'}}
 					allowClear={true}
 					maxTagCount={6}
 					showArrow={true}
@@ -80,167 +93,180 @@ export const Comparison = () => {
 				<TreeSelect
 					treeData={mutableProperties}
 					treeCheckable={true}
-					style={{ width: '100%' }}
+					style={{width: '100%'}}
 					placeholder="Select properties"
 					allowClear={true}
 					showArrow={true}
 					treeDefaultExpandAll={true}
 				/>
 			</ContentHeader>
-			<Layout.Content style={{ margin: '27px 34px' }}>
-				<Row gutter={8}>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-				</Row>
-      </Layout.Content>
+			<Layout.Content style={{margin: '27px 34px'}}>
+				<Space direction='vertical'>
+					<Row gutter={16} justify='center'>
+						{heroes.map(hero => (
+							<Col key={hero.data.id}>
+								<Space direction='vertical' align='center'>
+									<Avatar src={hero.data.avatarHero} size='large'/>
+									<Typography.Text>{hero.data.heroName}</Typography.Text>
+								</Space>
+							</Col>
+						))}
+					</Row>
+
+				</Space>
+			</Layout.Content>
 		</Layout>
 	);
 };
+
+
+{/*<Col span={4}>*/}
+{/*	<Card>*/}
+{/*		<Card.Meta*/}
+{/*			title="Hero 1"*/}
+{/*			avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}*/}
+{/*		/>*/}
+{/*		<List*/}
+{/*			dataSource={['Cluster 1', 'Cluster 2']}*/}
+{/*			renderItem={cluster => (*/}
+{/*				<List.Item>*/}
+{/*					<Space direction="vertical">*/}
+{/*						<Typography.Title level={5}>{cluster}</Typography.Title>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 1:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 2:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 3:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*					</Space>*/}
+{/*				</List.Item>*/}
+{/*			)}*/}
+{/*		/>*/}
+{/*	</Card>*/}
+{/*</Col>*/}
+{/*<Col span={4}>*/}
+{/*	<Card>*/}
+{/*		<Card.Meta*/}
+{/*			title="Hero 1"*/}
+{/*			avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}*/}
+{/*		/>*/}
+{/*		<List*/}
+{/*			dataSource={['Cluster 1', 'Cluster 2']}*/}
+{/*			renderItem={cluster => (*/}
+{/*				<List.Item>*/}
+{/*					<Space direction="vertical">*/}
+{/*						<Typography.Title level={5}>{cluster}</Typography.Title>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 1:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 2:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 3:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*					</Space>*/}
+{/*				</List.Item>*/}
+{/*			)}*/}
+{/*		/>*/}
+{/*	</Card>*/}
+{/*</Col>*/}
+{/*<Col span={4}>*/}
+{/*	<Card>*/}
+{/*		<Card.Meta*/}
+{/*			title="Hero 1"*/}
+{/*			avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}*/}
+{/*		/>*/}
+{/*		<List*/}
+{/*			dataSource={['Cluster 1', 'Cluster 2']}*/}
+{/*			renderItem={cluster => (*/}
+{/*				<List.Item>*/}
+{/*					<Space direction="vertical">*/}
+{/*						<Typography.Title level={5}>{cluster}</Typography.Title>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 1:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 2:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 3:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*					</Space>*/}
+{/*				</List.Item>*/}
+{/*			)}*/}
+{/*		/>*/}
+{/*	</Card>*/}
+{/*</Col>*/}
+{/*<Col span={4}>*/}
+{/*	<Card>*/}
+{/*		<Card.Meta*/}
+{/*			title="Hero 1"*/}
+{/*			avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}*/}
+{/*		/>*/}
+{/*		<List*/}
+{/*			dataSource={['Cluster 1', 'Cluster 2']}*/}
+{/*			renderItem={cluster => (*/}
+{/*				<List.Item>*/}
+{/*					<Space direction="vertical">*/}
+{/*						<Typography.Title level={5}>{cluster}</Typography.Title>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 1:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 2:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 3:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*					</Space>*/}
+{/*				</List.Item>*/}
+{/*			)}*/}
+{/*		/>*/}
+{/*	</Card>*/}
+{/*</Col>*/}
+{/*<Col span={4}>*/}
+{/*	<Card>*/}
+{/*		<Card.Meta*/}
+{/*			title="Hero 1"*/}
+{/*			avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}*/}
+{/*		/>*/}
+{/*		<List*/}
+{/*			dataSource={['Cluster 1', 'Cluster 2']}*/}
+{/*			renderItem={cluster => (*/}
+{/*				<List.Item>*/}
+{/*					<Space direction="vertical">*/}
+{/*						<Typography.Title level={5}>{cluster}</Typography.Title>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 1:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 2:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*						<Space>*/}
+{/*							<Typography.Text type="secondary">MP 3:</Typography.Text>*/}
+{/*							<Typography.Text>Value</Typography.Text>*/}
+{/*						</Space>*/}
+{/*					</Space>*/}
+{/*				</List.Item>*/}
+{/*			)}*/}
+{/*		/>*/}
+{/*	</Card>*/}
+{/*</Col>*/}
