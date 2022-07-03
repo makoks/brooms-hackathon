@@ -63,7 +63,7 @@ export const MpItem = ({ mp, clusterId, clustersList, setClustersList }) => {
 
   return (
     <Row>
-      <Col span={18}>
+      <Col span={16}>
         <Space size="middle">
           <Button
             icon={<DeleteOutlined />}
@@ -82,7 +82,7 @@ export const MpItem = ({ mp, clusterId, clustersList, setClustersList }) => {
           )}
         </Space>
       </Col>
-      <Col span={6}>
+      <Col span={8}>
         <Select defaultValue={mp.typeofMp} onChange={handleTypeChange} style={{ width: 80 }}>
           <Select.Option value="String">str</Select.Option>
           <Select.Option value="Integer">num</Select.Option>
