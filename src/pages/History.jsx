@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Layout, Select, Space, Typography, DatePicker, Button, Table} from 'antd';
+import {Layout, Select, Space, Typography, DatePicker, Button, Table, TreeSelect} from 'antd';
 import {ContentHeader} from '../components';
 import {API} from "../API";
 
@@ -59,34 +59,67 @@ export const History = () => {
 	const [dates, setDates] = useState([])
 	const [hero, setHero] = useState(undefined)
 	const [heroes, setHeroes] = useState([])
+	const [clusters, setClusters] = useState([]);
+	const [selectedProperties, setSelectedProperties] = useState([]);
 
 	useEffect(() => {
 		const getHeroes = async () => {
 			const res = await API.getHeroes()
 			setHeroes(res.data._embedded.hero)
 		}
+		const fetchClusters = async () => {
+			const fetchedClusters = await API.clusters();
+			setClusters(fetchedClusters.map(cluster => ({
+				title: cluster.nameCluster,
+				value: cluster.id,
+				key: cluster.id,
+				children: cluster.properties.map(property => ({
+					title: property.nameProp,
+					value: `${cluster.id}-${property.id}`,
+					key: `${cluster.id}-${property.id}`,
+				})),
+			})));
+		}
 
 		getHeroes()
+		fetchClusters();
 	}, [])
 
 	return (
 		<Layout>
 			<ContentHeader title='История изменений' paddingBottom={true}>
+				{JSON.stringify(hero)}
 				<Select
 					showSearch
-					filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-					onChange={setHero}
+					filterOption={(input, option) => {
+						console.log(option);
+						option.title.toLowerCase().includes(input.toLowerCase())
+					}}
+					onChange={selectedId => setHero(heroes.find(({ id }) => id === selectedId))}
 					value={hero}
-					style={{width: '100%'}}
+					placeholder="Select hero"
+					style={{ width: 300 }}
 				>
 					{heroes.map(hero => (
 						<Option value={hero.id} key={hero.id}>{hero.heroName}</Option>
 					))}
 				</Select>
+				<TreeSelect
+					treeData={clusters}
+					treeCheckable={true}
+					style={{ width: '100%' }}
+					placeholder="Select properties"
+					allowClear={true}
+					showArrow={true}
+					treeDefaultExpandAll={true}
+					onChange={setSelectedProperties}
+				/>
 				<Space>
 					<Typography.Text>Выберите период изменений</Typography.Text>
 					<RangePicker value={dates} onCalendarChange={setDates}/>
-					<Button type='primary'>Применить</Button>
+					<Button type='primary' disabled={!hero || !selectedProperties.length || !dates?.[1]}>
+						Применить
+					</Button>
 				</Space>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
