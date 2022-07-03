@@ -4,8 +4,48 @@ import {ContentHeader} from '../components';
 import {useParams} from "react-router-dom";
 import {API} from "../API";
 import HeroMainInfo from "../components/Characters/CharacterPage/HeroMainInfo";
+import ClustersList from "../components/Characters/CharacterPage/ClustersList/ClustersList";
 
 const {Option} = Select
+
+const clusters = [
+	{
+		name: 'Статистика',
+		items: [
+			{name: 'health', value: 120},
+			{name: 'mana', value: 100},
+			{name: 'gold', value: 1000},
+		]
+	},
+	{
+		name: 'Статистика',
+		items: [
+			{name: 'last active', value: 120},
+			{name: 'lvl', value: 100},
+			{name: 'max HP', value: 1000},
+			{name: 'max mana', value: 1000},
+			{name: 'gold', value: 1000},
+		]
+	},
+	{
+		name: 'Статистика',
+		items: [
+			{name: 'last active', value: 120},
+			{name: 'lvl', value: 100},
+			{name: 'max HP', value: 1000},
+			{name: 'max mana', value: 1000},
+			{name: 'gold', value: 1000},
+		]
+	},
+	{
+		name: 'Loot',
+		items: [
+			{name: 'hat', value: 'Алмазная'},
+			{name: 'boots', value: 'Железная'},
+			{name: 'Armor', value: 'Шипованная'},
+		]
+	}
+]
 
 export const HeroPropertiesChanging = () => {
 	const {id} = useParams()
@@ -28,21 +68,21 @@ export const HeroPropertiesChanging = () => {
 		toggleIsEdit()
 	}
 
-	// const changeClusterField = (clusterName, fieldName, newValue) => {
-	// 	const newClusters = editableClusters.map(cluster => (
-	// 		cluster.name === clusterName
-	// 			? {
-	// 				...cluster,
-	// 				items: cluster.items.map(item => (
-	// 					item.name === fieldName
-	// 						? {...item, value: newValue}
-	// 						: item
-	// 				))
-	// 			}
-	// 			: cluster
-	// 	))
-	// 	setEditableClusters(newClusters)
-	// }
+	const changeClusterField = (clusterName, fieldName, newValue) => {
+		const newClusters = editableClusters.map(cluster => (
+			cluster.name === clusterName
+				? {
+					...cluster,
+					items: cluster.items.map(item => (
+						item.name === fieldName
+							? {...item, value: newValue}
+							: item
+					))
+				}
+				: cluster
+		))
+		setEditableClusters(newClusters)
+	}
 
 	const toggleIsEdit = () => {
 		setIsEdit(!isEdit)
@@ -51,8 +91,8 @@ export const HeroPropertiesChanging = () => {
 	useEffect(() => {
 		const getCharacter = async (id) => {
 			const response = await API.getHero(id)
-			setCharacter(response.data)
-			setEditableClusters(response.data.clusters)
+			setCharacter({...response.data, clusters})
+			setEditableClusters(clusters)
 		}
 		setLoading(true)
 		getCharacter(id)
@@ -99,12 +139,12 @@ export const HeroPropertiesChanging = () => {
 						</Select>
 					</div>
 				)}
-				{/*<ClustersList*/}
-				{/*	clusters={character?.clusters ?? []}*/}
-				{/*	editableClusters={editableClusters}*/}
-				{/*	changeClusterField={changeClusterField}*/}
-				{/*	isEdit={isEdit}*/}
-				{/*/>*/}
+				<ClustersList
+					clusters={character?.clusters ?? []}
+					editableClusters={editableClusters}
+					changeClusterField={changeClusterField}
+					isEdit={isEdit}
+				/>
 				{isEdit && (
 					<Space style={{marginTop: 16, marginLeft: 'auto'}}>
 						<Button onClick={saveChanges} type='primary'>Сохранить изменения</Button>

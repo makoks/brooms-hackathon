@@ -14,6 +14,7 @@ const ClusterCard = ({name, items, isEdit, changeClusterField}) => {
 								isEdit
 									? <Input
 										value={item.value}
+										style={{width: 60}}
 										onChange={(e) => changeClusterField(name, item.name, e.target.value)}
 									/>
 									: <Typography.Text style={{color: 'rgba(0, 0, 0, 0.45)'}}>{item.value}</Typography.Text>
