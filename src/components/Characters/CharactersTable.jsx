@@ -57,6 +57,7 @@ export const CharactersTable = ({
 				inCompareList={compareList?.includes(id)}
 				onAdd={() => addInCompareList(id)}
 				onRemove={() => removeFromCompareList(id)}
+				disabled={compareList.length === 6}
 			/>,
 			width: '8%'
 		},

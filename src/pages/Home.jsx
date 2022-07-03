@@ -5,12 +5,12 @@ import CharactersTable from "../components/Characters/CharactersTable";
 import {API} from "../API";
 import CreateCharacterModal from "../components/Characters/CreateCharacterModal/CreateCharacterModal";
 
-export const Home = () => {
+export const Home = ({compare}) => {
 	const [characters, setCharacters] = useState([])
-	const [compareList, setCompareList] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
+	const [compareList, setCompareList] = compare
 	const [deletingIds, setDeletingIds] = useState([])
 	const [creatingHero, setCreatingHero] = useState(false)
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isModalVisible, setIsModalVisible] = useState(false)
 
 	const createCharacter = async (heroData) => {
 		setCreatingHero(true)
@@ -42,6 +42,7 @@ export const Home = () => {
 		API.deleteHero(id)
 			.then (() => {
 				removeFromCharacters(id)
+				removeFromCompareList(id)
 				message.success('Герой успешно удален')
 			})
 			.catch(() => message.error('Что-то пошло не так :('))

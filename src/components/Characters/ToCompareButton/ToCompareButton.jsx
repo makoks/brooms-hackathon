@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from "antd";
 
 
-const ToCompareButton = ({inCompareList, onAdd, onRemove}) => {
+const ToCompareButton = ({inCompareList, onAdd, onRemove, disabled}) => {
 	const handleClick = () => {
 		if (inCompareList) {
 			onRemove()
@@ -12,7 +12,7 @@ const ToCompareButton = ({inCompareList, onAdd, onRemove}) => {
 	}
 
 	return (
-		<Button onClick={handleClick}>{
+		<Button onClick={handleClick} disabled={!inCompareList && disabled} type={inCompareList ? 'default' : 'primary'}>{
 			inCompareList
 				? 'Убрать из сравнения'
 				: 'Добавить в сравнение'
