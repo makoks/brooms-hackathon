@@ -50,16 +50,16 @@ export const Layout = () => {
 			<AntdLayout>
 				<AntdLayout.Sider style={{boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)'}}>
 					<Menu mode="inline" style={{height: '100%', borderRight: 0}} selectedKeys={[currentPage]} items={[
-						{label: <Link to="/">Home</Link>, key: 'home', icon: <ProfileOutlined/>},
+						{label: <Link to="/">Герои</Link>, key: 'home', icon: <ProfileOutlined/>},
 						{label: <Link to="reference">MP Reference</Link>, key: 'reference', icon: <ProfileOutlined/>},
 						{
-							label: 'Reports', key: 'reports', icon: <ProfileOutlined/>, children: [
+							label: 'Отчеты', key: 'reports', icon: <ProfileOutlined/>, children: [
 								{
-									label: <Link to="comparison">Comparison</Link>,
+									label: <Link to="comparison">Сравнение</Link>,
 									key: 'comparison',
 									icon: <ProfileOutlined/>
 								},
-								{label: <Link to="history">History</Link>, key: 'history', icon: <ProfileOutlined/>},
+								{label: <Link to="history">История изменений</Link>, key: 'history', icon: <ProfileOutlined/>},
 							]
 						},
 					]}/>
