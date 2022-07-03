@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
 	Row,
 	Col,
@@ -8,7 +8,7 @@ import {
 	Typography, Card, List, Space, Avatar,
 } from 'antd';
 import {ContentHeader} from '../components';
-import {API} from "../API";
+// import {API} from "../API";
 
 // const userProperties = [
 // 	{
@@ -133,19 +133,19 @@ import {API} from "../API";
 
 
 export const Comparison = () => {
-	const [heroesIds] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
+	// const [heroesIds] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
 	// const [heroes, setHeroes] = useState([])
 
-	useEffect(() => {
-		const getHero = (id) => {
-			return API.getHero(id)
-		}
-
-		Promise.all(heroesIds.map(id => getHero(id)))
-			.then(res => {
-				setHeroes(res)
-			})
-	}, [heroesIds])
+	// useEffect(() => {
+	// 	const getHero = (id) => {
+	// 		return API.getHero(id)
+	// 	}
+	//
+	// 	// Promise.all(heroesIds.map(id => getHero(id)))
+	// 	// 	.then(res => {
+	// 	// 		// setHeroes(res)
+	// 	// 	})
+	// }, [heroesIds])
 
 	const mutableProperties = [
 		{
