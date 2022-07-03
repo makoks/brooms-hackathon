@@ -6,58 +6,57 @@ import {
   Popover,
   Typography,
 } from 'antd';
-import { PlusOutlined, CaretRightOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, CaretRightOutlined, CheckOutlined } from '@ant-design/icons';
+import { MpItem } from './MpItem';
+import { API } from '../../API';
 
 export const ClusterPopover = ({ id, definition, mps, setClustersList, clustersList }) => {
-  const [addingDefinition, setAddingDefinition] = useState(false);
   const [newDefinition, setNewDefinition] = useState('');
   const [addingProperty, setAddingProperty] = useState(false);
   const [newPropertyName, setNewPropertyName] = useState('');
+  const [editingDefinition, setEditingDefinition] = useState(false);
 
-  const addDefinitionHandler = () => {
-    setAddingDefinition(false);
+  const editDefinitionHandler = () => {
+    setEditingDefinition(false);
     const newClustersList = [ ...clustersList ];
     const currentCluster = newClustersList.find(cluster => id === cluster.id);
     currentCluster.definition = newDefinition;
-    console.log(newClustersList);
     setClustersList(newClustersList);
+    API.editCluster(id, { definition: newDefinition });
   };
 
   const addPropertyHandler = () => {
     setAddingProperty(false);
-    const newClustersList = [ ...clustersList ];
-    const currentCluster = newClustersList.find(cluster => id === cluster.id);
-    currentCluster.properties = [{
-      id: Math.random(),
-      propName: newPropertyName,
-    }].concat(clustersList);
-    setClustersList(newClustersList);
-  };
-
-  const deletePropertyHandler = propertyId => {
-    const newClustersList = [ ...clustersList ];
-    const currentCluster = newClustersList.find(cluster => id === cluster.id);
-    currentCluster.properties = currentCluster.properties.filter(property => propertyId !== property.id);
-    setClustersList(newClustersList);
+    API.addProperty(id, newPropertyName).then(propertyId => {
+			const newClustersList = [ ...clustersList ];
+      const currentCluster = newClustersList.find(cluster => id === cluster.id);
+      currentCluster.properties = [{
+        id: propertyId,
+        nameProp: newPropertyName,
+        typeofMp: 'String',
+      }].concat(currentCluster.properties);
+      setClustersList(newClustersList);
+      setNewPropertyName('');
+		});
   };
 
   return (
-    <Popover placement="rightTop" style={{ padding: 24 }} content={(
+    <Popover placement="rightTop" content={(
       <Space direction="vertical" style={{ width: 'calc((100vw - 300px) / 3)' }}>
         <Typography.Text type="secondary">Definition:</Typography.Text>
-        {definition ? (
-          <Typography.Paragraph editable={{ triggerType: 'text' }} style={{ marginBottom: 0 }}>
-            {definition}
-          </Typography.Paragraph>
+        {editingDefinition ? (
+          <>
+            <Input.TextArea value={newDefinition} onChange={e => setNewDefinition(e.target.value)} />
+            <Button onClick={editDefinitionHandler}>Save</Button>
+          </>
         ) : (
           <>
-            {addingDefinition ? (
-              <>
-                <Input.TextArea value={newDefinition} onChange={e => setNewDefinition(e.target.value)} />
-                <Button onClick={addDefinitionHandler}>Save</Button>
-              </>
+            {definition ? (
+              <Typography.Paragraph style={{ marginBottom: 0 }} onClick={() => setEditingDefinition(true)}>
+                {definition}
+              </Typography.Paragraph>
             ) : (
-              <Button icon={<PlusOutlined />} type="default" onClick={() => setAddingDefinition(true)}>
+              <Button icon={<PlusOutlined />} type="default" onClick={() => setEditingDefinition(true)}>
                 Add definition
               </Button>
             )}
@@ -80,28 +79,13 @@ export const ClusterPopover = ({ id, definition, mps, setClustersList, clustersL
           </Button>
         )}
         {mps?.map(mp => (
-          <div key={mp.id}>
-            <Space size="middle">
-              <Button
-                icon={<DeleteOutlined />}
-                shape="circle"
-                type="default"
-                danger
-                size="small"
-                onClick={() => deletePropertyHandler(mp.id)}
-              />
-              <Typography.Paragraph editable={{ triggerType: 'text' }} style={{ marginBottom: 0 }}>
-                {mp.nameProp}
-              </Typography.Paragraph>
-            </Space>
-            {/* <ClusterPopover
-              clustersList={clustersList}
-              setClustersList={setClustersList}
-              id={cluster.id}
-              definition={cluster.definition}
-              mps={cluster.properties}
-            /> */}
-          </div>
+          <MpItem
+            mp={mp}
+            key={mp.id}
+            clustersList={clustersList}
+            setClustersList={setClustersList}
+            clusterId={id}
+          />
         ))}
       </Space>
     )}>

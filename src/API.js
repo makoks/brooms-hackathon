@@ -98,9 +98,31 @@ export const API = {
 		return response.data;
 	},
 	editCluster: async (id, body) => {
-		await axios.put(`${API_URL}cluster/${id}`, { ...body });
+		await axios.put(`${API_URL}cluster/${id}`, body);
 	},
 	deleteCluster: async id => {
 		await axios.delete(`${API_URL}cluster/${id}`);
+	},
+
+	addProperty: async (clusterId, nameProp) => {
+		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, { nameProp, typeofMp: 'string' });
+		return response.data;
+	},
+	deleteProperty: async id => {
+		await axios.delete(`${API_URL}property/${id}`);
+	},
+	editProperty: async (id, body) => {
+		await axios.put(`${API_URL}property/${id}`, body);
+	},
+
+	addEnum: async (mpId, nameEnum) => {
+		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, { nameEnum });
+		return response.data;
+	},
+	deleteEnum: async id => {
+		await axios.delete(`${API_URL}definition/${id}`);
+	},
+	editEnum: async (id, body) => {
+		await axios.put(`${API_URL}definition/${id}`, body);
 	},
 };
