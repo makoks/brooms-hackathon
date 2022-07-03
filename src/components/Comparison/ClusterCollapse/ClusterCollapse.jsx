@@ -3,15 +3,15 @@ import {Collapse} from "antd";
 
 const {Panel} = Collapse
 
-const ClusterCollapse = ({properties}) => {
+const ClusterCollapse = ({title, items, key}) => {
 	return (
-		<Collapse>
-			{properties.map(prop => (
-				<Panel key={prop.key} header={prop.title}>
-					{prop.children.toString()}
+		<>
+			{items.map(prop => (
+				<Panel key={key} header={title}>
+					{<ul>{prop.name} : {prop.value}</ul>}
 				</Panel>
 			))}
-		</Collapse>
+		</>
 	)
 }
 
