@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-	Row,
-	Col,
-	Layout,
-	Select,
-	TreeSelect,
-	Typography, Card, List, Space, Avatar,
-} from 'antd';
+import {Layout, Select, TreeSelect, Collapse} from 'antd';
 import {ContentHeader} from '../components';
+import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
 // import {API} from "../API";
 
 // const userProperties = [
@@ -129,24 +123,7 @@ import {ContentHeader} from '../components';
 // 	},
 // ]
 
-// const clustersTitles = userProperties[0].clusters.map(cluster => cluster.title)
-
-
 export const Comparison = () => {
-	// const [heroesIds] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
-	// const [heroes, setHeroes] = useState([])
-
-	// useEffect(() => {
-	// 	const getHero = (id) => {
-	// 		return API.getHero(id)
-	// 	}
-	//
-	// 	// Promise.all(heroesIds.map(id => getHero(id)))
-	// 	// 	.then(res => {
-	// 	// 		// setHeroes(res)
-	// 	// 	})
-	// }, [heroesIds])
-
 	const mutableProperties = [
 		{
 			title: 'Cluster 1',
@@ -189,6 +166,160 @@ export const Comparison = () => {
 		},
 	];
 
+	const persons = [
+		{
+			id: '1',
+			name: 'Анастасия',
+			surname: 'Проданик',
+			patronymic: 'Александровна',
+			clusters: [
+				{
+					id: '1',
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: new Date('2019-02-03')
+						},
+						{
+							title: 'Опыт',
+							value: 5000
+						},
+						{
+							title: 'Премия',
+							value: 85
+						}
+					]
+				}
+			]
+		},
+		{
+			id: '2',
+			name: 'Анастасия',
+			surname: 'Проданик',
+			patronymic: 'Александровна',
+			clusters: [
+				{
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: new Date('2019-02-03')
+						},
+						{
+							title: 'Опыт',
+							value: 5000
+						},
+						{
+							title: 'Премия',
+							value: 85
+						}
+					]
+				}
+			]
+		},
+		{
+			id: '3',
+			name: 'Анастасия',
+			surname: 'Проданик',
+			patronymic: 'Александровна',
+			clusters: [
+				{
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: new Date('2019-02-03')
+						},
+						{
+							title: 'Опыт',
+							value: 5000
+						},
+						{
+							title: 'Премия',
+							value: 85
+						}
+					]
+				}
+			]
+		},
+		{
+			id: '4',
+			name: 'Анастасия',
+			surname: 'Проданик',
+			patronymic: 'Александровна',
+			clusters: [
+				{
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: new Date('2019-02-03')
+						},
+						{
+							title: 'Опыт',
+							value: 5000
+						},
+						{
+							title: 'Премия',
+							value: 85
+						}
+					]
+				}
+			]
+		},
+		{
+			id: '5',
+			name: 'Анастасия',
+			surname: 'Проданик',
+			patronymic: 'Александровна',
+			clusters: [
+				{
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: new Date('2019-02-03')
+						},
+						{
+							title: 'Опыт',
+							value: 5000
+						},
+						{
+							title: 'Премия',
+							value: 85
+						}
+					]
+				}
+			]
+		},
+		{
+			id: '6',
+			name: 'Анастасия',
+			surname: 'Проданик',
+			patronymic: 'Александровна',
+			clusters: [
+				{
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: new Date('2019-02-03')
+						},
+						{
+							title: 'Опыт',
+							value: 5000
+						},
+						{
+							title: 'Премия',
+							value: 85
+						}
+					]
+				}
+			]
+		}
+	]
+
 	const onChange = () => {
 	};
 
@@ -220,162 +351,171 @@ export const Comparison = () => {
 					showArrow={true}
 					treeDefaultExpandAll={true}
 				/>
+				<ComparisonHeaderBlock persons={persons}/>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				<Row gutter={8}>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-					<Col span={4}>
-						<Card>
-							<Card.Meta
-								title="Hero 1"
-								avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
-							/>
-							<List
-								dataSource={['Cluster 1', 'Cluster 2']}
-								renderItem={cluster => (
-									<List.Item>
-										<Space direction="vertical">
-											<Typography.Title level={5}>{cluster}</Typography.Title>
-											<Space>
-												<Typography.Text type="secondary">MP 1:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 2:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-											<Space>
-												<Typography.Text type="secondary">MP 3:</Typography.Text>
-												<Typography.Text>Value</Typography.Text>
-											</Space>
-										</Space>
-									</List.Item>
-								)}
-							/>
-						</Card>
-					</Col>
-				</Row>
+				<Collapse onChange={onChange}>
+					{persons[0].clusters.map(cluster => (
+						<Collapse.Panel key={cluster.id} header={cluster.title}>
+							<p>some properties</p>
+						</Collapse.Panel>
+					))}
+				</Collapse>
 			</Layout.Content>
 		</Layout>
 	);
 };
+
+// <Row gutter={8}>
+// 	<Col span={4}>
+// 		<Card>
+// 			<Card.Meta
+// 				title="Hero 1"
+// 				avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+// 			/>
+// 			<List
+// 				dataSource={['Cluster 1', 'Cluster 2']}
+// 				renderItem={cluster => (
+// 					<List.Item>
+// 						<Space direction="vertical">
+// 							<Typography.Title level={5}>{cluster}</Typography.Title>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 1:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 2:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 3:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 						</Space>
+// 					</List.Item>
+// 				)}
+// 			/>
+// 		</Card>
+// 	</Col>
+// 	<Col span={4}>
+// 		<Card>
+// 			<Card.Meta
+// 				title="Hero 1"
+// 				avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+// 			/>
+// 			<List
+// 				dataSource={['Cluster 1', 'Cluster 2']}
+// 				renderItem={cluster => (
+// 					<List.Item>
+// 						<Space direction="vertical">
+// 							<Typography.Title level={5}>{cluster}</Typography.Title>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 1:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 2:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 3:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 						</Space>
+// 					</List.Item>
+// 				)}
+// 			/>
+// 		</Card>
+// 	</Col>
+// 	<Col span={4}>
+// 		<Card>
+// 			<Card.Meta
+// 				title="Hero 1"
+// 				avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+// 			/>
+// 			<List
+// 				dataSource={['Cluster 1', 'Cluster 2']}
+// 				renderItem={cluster => (
+// 					<List.Item>
+// 						<Space direction="vertical">
+// 							<Typography.Title level={5}>{cluster}</Typography.Title>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 1:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 2:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 3:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 						</Space>
+// 					</List.Item>
+// 				)}
+// 			/>
+// 		</Card>
+// 	</Col>
+// 	<Col span={4}>
+// 		<Card>
+// 			<Card.Meta
+// 				title="Hero 1"
+// 				avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+// 			/>
+// 			<List
+// 				dataSource={['Cluster 1', 'Cluster 2']}
+// 				renderItem={cluster => (
+// 					<List.Item>
+// 						<Space direction="vertical">
+// 							<Typography.Title level={5}>{cluster}</Typography.Title>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 1:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 2:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 3:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 						</Space>
+// 					</List.Item>
+// 				)}
+// 			/>
+// 		</Card>
+// 	</Col>
+// 	<Col span={4}>
+// 		<Card>
+// 			<Card.Meta
+// 				title="Hero 1"
+// 				avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+// 			/>
+// 			<List
+// 				dataSource={['Cluster 1', 'Cluster 2']}
+// 				renderItem={cluster => (
+// 					<List.Item>
+// 						<Space direction="vertical">
+// 							<Typography.Title level={5}>{cluster}</Typography.Title>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 1:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 2:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 							<Space>
+// 								<Typography.Text type="secondary">MP 3:</Typography.Text>
+// 								<Typography.Text>Value</Typography.Text>
+// 							</Space>
+// 						</Space>
+// 					</List.Item>
+// 				)}
+// 			/>
+// 		</Card>
+// 	</Col>
+// </Row>
 

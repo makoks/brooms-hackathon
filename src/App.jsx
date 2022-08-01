@@ -15,14 +15,32 @@ import './App.css';
 function App() {
 	const [compareList, setCompareList] = useState(JSON.parse(localStorage.getItem('compareList')) ?? [])
 
+	const addPersonInCompareList = (id) => {
+		const newList = [...compareList, id]
+		setCompareList(newList)
+		localStorage.setItem('compareList', JSON.stringify(newList))
+	}
+
+	const removePersonFromCompareList = (id) => {
+		const newList = compareList.filter(itemId => itemId !== id)
+		setCompareList(newList)
+		localStorage.setItem('compareList', JSON.stringify(newList))
+	}
+
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route element={<Layout compare={[compareList, setCompareList]}/>}>
-					<Route path="/" element={<Home compare={[compareList, setCompareList]}/>}/>
+					<Route path="/"
+					       element={<Home
+						       compareList={compareList}
+						       addPersonInCompareList={addPersonInCompareList}
+						       removePersonFromCompareList={removePersonFromCompareList}/>
+					       }
+					/>
 					<Route path="reference" element={<HeroPropertiesReference/>}/>
 					<Route path={`hero/:id`} element={<HeroPropertiesChanging/>}/>
-					<Route path="comparison" element={<Comparison/>}/>
+					<Route path="comparison" element={<Comparison compare={[compareList, setCompareList]}/>}/>
 					<Route path="history" element={<History/>}/>
 				</Route>
 			</Routes>
