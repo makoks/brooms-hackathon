@@ -1,127 +1,8 @@
 import React from 'react';
-import {Layout, Select, TreeSelect, Collapse} from 'antd';
+import {Layout, Select, TreeSelect} from 'antd';
 import {ContentHeader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
-// import {API} from "../API";
-
-// const userProperties = [
-// 	{
-// 		heroId: '5',
-// 		clusters: [
-// 			{
-// 				title: 'some cluster',
-// 				items: [
-// 					{name: 'mp-1', value: 19191},
-// 					{name: 'mp-2', value: 'sopwpwm'},
-// 					{name: 'mp-3', value: 232},
-// 				]
-// 			},
-// 			{
-// 				title: 'cluster 2',
-// 				items: [
-// 					{name: 'mp-001', value: 1},
-// 					{name: 'mp-002', value: 'sopwpwm'},
-// 					{name: 'mp-003', value: 2},
-// 				]
-// 			},
-// 			{
-// 				title: 'some 3',
-// 				items: [
-// 					{name: '1-mp-1', value: 19191},
-// 					{name: '2-mp-2', value: 'sopwpwm'},
-// 					{name: '3-mp-3', value: 232},
-// 				]
-// 			},
-// 		]
-// 	},
-// 	{
-// 		heroId: '3',
-// 		clusters: [
-// 			{
-// 				title: 'some cluster',
-// 				items: [
-// 					{name: 'mp-1', value: 19191},
-// 					{name: 'mp-2', value: 'sopwpwm'},
-// 					{name: 'mp-3', value: 232},
-// 				]
-// 			},
-// 			{
-// 				title: 'cluster 2',
-// 				items: [
-// 					{name: 'mp-001', value: 1},
-// 					{name: 'mp-002', value: 'sopwpwm'},
-// 					{name: 'mp-003', value: 2},
-// 				]
-// 			},
-// 			{
-// 				title: 'some 3',
-// 				items: [
-// 					{name: '1-mp-1', value: 19191},
-// 					{name: '2-mp-2', value: 'sopwpwm'},
-// 					{name: '3-mp-3', value: 232},
-// 				]
-// 			},
-// 		]
-// 	},
-// 	{
-// 		heroId: '6',
-// 		clusters: [
-// 			{
-// 				title: 'some cluster',
-// 				items: [
-// 					{name: 'mp-1', value: 19191},
-// 					{name: 'mp-2', value: 'sopwpwm'},
-// 					{name: 'mp-3', value: 232},
-// 				]
-// 			},
-// 			{
-// 				title: 'cluster 2',
-// 				items: [
-// 					{name: 'mp-001', value: 1},
-// 					{name: 'mp-002', value: 'sopwpwm'},
-// 					{name: 'mp-003', value: 2},
-// 				]
-// 			},
-// 			{
-// 				title: 'some 3',
-// 				items: [
-// 					{name: '1-mp-1', value: 19191},
-// 					{name: '2-mp-2', value: 'sopwpwm'},
-// 					{name: '3-mp-3', value: 232},
-// 				]
-// 			},
-// 		]
-// 	},
-// 	{
-// 		heroId: '6',
-// 		clusters: [
-// 			{
-// 				title: 'some cluster',
-// 				items: [
-// 					{name: 'mp-1', value: 19191},
-// 					{name: 'mp-2', value: 'sopwpwm'},
-// 					{name: 'mp-3', value: 232},
-// 				]
-// 			},
-// 			{
-// 				title: 'cluster 2',
-// 				items: [
-// 					{name: 'mp-001', value: 1},
-// 					{name: 'mp-002', value: 'sopwpwm'},
-// 					{name: 'mp-003', value: 2},
-// 				]
-// 			},
-// 			{
-// 				title: 'some 3',
-// 				items: [
-// 					{name: '1-mp-1', value: 19191},
-// 					{name: '2-mp-2', value: 'sopwpwm'},
-// 					{name: '3-mp-3', value: 232},
-// 				]
-// 			},
-// 		]
-// 	},
-// ]
+import ComparisonClusters from "../components/Comparison/ComparisonClusters/ComparisonClusters";
 
 export const Comparison = () => {
 	const mutableProperties = [
@@ -179,11 +60,11 @@ export const Comparison = () => {
 					properties: [
 						{
 							title: 'Дата приема',
-							value: new Date('2019-02-03')
+							value: '2019-02-03'
 						},
 						{
 							title: 'Опыт',
-							value: 5000
+							value: null
 						},
 						{
 							title: 'Премия',
@@ -200,19 +81,19 @@ export const Comparison = () => {
 			patronymic: 'Александровна',
 			clusters: [
 				{
-					title: 'Cluster 1',
+					title: 'Cluster 2',
 					properties: [
 						{
-							title: 'Дата приема',
-							value: new Date('2019-02-03')
+							title: 'Title',
+							value: 'Word'
 						},
 						{
-							title: 'Опыт',
-							value: 5000
+							title: 'Smth',
+							value: 'WOW'
 						},
 						{
-							title: 'Премия',
-							value: 85
+							title: 'Value',
+							value: 1000
 						}
 					]
 				}
@@ -229,7 +110,7 @@ export const Comparison = () => {
 					properties: [
 						{
 							title: 'Дата приема',
-							value: new Date('2019-02-03')
+							value: '2019-02-03'
 						},
 						{
 							title: 'Опыт',
@@ -254,7 +135,7 @@ export const Comparison = () => {
 					properties: [
 						{
 							title: 'Дата приема',
-							value: new Date('2019-02-03')
+							value: '2019-02-03'
 						},
 						{
 							title: 'Опыт',
@@ -279,7 +160,7 @@ export const Comparison = () => {
 					properties: [
 						{
 							title: 'Дата приема',
-							value: new Date('2019-02-03')
+							value: '2019-02-03'
 						},
 						{
 							title: 'Опыт',
@@ -304,7 +185,7 @@ export const Comparison = () => {
 					properties: [
 						{
 							title: 'Дата приема',
-							value: new Date('2019-02-03')
+							value: '2019-02-03'
 						},
 						{
 							title: 'Опыт',
@@ -320,8 +201,7 @@ export const Comparison = () => {
 		}
 	]
 
-	const onChange = () => {
-	};
+	const onChange = () => {};
 
 	return (
 		<Layout>
@@ -354,13 +234,7 @@ export const Comparison = () => {
 				<ComparisonHeaderBlock persons={persons}/>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				<Collapse onChange={onChange}>
-					{persons[0].clusters.map(cluster => (
-						<Collapse.Panel key={cluster.id} header={cluster.title}>
-							<p>some properties</p>
-						</Collapse.Panel>
-					))}
-				</Collapse>
+				<ComparisonClusters persons={persons}/>
 			</Layout.Content>
 		</Layout>
 	);
