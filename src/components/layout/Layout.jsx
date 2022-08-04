@@ -30,7 +30,7 @@ export const Layout = ({compare}) => {
 				<Space size="middle">
 					<img src={Logo} alt="logo" width={32} height={24}/>
 					<Typography.Text strong style={{color: '#fff', fontSize: 18}}>
-						Heroes App
+						Сотрудники
 					</Typography.Text>
 				</Space>
 				<Space size="large">
@@ -50,7 +50,7 @@ export const Layout = ({compare}) => {
 			<AntdLayout>
 				<AntdLayout.Sider style={{boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)'}}>
 					<Menu mode="inline" style={{height: '100%', borderRight: 0}} selectedKeys={[currentPage]} items={[
-						{label: <Link to="/">Герои</Link>, key: 'home', icon: <ProfileOutlined/>},
+						{label: <Link to="/">Сотрудники</Link>, key: 'home', icon: <ProfileOutlined/>},
 						{label: <Link to="reference">MP Reference</Link>, key: 'reference', icon: <ProfileOutlined/>},
 						{
 							label: 'Отчеты', key: 'reports', icon: <ProfileOutlined/>, children: [

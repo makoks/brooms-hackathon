@@ -1,0 +1,8 @@
+.cluster-line {
+    padding: 10px 0;
+    transition: 100ms;
+}
+
+.cluster-line:hover {
+    background-color: #fafafa;
+}

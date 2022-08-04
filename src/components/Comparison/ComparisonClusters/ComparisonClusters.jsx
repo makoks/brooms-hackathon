@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Badge, Col, Collapse, Row, Space} from "antd";
+import '../index.css'
 
-const createClusters = (persons) => {
+const createClusters = (persons, onlyDifferent) => {
 	const clusters = []
 
 	persons.forEach(person => {
@@ -10,55 +11,92 @@ const createClusters = (persons) => {
 			if (!cluster) {
 				clusters.push({
 					title: c.title,
-					propsTitles: c.properties.map(prop => prop.title),
-					propsValues: {
-						[person.id]: c.properties.map(prop => prop.value ?? '—')
-					}
+					props: c.properties.map(prop => ({
+						title: prop.title,
+						values: {
+							[person.id]: prop.value
+						}
+					}))
 				})
 			} else {
-				cluster.propsValues[person.id] = c.properties.map(prop => prop.value)
+				c.properties.forEach(p => {
+					const prop = cluster.props.find(pr => pr.title === p.title)
+
+					if (!prop) {
+						cluster.props.push({
+							title: p.title,
+							values: {
+								[person.id]: p.value
+							}
+						})
+					} else {
+						prop.values[person.id] = p.value
+					}
+				})
 			}
 		})
 	})
 
+	if (onlyDifferent) {
+		clusters.forEach(cluster => {
+			cluster.props = cluster.props.filter(prop => !isAllValuesEqual(prop))
+		})
+	}
+
 	return clusters
 }
 
-const ComparisonClusters = ({persons}) => {
-	const clusters = createClusters(persons)
+const isAllValuesEqual = (prop) => {
+	const ids = Object.keys(prop.values)
+	if (ids.length === 1) return false
+
+	let prev = prop.values[ids[0]]
+
+	for (let i = 1; i < ids.length; i++) {
+		if (prop.values[ids[i]] !== prev) {
+			return false
+		}
+		prev = prop.values[ids[i]]
+	}
+
+	return true
+}
+
+const ComparisonClusters = ({persons, onlyDifferent}) => {
+	const [clusters, setClusters] = useState(createClusters(persons, onlyDifferent))
 	const len = persons.length
+
+	useEffect(() => {
+		setClusters(createClusters(persons, onlyDifferent))
+	}, [persons, onlyDifferent])
 
 	return (
 		<Collapse>
 			{clusters.map(cluster => (
 				<Collapse.Panel key={cluster.title} header={cluster.title}>
-					<Row justify='space-between' align='middle' gutter={24} wrap={false}>
-						<Col flex='212px'>
-							<Space size='large' direction='vertical'>
-								{cluster.propsTitles.map((title, index) => (
-									<Badge color='blue' text={title} key={index}/>
-								))}
-							</Space>
-						</Col>
-						<Col flex='auto'>
-							<Row justify='space-around' gutter={24} >
-								{persons.map(({id}) => {
-									const values = cluster.propsValues[id]
-									return (
-										<Col key={id} span={24/len} style={{display: 'flex', justifyContent: 'center'}}>
-											{values && (
-												<Space size='large' direction='vertical'>
-													{values.map((value, i) => <div style={{width: 120}}
-													                               key={i}>{value}</div>)}
-												</Space>
-											)}
-										</Col>
-									)
-								})}
+					<Space size='middle' direction='vertical' style={{width: '100%'}}>
+						{cluster.props.map((prop, index) => (
+							<Row key={index} wrap={false} align='middle' className='cluster-line'>
+								<Col flex='200px'>
+									<Badge color='blue' text={prop.title}/>
+								</Col>
+								<Col flex='auto'>
+									<Row justify='space-around' gutter={24} align='middle'>
+										{persons.map(({id}) => {
+											const value = prop.values[id]
+
+											return (
+												<Col key={id} span={24 / len} style={{display: 'flex', justifyContent: 'center', width: 134}}>
+													<div>{value || '—'}</div>
+												</Col>
+											)
+										})}
+									</Row>
+								</Col>
+								<Col flex='158px'/>
 							</Row>
-						</Col>
-						<Col flex='170px'/>
-					</Row>
+						))}
+					</Space>
 				</Collapse.Panel>
 			))}
 		</Collapse>

@@ -66,7 +66,7 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 
 	return (
 		<Layout>
-			<ContentHeader title='Персонажи'/>
+			<ContentHeader title='Сотрудники'/>
 			<Layout.Content style={{margin: '27px 34px'}}>
 				<Button
 					onClick={showModal}
@@ -75,7 +75,7 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 						marginBottom: 16,
 					}}
 				>
-					Добавить персонажа
+					Добавить сотрудника
 				</Button>
 				<CharactersTable
 					characters={characters}

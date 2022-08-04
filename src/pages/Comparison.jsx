@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Layout, Select, TreeSelect} from 'antd';
 import {ContentHeader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
 import ComparisonClusters from "../components/Comparison/ComparisonClusters/ComparisonClusters";
 
 export const Comparison = () => {
+	const [onlyDifferent, setOnlyDifferent] = useState(false)
 	const mutableProperties = [
 		{
 			title: 'Cluster 1',
@@ -68,7 +69,7 @@ export const Comparison = () => {
 						},
 						{
 							title: 'Премия',
-							value: 85
+							value: '3 213 213 21 321 321 3 213 213 21 321'
 						}
 					]
 				}
@@ -81,15 +82,20 @@ export const Comparison = () => {
 			patronymic: 'Александровна',
 			clusters: [
 				{
+					title: 'Cluster 1',
+					properties: [
+						{
+							title: 'Дата приема',
+							value: '2019-02-03'
+						}
+					]
+				},
+				{
 					title: 'Cluster 2',
 					properties: [
 						{
 							title: 'Title',
 							value: 'Word'
-						},
-						{
-							title: 'Smth',
-							value: 'WOW'
 						},
 						{
 							title: 'Value',
@@ -146,6 +152,19 @@ export const Comparison = () => {
 							value: 85
 						}
 					]
+				},
+				{
+					title: 'Cluster 2',
+					properties: [
+						{
+							title: 'Title',
+							value: 'OOOOOOO'
+						},
+						{
+							title: 'Value',
+							value: 1000
+						}
+					]
 				}
 			]
 		},
@@ -174,34 +193,10 @@ export const Comparison = () => {
 				}
 			]
 		},
-		{
-			id: '6',
-			name: 'Анастасия',
-			surname: 'Проданик',
-			patronymic: 'Александровна',
-			clusters: [
-				{
-					title: 'Cluster 1',
-					properties: [
-						{
-							title: 'Дата приема',
-							value: '2019-02-03'
-						},
-						{
-							title: 'Опыт',
-							value: 5000
-						},
-						{
-							title: 'Премия',
-							value: 85
-						}
-					]
-				}
-			]
-		}
 	]
 
-	const onChange = () => {};
+	const onChange = () => {
+	};
 
 	return (
 		<Layout>
@@ -231,10 +226,17 @@ export const Comparison = () => {
 					showArrow={true}
 					treeDefaultExpandAll={true}
 				/>
-				<ComparisonHeaderBlock persons={persons}/>
+				<ComparisonHeaderBlock
+					persons={persons}
+					onlyDifferent={onlyDifferent}
+					setOnlyDifferent={setOnlyDifferent}
+				/>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				<ComparisonClusters persons={persons}/>
+				<ComparisonClusters
+					persons={persons}
+					onlyDifferent={onlyDifferent}
+				/>
 			</Layout.Content>
 		</Layout>
 	);
