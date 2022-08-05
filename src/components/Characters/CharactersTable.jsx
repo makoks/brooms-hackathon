@@ -1,4 +1,4 @@
-import {Avatar, Button, Table, Typography} from 'antd';
+import {Avatar, Button, Table} from 'antd';
 import {NavLink} from "react-router-dom";
 import React, {useState, useEffect} from "react";
 import ToCompareButton from "./ToCompareButton/ToCompareButton";
@@ -72,15 +72,7 @@ export const CharactersTable = ({
 	]
 
 	return (
-		<Table
-			columns={columns}
-			dataSource={characters}
-			expandable={{
-				expandedRowRender: (record) => (
-					<Typography.Paragraph style={{margin: 0}}>{record.about}</Typography.Paragraph>
-				),
-			}}
-		/>
+		<Table columns={columns} dataSource={characters}/>
 	)
 }
 

@@ -5,9 +5,8 @@ import CharactersTable from "../components/Characters/CharactersTable";
 import {API} from "../API";
 import CreateCharacterModal from "../components/Characters/CreateCharacterModal/CreateCharacterModal";
 
-export const Home = ({compare}) => {
+export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
 	const [characters, setCharacters] = useState([])
-	const [compareList, setCompareList] = compare
 	const [deletingIds, setDeletingIds] = useState([])
 	const [creatingHero, setCreatingHero] = useState(false)
 	const [isModalVisible, setIsModalVisible] = useState(false)
@@ -42,7 +41,7 @@ export const Home = ({compare}) => {
 		API.deleteHero(id)
 			.then (() => {
 				removeFromCharacters(id)
-				removeFromCompareList(id)
+				removePersonFromCompareList(id)
 				message.success('Герой успешно удален')
 			})
 			.catch(() => message.error('Что-то пошло не так :('))
@@ -51,18 +50,6 @@ export const Home = ({compare}) => {
 
 	const removeFromCharacters = (id) => {
 		setCharacters(characters.filter(character => character.id !== id))
-	}
-
-	const addInCompareList = (id) => {
-		const newList = [...compareList, id]
-		setCompareList(newList)
-		localStorage.setItem('compareList', JSON.stringify(newList))
-	}
-
-	const removeFromCompareList = (id) => {
-		const newList = compareList.filter(itemId => itemId !== id)
-		setCompareList(newList)
-		localStorage.setItem('compareList', JSON.stringify(newList))
 	}
 
 	const getCharacters = () => {
@@ -79,7 +66,7 @@ export const Home = ({compare}) => {
 
 	return (
 		<Layout>
-			<ContentHeader title='Персонажи'/>
+			<ContentHeader title='Сотрудники'/>
 			<Layout.Content style={{margin: '27px 34px'}}>
 				<Button
 					onClick={showModal}
@@ -88,13 +75,13 @@ export const Home = ({compare}) => {
 						marginBottom: 16,
 					}}
 				>
-					Добавить персонажа
+					Добавить сотрудника
 				</Button>
 				<CharactersTable
 					characters={characters}
 					compareList={compareList}
-					addInCompareList={addInCompareList}
-					removeFromCompareList={removeFromCompareList}
+					addInCompareList={addPersonInCompareList}
+					removeFromCompareList={removePersonFromCompareList}
 					deleteHero={deleteHero}
 					deletingIds={deletingIds}
 				/>
