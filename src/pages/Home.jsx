@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Button, Layout} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Characters/EmployeesTable";
-import {API} from "../API";
 import CreateEmployeeModal from "../components/Characters/CreateCharacterModal/CreateEmployeeModal";
 
 export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
