@@ -3,6 +3,7 @@ import {Layout, Select, Space, DatePicker, Button, Table, Form} from 'antd';
 import {ContentHeader} from '../../components';
 import {API} from "../../API";
 import './index.css'
+import {tableLocale} from "../../common/locale";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
@@ -59,7 +60,9 @@ const columns = [
 	{
 		title: 'Атрибут',
 		dataIndex: 'property',
-		key: 'property'
+		key: 'property',
+		filters: ['Оклад', 'Должность', 'Роль', 'Проект'].map(p => ({text: p, value: p})),
+		onFilter: (value, record) => record.property === value
 	},
 	{
 		title: 'Старое значение',
@@ -124,7 +127,7 @@ export const History = () => {
 				</Form>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				<Table columns={columns} dataSource={data}/>
+				<Table columns={columns} dataSource={data} locale={tableLocale}/>
 			</Layout.Content>
 		</Layout>
 	);
