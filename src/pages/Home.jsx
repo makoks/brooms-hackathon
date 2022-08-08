@@ -1,68 +1,68 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Layout, message} from 'antd';
+import React, {useState} from 'react';
+import {Button, Layout} from 'antd';
 import {ContentHeader} from '../components';
-import CharactersTable from "../components/Characters/CharactersTable";
+import EmployeesTable from "../components/Characters/EmployeesTable";
 import {API} from "../API";
 import CreateEmployeeModal from "../components/Characters/CreateCharacterModal/CreateEmployeeModal";
 
 export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
-	const [characters, setCharacters] = useState([])
-	const [deletingIds, setDeletingIds] = useState([])
-	const [creatingHero, setCreatingHero] = useState(false)
+	const [employees] = useState([
+		{
+			id: 1,
+			avatar: 'https://random.imagecdn.app/40/40',
+			name: 'Иванов Иван Иванович',
+			email: 'mail@mail.ru',
+			phone: '88005553535',
+			department: 'ОР',
+			post: 'Ведущий эксперт',
+			role: 'Разработчик',
+			project: 'ДСУД ПОИ'
+		},
+		{
+			id: 2,
+			avatar: 'https://random.imagecdn.app/40/40',
+			name: 'Петров Петр Петрович',
+			email: 'petr@mail.ru',
+			phone: '81234567890',
+			department: 'ОД',
+			post: 'Эксперт 1 категории',
+			role: 'Технический писатель',
+			project: 'АС ППА'
+		},
+		{
+			id: 3,
+			avatar: 'https://random.imagecdn.app/40/40',
+			name: 'Сотрудников Сотрудник Сотрудникович',
+			email: 'mail@mail.ru',
+			phone: '88005553535',
+			department: 'ОР',
+			post: 'Ведущий эксперт',
+			role: 'Системный аналитик',
+			project: 'ДСУД ПОИ'
+		},
+		{
+			id: 4,
+			avatar: 'https://random.imagecdn.app/40/40',
+			name: 'Разработчиков Разработчик Разработчикович',
+			email: 'petr@mail.ru',
+			phone: '81234567890',
+			department: 'ОД',
+			post: 'Эксперт 1 категории',
+			role: 'Технический писатель',
+			project: 'АС ППА'
+		},
+	])
+	const [deletingIds] = useState([])
+	const [creatingHero] = useState(false)
 	const [isModalVisible, setIsModalVisible] = useState(false)
-
-	const createCharacter = async (heroData) => {
-		setCreatingHero(true)
-		API.createHero(heroData)
-			.then(() => {
-				message.success('Герой успешно создан')
-				getCharacters()
-				closeModal()
-
-			})
-			.catch(() => message.error('Что-то пошло не так :('))
-			.finally(() => setCreatingHero(false))
-	}
 
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
 
-	const closeModal = () => {
-		setIsModalVisible(false);
-	};
-
 	const handleCancel = () => {
 		setIsModalVisible(false);
 	};
-
-	const deleteHero = (id) => {
-		setDeletingIds([...deletingIds, id])
-		API.deleteHero(id)
-			.then (() => {
-				removeFromCharacters(id)
-				removePersonFromCompareList(id)
-				message.success('Герой успешно удален')
-			})
-			.catch(() => message.error('Что-то пошло не так :('))
-			.finally(() => setDeletingIds(deletingIds.filter(i => i !== id)))
-	}
-
-	const removeFromCharacters = (id) => {
-		setCharacters(characters.filter(character => character.id !== id))
-	}
-
-	const getCharacters = () => {
-		const get = async () => {
-			const response = await API.getHeroes()
-			setCharacters(response.data._embedded.hero)
-		}
-
-		get()
-	}
-
-	// initial set characters
-	useEffect(getCharacters, [])
 
 	return (
 		<Layout>
@@ -71,23 +71,21 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 				<Button
 					onClick={showModal}
 					type="primary"
-					style={{
-						marginBottom: 16,
-					}}
+					style={{marginBottom: 16}}
 				>
 					Добавить сотрудника
 				</Button>
-				<CharactersTable
-					characters={characters}
+				<EmployeesTable
+					employees={employees}
 					compareList={compareList}
 					addInCompareList={addPersonInCompareList}
 					removeFromCompareList={removePersonFromCompareList}
-					deleteHero={deleteHero}
+					deleteHero={undefined}
 					deletingIds={deletingIds}
 				/>
 				<CreateEmployeeModal
 					isModalVisible={isModalVisible}
-					createCharacter={createCharacter}
+					createCharacter={undefined}
 					onCancel={handleCancel}
 					loading={creatingHero}
 				/>
