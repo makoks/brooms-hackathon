@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {Button, Layout} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Characters/EmployeesTable";
-import CreateCharacterModal from "../components/Characters/CreateCharacterModal/CreateCharacterModal";
+import {API} from "../API";
+import CreateEmployeeModal from "../components/Characters/CreateCharacterModal/CreateEmployeeModal";
 
 export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
 	const [employees] = useState([
@@ -82,7 +83,7 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 					deleteHero={undefined}
 					deletingIds={deletingIds}
 				/>
-				<CreateCharacterModal
+				<CreateEmployeeModal
 					isModalVisible={isModalVisible}
 					createCharacter={undefined}
 					onCancel={handleCancel}
