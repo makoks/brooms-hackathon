@@ -2,16 +2,16 @@ import React from 'react'
 import {Divider, Space, Statistic} from "antd";
 
 
-const StaticInfo = ({race, heroClass, guild, registerDate}) => {
+const StaticInfo = ({department, post, role, project}) => {
 	return (
 		<Space>
-			<Statistic title='Дата регистрации' value={registerDate?.toLocaleDateString('ru-RU')}/>
+			<Statistic title='Отдел' value={department}/>
 			<Divider type='vertical'/>
-			<Statistic title='Раса' value={race}/>
+			<Statistic title='Должность' value={post}/>
 			<Divider type='vertical'/>
-			<Statistic title='Профессия' value={heroClass}/>
+			<Statistic title='Роль' value={role}/>
 			<Divider type='vertical'/>
-			<Statistic title='Гильдия' value={guild}/>
+			<Statistic title='Проект' value={project}/>
 		</Space>
 	)
 }
