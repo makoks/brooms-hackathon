@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Layout} from 'antd';
 import {ContentHeader} from '../components';
-import EmployeesTable from "../components/Characters/EmployeesTable";
-import CreateEmployeeModal from "../components/Characters/CreateCharacterModal/CreateEmployeeModal";
+import EmployeesTable from "../components/Employee/EmployeesTable";
+import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/CreateEmployeeModal";
 
 export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
 	const [employees] = useState([

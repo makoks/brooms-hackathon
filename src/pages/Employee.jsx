@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Button, Layout, Select, Space, Switch, Typography} from 'antd';
+import {Layout} from 'antd';
 import {ContentHeader} from '../components';
-import EmployeeMainInfo from "../components/Characters/CharacterPage/EmployeeMainInfo";
+import EmployeeMainInfo from "../components/Employee/EmployeePage/EmployeeMainInfo";
+import EditBlock from "../components/Employee/EmployeePage/EditBlock";
+import ClustersList from "../components/Employee/EmployeePage/ClustersList/ClustersList";
 
-const {Option} = Select
 
 // const clusters = [
 // 	{
@@ -66,11 +67,20 @@ export const Employee = () => {
 					{title: 'Опыт', value: null},
 					{title: 'Премия', value: '3 213 213 21 321 321 3 213 213 21 321'}
 				]
+			},
+			{
+				id: '2',
+				title: 'Cluster 2',
+				properties: [
+					{title: 'Свойство', value: 'Значение'},
+					{title: 'Цвет глаз', value: 'Голубой'},
+					{title: 'Количество зубов', value: undefined}
+				]
 			}
 		]
 	})
-	const [editableClusters, setEditableClusters] = useState(undefined)
-	const [reason, setReason] = useState('levelUp')
+	const [editableClusters, setEditableClusters] = useState(employee.clusters)
+	const [reason, setReason] = useState(1)
 	const [isEdit, setIsEdit] = useState(false)
 
 	const saveChanges = () => {
@@ -86,21 +96,21 @@ export const Employee = () => {
 		toggleIsEdit()
 	}
 
-	// const changeClusterField = (clusterName, fieldName, newValue) => {
-	// 	const newClusters = editableClusters.map(cluster => (
-	// 		cluster.name === clusterName
-	// 			? {
-	// 				...cluster,
-	// 				items: cluster.items.map(item => (
-	// 					item.name === fieldName
-	// 						? {...item, value: newValue}
-	// 						: item
-	// 				))
-	// 			}
-	// 			: cluster
-	// 	))
-	// 	setEditableClusters(newClusters)
-	// }
+	const changeClusterField = (clusterTitle, fieldTitle, newValue) => {
+		const newClusters = editableClusters.map(cluster => (
+			cluster.title === clusterTitle
+				? {
+					...cluster,
+					properties: cluster.properties.map(prop => (
+						prop.title === fieldTitle
+							? {...prop, value: newValue}
+							: prop
+					))
+				}
+				: cluster
+		))
+		setEditableClusters(newClusters)
+	}
 
 	const toggleIsEdit = () => {
 		setIsEdit(!isEdit)
@@ -110,45 +120,22 @@ export const Employee = () => {
 		<Layout>
 			<ContentHeader title='Сотрудник' paddingBottom={true}>
 				<EmployeeMainInfo loading={loading} {...employee}/>
-				<Space>
-					Редактировать:
-					<Switch
-						checkedChildren="Вкл"
-						unCheckedChildren="Выкл"
-						checked={isEdit}
-						onChange={toggleIsEdit}
-					/>
-				</Space>
+				<EditBlock
+					isEdit={isEdit}
+					toggleIsEdit={toggleIsEdit}
+					reason={reason}
+					setReason={setReason}
+					onDiscard={discardChanges}
+					onSave={saveChanges}
+				/>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				{isEdit && (
-					<div>
-						<Typography.Text>Причина изменения: </Typography.Text>
-						<Select
-							onChange={setReason}
-							value={reason}
-							style={{minWidth: 300, marginBottom: 16}}
-						>
-							<Option value="levelUp">Повышение уровня</Option>
-							<Option value="levelDown">Понижение уровня</Option>
-							<Option value="lootBuy">Покупка лута</Option>
-							<Option value="enterGame">Вход в игру</Option>
-							<Option value="exitGame">Выход из игры</Option>
-						</Select>
-					</div>
-				)}
-				{/*<ClustersList*/}
-				{/*	clusters={employee?.clusters ?? []}*/}
-				{/*	editableClusters={editableClusters}*/}
-				{/*	changeClusterField={changeClusterField}*/}
-				{/*	isEdit={isEdit}*/}
-				{/*/>*/}
-				{isEdit && (
-					<Space style={{marginTop: 16, marginLeft: 'auto'}}>
-						<Button onClick={saveChanges} type='primary'>Сохранить изменения</Button>
-						<Button onClick={discardChanges}>Отменить</Button>
-					</Space>
-				)}
+				<ClustersList
+					clusters={employee.clusters}
+					editableClusters={editableClusters}
+					isEdit={isEdit}
+					onPropChange={changeClusterField}
+				/>
 			</Layout.Content>
 		</Layout>
 	);
