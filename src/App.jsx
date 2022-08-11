@@ -4,7 +4,7 @@ import {
 	Home,
 	History,
 	Comparison,
-	HeroPropertiesChanging,
+	Employee,
 	HeroPropertiesReference,
 } from './pages';
 import {Layout} from './components';
@@ -39,7 +39,7 @@ function App() {
 					       }
 					/>
 					<Route path="reference" element={<HeroPropertiesReference/>}/>
-					<Route path={`hero/:id`} element={<HeroPropertiesChanging/>}/>
+					<Route path={`hero/:id`} element={<Employee/>}/>
 					<Route path="comparison" element={<Comparison compare={[compareList, setCompareList]}/>}/>
 					<Route path="history" element={<History/>}/>
 				</Route>

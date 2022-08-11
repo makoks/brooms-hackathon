@@ -51,7 +51,7 @@ export const Layout = ({compare}) => {
 				<AntdLayout.Sider style={{boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)'}}>
 					<Menu mode="inline" style={{height: '100%', borderRight: 0}} selectedKeys={[currentPage]} items={[
 						{label: <Link to="/">Сотрудники</Link>, key: 'home', icon: <ProfileOutlined/>},
-						{label: <Link to="reference">MP Reference</Link>, key: 'reference', icon: <ProfileOutlined/>},
+						{label: <Link to="reference">MP</Link>, key: 'reference', icon: <ProfileOutlined/>},
 						{
 							label: 'Отчеты', key: 'reports', icon: <ProfileOutlined/>, children: [
 								{
