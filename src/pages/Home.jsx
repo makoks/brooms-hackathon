@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Layout} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Employee/EmployeesTable";
 import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/CreateEmployeeModal";
+import {employeesAPI, referenceBooksAPI} from "../API";
 
 export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
-	const [employees] = useState([
+	const [employees, setEmployees] = useState([
 		{
 			id: 1,
 			avatar: 'https://random.imagecdn.app/40/40',
@@ -51,15 +52,52 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 			project: 'АС ППА'
 		},
 	])
-	const [deletingIds] = useState([])
-	const [creatingHero] = useState(false)
+	const [deletingIds, setDeletingIds] = useState([])
 	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [roles, setRoles] = useState(undefined)
+	const [departments, setDepartments] = useState(undefined)
+	const [positions, setPositions] = useState(undefined)
+	const [projects, setProjects] = useState(undefined)
+
+	useEffect(() => {
+		const {getPositions, getDepartments, getProjects, getRoles} = referenceBooksAPI
+
+		const getReferenceBooks = async () => {
+			const positions = await getPositions()
+			const departments = await getDepartments()
+			const projects = await getProjects()
+			const roles = await getRoles()
+
+			setPositions(positions.data._embedded.userPositions)
+			setDepartments(departments.data._embedded.userDepartments)
+			setProjects(projects.data._embedded.userProjects)
+			setRoles(roles.data._embedded.userRoles)
+		}
+
+		const getEmployees = async () => {
+			const res = await employeesAPI.getEmployees()
+			setEmployees(res.data._embedded.user)
+			console.log(res.data)
+		}
+
+		getReferenceBooks()
+		getEmployees()
+	}, [])
+
+	const deleteEmployee = async (id) => {
+		setDeletingIds(oldDeletingIds => [...oldDeletingIds, id])
+		employeesAPI.deleteEmployee(id)
+			.then(() => {
+				setDeletingIds(oldDeletingIds => oldDeletingIds.filter(dId => dId !== id))
+				setEmployees(oldEmployees => oldEmployees.filter(e => e.id !== id))
+			})
+	}
 
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
 
-	const handleCancel = () => {
+	const hideModal = () => {
 		setIsModalVisible(false);
 	};
 
@@ -79,14 +117,20 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 					compareList={compareList}
 					addInCompareList={addPersonInCompareList}
 					removeFromCompareList={removePersonFromCompareList}
-					deleteHero={undefined}
+					deleteEmployee={deleteEmployee}
 					deletingIds={deletingIds}
+					roles={roles}
+					departments={departments}
+					positions={positions}
+					projects={projects}
 				/>
 				<CreateEmployeeModal
 					isModalVisible={isModalVisible}
-					createCharacter={undefined}
-					onCancel={handleCancel}
-					loading={creatingHero}
+					onCancel={hideModal}
+					roles={roles}
+					departments={departments}
+					positions={positions}
+					projects={projects}
 				/>
 			</Layout.Content>
 		</Layout>

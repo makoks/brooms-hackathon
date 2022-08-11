@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Layout, Select, Space, DatePicker, Button, Table, Form} from 'antd';
 import {ContentHeader} from '../../components';
-import {API} from "../../API";
 import './index.css'
 import {tableLocale} from "../../common/locale";
 
@@ -84,15 +83,15 @@ const columns = [
 export const History = () => {
 	const [dates, setDates] = useState([])
 	const [hero, setHero] = useState(undefined)
-	const [heroes, setHeroes] = useState([])
+	const [heroes] = useState([])
 
 	useEffect(() => {
-		const getHeroes = async () => {
-			const res = await API.getHeroes()
-			setHeroes(res.data._embedded.hero)
-		}
-
-		getHeroes()
+		// const getHeroes = async () => {
+		// 	const res = await API.getHeroes()
+		// 	setHeroes(res.data._embedded.hero)
+		// }
+		//
+		// getHeroes()
 	}, [])
 
 	return (

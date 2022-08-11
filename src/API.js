@@ -7,43 +7,43 @@ const config = {
 	}
 }
 
-export const API = {
-	getHeroes: async () => {
-		return axios.get(`${API_URL}hero`, config)
-		// return [
-		// 	{
-		// 		id: '1',
-		// 		nickname: 'Тестовый персонаж',
-		// 		about: 'Тестовый персонаж без всякой предыстории и свойств)))',
-		// 		avatar: 'https://picsum.photos/200',
-		// 		registerDate: new Date('22-12-2001'),
-		// 		race: 'Орк какой-то',
-		// 		heroClass: 'Убийца',
-		// 		guild: 'Нечистая сила'
-		// 	},
-		// 	{
-		// 		id: '2',
-		// 		nickname: 'Какой-то her0',
-		// 		about: 'ее персонаж опять же без свойств',
-		// 		avatar: 'https://picsum.photos/200',
-		// 		registerDate: new Date('01-01-2022'),
-		// 		race: 'Эльф',
-		// 		heroClass: 'Лучник',
-		// 		guild: 'Парикмахерская'
-		// 	},
-		// 	{
-		// 		id: '3',
-		// 		nickname: 'Бильбо',
-		// 		about: 'Отправился воровать камень у дракона',
-		// 		avatar: 'https://picsum.photos/200',
-		// 		registerDate: new Date('02-02-2018'),
-		// 		race: 'Хоббит',
-		// 		heroClass: 'Вор',
-		// 		guild: 'Садоводы'
-		// 	},
-		// ];
+export const referenceBooksAPI = {
+	getRoles: async () => {
+		return axios.get(`${API_URL}userRoles`, config)
 	},
 
+	getPositions: async () => {
+		return axios.get(`${API_URL}userPositions`, config)
+	},
+
+	getDepartments: async () => {
+		return axios.get(`${API_URL}userDepartments`, config)
+	},
+
+	getProjects: async () => {
+		return axios.get(`${API_URL}userProjects`, config)
+	}
+}
+
+export const employeesAPI = {
+	getEmployees: async () => {
+		return axios.get(`${API_URL}user`, config)
+	},
+
+	createEmployee: async (data) => {
+		return axios.post(`${API_URL}user`, data, {
+			headers: {
+				'content-type': 'multipart/form-data'
+			}
+		})
+	},
+
+	deleteEmployee: async (id) => {
+		return axios.delete(`${API_URL}user/${id}`, config)
+	}
+}
+
+export const API = {
 	getHero: async (id) => {
 		return axios.get(`${API_URL}hero/${id}`, config)
 		// return await {

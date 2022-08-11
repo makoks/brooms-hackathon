@@ -1,18 +1,22 @@
-import React, {useEffect} from 'react'
-import {Button, Form, Image, Input, Modal, Select, Space, Upload} from "antd";
-import {UploadOutlined} from "@ant-design/icons";
+import React, {useState} from 'react'
+import {Col, Form, Image, Input, Modal, Row, Select, Space} from "antd";
 import {AvatarPreview} from "../../../images";
+import {employeesAPI} from "../../../API";
+import {requiredRules} from "../../../common/form";
 
 const {Option} = Select
 
-const CreateEmployeeModal = ({isModalVisible, createCharacter, onCancel, loading}) => {
-	const fieldNames = ['name', 'email', 'phone', 'department', 'post', 'role', 'avatar']
+const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, roles, projects}) => {
+	const fieldNames = ['fioUser', 'email', 'telephone', 'idDepartment', 'idPosition', 'idRole', 'idProject', 'avatar']
 	const [form] = Form.useForm()
+	const [loading, setLoading] = useState(false)
 
-	useEffect(() => {
-		console.log(form.getFieldValue('name'))
-		// console.log(URL.createObjectURL(form.getFieldValue('avatar')))
-	}, [form])
+	const createEmployee = async (data) => {
+		setLoading(true)
+		employeesAPI.createEmployee(data)
+			.then(onCancel)
+			.finally(() => setLoading(false))
+	}
 
 	return (
 		<Modal
@@ -22,65 +26,67 @@ const CreateEmployeeModal = ({isModalVisible, createCharacter, onCancel, loading
 			confirmLoading={loading}
 			onOk={() => {
 				form.validateFields(fieldNames)
-					.then(() => createCharacter(form.getFieldsValue(fieldNames)))
+					.then(() => createEmployee(form.getFieldsValue(fieldNames)))
 			}}
+			style={{minWidth: 800}}
 		>
 			<Form form={form}>
-				<Space>
-					<div>
-						<Form.Item name="name" label="ФИО" rules={[{required: true}]}>
+				<Row justify='space-between'>
+					<Col span={16}>
+						<Form.Item name="fioUser" label="ФИО" rules={[requiredRules]}>
 							<Input/>
 						</Form.Item>
-						<Form.Item name="email" label="Почта" rules={[{required: true}]}>
+						<Form.Item name="email" label="Почта" rules={[requiredRules]}>
 							<Input/>
 						</Form.Item>
-						<Form.Item name="phone" label="Телефон" rules={[{required: true}]}>
+						<Form.Item name="telephone" label="Телефон" rules={[requiredRules]}>
 							<Input/>
 						</Form.Item>
-						<Form.Item name="department" label='Отдел' rules={[{required: true}]}>
+						<Form.Item name="idDepartment" label='Отдел' rules={[requiredRules]}>
 							<Select>
-								<Option>Отдел разработки</Option>
-								<Option>Отдел документирования</Option>
-								<Option>Отдел тестирования</Option>
-								<Option>Head office</Option>
+								{departments?.map(dep => (
+									<Option key={dep.id} value={dep.id}>{dep.name}</Option>
+								))}
 							</Select>
 						</Form.Item>
-						<Form.Item name='post' label="Должность" rules={[{required: true}]}>
+						<Form.Item name='idPosition' label="Должность" rules={[requiredRules]}>
 							<Select>
-								<Option>Эксперт 1 категории</Option>
-								<Option>Ведущий эксперт</Option>
-								<Option>Главный инженер</Option>
+								{positions?.map(pos => (
+									<Option key={pos.id} value={pos.id}>{pos.name}</Option>
+								))}
 							</Select>
 						</Form.Item>
-						<Form.Item name="role" label='Роль'>
+						<Form.Item name="idRole" label='Роль' rules={[requiredRules]}>
 							<Select>
-								<Option>Разработчик</Option>
-								<Option>Тестировщик</Option>
-								<Option>Дизайнер</Option>
-								<Option>Технический писатель</Option>
+								{roles?.map(role => (
+									<Option key={role.id} value={role.id}>{role.name}</Option>
+								))}
 							</Select>
 						</Form.Item>
-						<Form.Item name="project" label='Проект'>
+						<Form.Item name="idProject" label='Проект' rules={[requiredRules]}>
 							<Select>
-								<Option>ПОИ</Option>
-								<Option>АСУП</Option>
+								{projects?.map(proj => (
+									<Option key={proj.id} value={proj.id}>{proj.name}</Option>
+								))}
 							</Select>
 						</Form.Item>
-					</div>
-					<Space direction='vertical' align='center'>
-						<Image
-							width={140}
-							height={140}
-							src={AvatarPreview}
-							preview={false}
-						/>
-						<Form.Item name="avatar">
-							<Upload accept='image/*'>
-								<Button icon={<UploadOutlined />}>Выбрать изображение</Button>
-							</Upload>
-						</Form.Item>
-					</Space>
-				</Space>
+					</Col>
+					<Col span={8} style={{display: 'flex', justifyContent: 'center'}}>
+						<Space direction='vertical' align='center'>
+							<Image
+								width={140}
+								height={140}
+								src={AvatarPreview}
+								preview={false}
+							/>
+							{/*<Form.Item name="avatar">*/}
+							{/*	/!*<Upload accept='image/*'>*!/*/}
+							{/*	/!*	<Button icon={<UploadOutlined/>}>Выбрать изображение</Button>*!/*/}
+							{/*	/!*</Upload>*!/*/}
+							{/*</Form.Item>*/}
+						</Space>
+					</Col>
+				</Row>
 			</Form>
 		</Modal>
 	)

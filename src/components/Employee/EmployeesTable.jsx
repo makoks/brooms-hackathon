@@ -4,18 +4,18 @@ import React, {useState, useEffect} from "react";
 import ToCompareButton from "./ToCompareButton/ToCompareButton";
 import {DeleteOutlined} from "@ant-design/icons";
 import {tableLocale} from "../../common/locale";
-
-const departments = ['ОР', 'ОД', 'Headoffice']
-const posts = ['Эксперт 1 категории', 'Ведущий эксперт', 'Главный инженер']
-const roles = ['Разработчик', 'Системный аналитик', 'Технический писатель']
-const projects = ['ДСУД ПОИ', 'АС ППА']
+import {alphabetSort} from "../../common/helpers";
 
 export const EmployeesTable = ({
 	                               compareList,
 	                               addInCompareList,
 	                               removeFromCompareList,
-	                               deleteHero,
+	                               deleteEmployee,
 	                               deletingIds,
+	                               departments,
+	                               projects,
+	                               roles,
+	                               positions,
 	                               ...props
                                }) => {
 	const [employees, setEmployees] = useState(props.employees ?? [])
@@ -27,57 +27,49 @@ export const EmployeesTable = ({
 	const columns = [
 		{
 			title: 'Аватар',
-			dataIndex: 'avatar',
-			key: 'avatar',
-			render: (_, {avatar}) => <Avatar size='large' src={avatar}/>
+			dataIndex: 'avatarUrl',
+			key: 'avatarUrl',
+			render: (_, {avatarUrl}) => <Avatar size='large' src={avatarUrl}/>
 		},
 		{
 			title: 'ФИО',
-			dataIndex: 'name',
-			key: 'name',
-			render: (_, {id, name}) => <NavLink to={`hero/${id}`}>{name}</NavLink>,
-			filters: employees.map(e => ({text: e.name, value: e.name})),
+			dataIndex: 'fioUser',
+			key: 'fioUser',
+			render: (_, {id, fioUser}) => <NavLink to={`hero/${id}`}>{fioUser}</NavLink>,
+			filters: employees.map(e => ({text: e.fioUser, value: e.id})),
 			filterSearch: true,
-			onFilter: (value, record) => record.name.includes(value),
-			sorter: (a, b) => {
-				const nameA = a.name.toLowerCase()
-				const nameB = b.name.toLowerCase()
-				if (nameA < nameB)
-					return -1
-				if (nameA > nameB)
-					return 1
-				return 0
-			},
+			onFilter: (value, record) => record.id === value,
+			sorter: (a, b) => alphabetSort(a.fioUser, b.fioUser),
 		},
 		{title: 'Почта', dataIndex: 'email', key: 'email'},
-		{title: 'Телефон', dataIndex: 'phone', key: 'phone'},
+		{title: 'Телефон', dataIndex: 'telephone', key: 'telephone'},
 		{
 			title: 'Отдел',
-			dataIndex: 'department',
+			dataIndex: ['userDepartment', 'name'],
 			key: 'department',
-			filters: departments.map(d => ({text: d, value: d})),
-			onFilter: (value, record) => record.department.includes(value)
+			filters: departments?.map(d => ({text: d.name, value: d.id})),
+			onFilter: (value, record) => record.userDepartment.id === value
 		},
 		{
 			title: 'Должность',
-			dataIndex: 'post',
-			key: 'post',
-			filters: posts.map(p => ({text: p, value: p})),
-			onFilter: (value, record) => record.post.includes(value)
+			dataIndex: ['userPosition', 'name'],
+			key: 'position',
+			filters: positions?.map(p => ({text: p.name, value: p.id})),
+			onFilter: (value, record) => record.userPosition.id === value
 		},
 		{
 			title: 'Роль',
-			dataIndex: 'role',
+			dataIndex: ['userRole', 'name'],
 			key: 'role',
-			filters: roles.map(r => ({text: r, value: r})),
-			onFilter: (value, record) => record.role.includes(value)
+			filters: roles?.map(r => ({text: r.name, value: r.id})),
+			onFilter: (value, record) => record.userRole.id === value
 		},
 		{
 			title: 'Проект',
-			dataIndex: 'project',
+			dataIndex: ['userProject', 'name'],
 			key: 'project',
-			filters: projects.map(p => ({text: p, value: p})),
-			onFilter: (value, record) => record.project.includes(value)
+			filters: projects?.map(p => ({text: p.name, value: p.id})),
+			onFilter: (value, record) => record.userProject.id === value
 		},
 		{
 			title: '',
@@ -93,11 +85,11 @@ export const EmployeesTable = ({
 		},
 		{
 			title: '',
-			dataIndex: 'remove',
-			key: 'remove',
+			dataIndex: 'delete',
+			key: 'delete',
 			render: (_, {id}) => (
 				<Button
-					onClick={() => deleteHero(id)}
+					onClick={() => deleteEmployee(id)}
 					loading={deletingIds.indexOf(id) !== -1}
 				>
 					<DeleteOutlined style={{color: 'red'}}/>
