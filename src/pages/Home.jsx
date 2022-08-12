@@ -6,60 +6,17 @@ import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/Crea
 import {employeesAPI, referenceBooksAPI} from "../API";
 
 export const Home = ({compareList, addPersonInCompareList, removePersonFromCompareList}) => {
-	const [employees, setEmployees] = useState([
-		{
-			id: 1,
-			avatar: 'https://random.imagecdn.app/40/40',
-			name: 'Иванов Иван Иванович',
-			email: 'mail@mail.ru',
-			phone: '88005553535',
-			department: 'ОР',
-			post: 'Ведущий эксперт',
-			role: 'Разработчик',
-			project: 'ДСУД ПОИ'
-		},
-		{
-			id: 2,
-			avatar: 'https://random.imagecdn.app/40/40',
-			name: 'Петров Петр Петрович',
-			email: 'petr@mail.ru',
-			phone: '81234567890',
-			department: 'ОД',
-			post: 'Эксперт 1 категории',
-			role: 'Технический писатель',
-			project: 'АС ППА'
-		},
-		{
-			id: 3,
-			avatar: 'https://random.imagecdn.app/40/40',
-			name: 'Сотрудников Сотрудник Сотрудникович',
-			email: 'mail@mail.ru',
-			phone: '88005553535',
-			department: 'ОР',
-			post: 'Ведущий эксперт',
-			role: 'Системный аналитик',
-			project: 'ДСУД ПОИ'
-		},
-		{
-			id: 4,
-			avatar: 'https://random.imagecdn.app/40/40',
-			name: 'Разработчиков Разработчик Разработчикович',
-			email: 'petr@mail.ru',
-			phone: '81234567890',
-			department: 'ОД',
-			post: 'Эксперт 1 категории',
-			role: 'Технический писатель',
-			project: 'АС ППА'
-		},
-	])
+	const [employees, setEmployees] = useState([])
 	const [deletingIds, setDeletingIds] = useState([])
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [roles, setRoles] = useState(undefined)
 	const [departments, setDepartments] = useState(undefined)
 	const [positions, setPositions] = useState(undefined)
 	const [projects, setProjects] = useState(undefined)
+	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
+		setLoading(true)
 		const {getPositions, getDepartments, getProjects, getRoles} = referenceBooksAPI
 
 		const getReferenceBooks = async () => {
@@ -80,8 +37,8 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 			console.log(res.data)
 		}
 
-		getReferenceBooks()
-		getEmployees()
+		Promise.all([getReferenceBooks(), getEmployees()])
+			.finally(() => setLoading(false))
 	}, [])
 
 	const deleteEmployee = async (id) => {
@@ -123,6 +80,7 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 					departments={departments}
 					positions={positions}
 					projects={projects}
+					loading={loading}
 				/>
 				<CreateEmployeeModal
 					isModalVisible={isModalVisible}

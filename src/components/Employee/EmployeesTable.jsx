@@ -100,7 +100,7 @@ export const EmployeesTable = ({
 	]
 
 	return (
-		<Table columns={columns} dataSource={employees} locale={tableLocale}/>
+		<Table columns={columns} dataSource={employees} locale={tableLocale} loading={props.loading}/>
 	)
 }
 

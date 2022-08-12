@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
-import {Col, Form, Image, Input, Modal, Row, Select, Space} from "antd";
+import {Avatar, Button, Col, Form, Input, message, Modal, Row, Select, Space, Upload} from "antd";
 import {AvatarPreview} from "../../../images";
 import {employeesAPI} from "../../../API";
 import {requiredRules} from "../../../common/form";
+import {UploadOutlined} from "@ant-design/icons";
+
 
 const {Option} = Select
 
@@ -10,11 +12,23 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, 
 	const fieldNames = ['fioUser', 'email', 'telephone', 'idDepartment', 'idPosition', 'idRole', 'idProject', 'avatar']
 	const [form] = Form.useForm()
 	const [loading, setLoading] = useState(false)
+	const [avatarPreview, setAvatarPreview] = useState(AvatarPreview)
+	const [avatar, setAvatar] = useState(null)
+
+	const onUploadChange = (data) => {
+		setAvatar(data.file)
+		setAvatarPreview(URL.createObjectURL(data.file))
+	}
 
 	const createEmployee = async (data) => {
 		setLoading(true)
-		employeesAPI.createEmployee(data)
-			.then(onCancel)
+		const userDataWithAvatar = avatar ? {...data, avatar} : data
+		employeesAPI.createEmployee(userDataWithAvatar)
+			.then(() => {
+				onCancel()
+				message.success('Сотрудник успешно добавлен!')
+			})
+			.catch(() => message.error('Что-то пошло не так :('))
 			.finally(() => setLoading(false))
 	}
 
@@ -73,17 +87,16 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, 
 					</Col>
 					<Col span={8} style={{display: 'flex', justifyContent: 'center'}}>
 						<Space direction='vertical' align='center'>
-							<Image
-								width={140}
-								height={140}
-								src={AvatarPreview}
-								preview={false}
-							/>
-							{/*<Form.Item name="avatar">*/}
-							{/*	/!*<Upload accept='image/*'>*!/*/}
-							{/*	/!*	<Button icon={<UploadOutlined/>}>Выбрать изображение</Button>*!/*/}
-							{/*	/!*</Upload>*!/*/}
-							{/*</Form.Item>*/}
+							<Avatar src={avatarPreview} size={140}/>
+							<Upload
+								name="avatar"
+								accept='image/png, image/jpg'
+								maxCount={1}
+								onChange={onUploadChange}
+								beforeUpload={() => false}
+							>
+								<Button icon={<UploadOutlined/>}>Выбрать изображение</Button>
+							</Upload>
 						</Space>
 					</Col>
 				</Row>
