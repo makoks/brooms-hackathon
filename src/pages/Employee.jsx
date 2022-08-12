@@ -1,109 +1,60 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Layout} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeeMainInfo from "../components/Employee/EmployeePage/EmployeeMainInfo";
 import EditBlock from "../components/Employee/EmployeePage/EditBlock";
 import ClustersList from "../components/Employee/EmployeePage/ClustersList/ClustersList";
+import {useParams} from "react-router-dom";
+import {employeesAPI} from "../API";
+import {getPropValueByPropType} from "../common/helpers";
 
 
-// const clusters = [
-// 	{
-// 		name: 'Статистика',
-// 		items: [
-// 			{name: 'health', value: 120},
-// 			{name: 'mana', value: 100},
-// 			{name: 'gold', value: 1000},
-// 		]
-// 	},
-// 	{
-// 		name: 'Статистика',
-// 		items: [
-// 			{name: 'last active', value: 120},
-// 			{name: 'lvl', value: 100},
-// 			{name: 'max HP', value: 1000},
-// 			{name: 'max mana', value: 1000},
-// 			{name: 'gold', value: 1000},
-// 		]
-// 	},
-// 	{
-// 		name: 'Статистика',
-// 		items: [
-// 			{name: 'last active', value: 120},
-// 			{name: 'lvl', value: 100},
-// 			{name: 'max HP', value: 1000},
-// 			{name: 'max mana', value: 1000},
-// 			{name: 'gold', value: 1000},
-// 		]
-// 	},
-// 	{
-// 		name: 'Loot',
-// 		items: [
-// 			{name: 'hat', value: 'Алмазная'},
-// 			{name: 'boots', value: 'Железная'},
-// 			{name: 'Armor', value: 'Шипованная'},
-// 		]
-// 	}
-// ]
-
-export const Employee = () => {
-	// const {id} = useParams()
-	const [loading] = useState(false)
-	const [employee, setEmployee] = useState({
-		id: 1,
-		avatar: 'https://random.imagecdn.app/40/40',
-		name: 'Иванов Иван Иванович',
-		email: 'mail@mail.ru',
-		phone: '88005553535',
-		department: 'ОР',
-		post: 'Ведущий эксперт',
-		role: 'Разработчик',
-		project: 'ДСУД ПОИ',
-		clusters: [
-			{
-				id: '1',
-				title: 'Cluster 1',
-				properties: [
-					{title: 'Дата приема', value: '2019-02-03'},
-					{title: 'Опыт', value: null},
-					{title: 'Премия', value: '3 213 213 21 321 321 3 213 213 21 321'}
-				]
-			},
-			{
-				id: '2',
-				title: 'Cluster 2',
-				properties: [
-					{title: 'Свойство', value: 'Значение'},
-					{title: 'Цвет глаз', value: 'Голубой'},
-					{title: 'Количество зубов', value: undefined}
-				]
-			}
-		]
-	})
-	const [editableClusters, setEditableClusters] = useState(employee.clusters)
+export const Employee = ({referenceBooks, referenceBooksLoading}) => {
+	const {id} = useParams()
+	const [loading, setLoading] = useState(false)
+	const [employee, setEmployee] = useState(undefined)
+	const [clusters, setClusters] = useState([])
+	const [editableClusters, setEditableClusters] = useState([])
 	const [reason, setReason] = useState(1)
 	const [isEdit, setIsEdit] = useState(false)
 
+	useEffect(() => {
+		setLoading(true)
+		const getEmployee = async () => {
+			const res = await employeesAPI.getEmployee(id)
+			setEmployee(res.data.user)
+			setClusters(res.data.clusterModelWithProperties)
+			setEditableClusters(res.data.clusterModelWithProperties)
+		}
+
+		getEmployee()
+			.finally(() => setLoading(false))
+	}, [id])
+
 	const saveChanges = () => {
-		setEmployee({
-			...employee,
-			clusters: [...editableClusters]
-		})
+		setClusters([...editableClusters])
 		toggleIsEdit()
 	}
 
 	const discardChanges = () => {
-		setEditableClusters([...employee.clusters])
+		setEditableClusters([...clusters])
 		toggleIsEdit()
 	}
 
-	const changeClusterField = (clusterTitle, fieldTitle, newValue) => {
+	const changeClusterField = (clusterName, propId, newValue) => {
 		const newClusters = editableClusters.map(cluster => (
-			cluster.title === clusterTitle
+			cluster.nameCluster === clusterName
 				? {
 					...cluster,
 					properties: cluster.properties.map(prop => (
-						prop.title === fieldTitle
-							? {...prop, value: newValue}
+						prop.id === propId
+							? {
+								...prop,
+								propertyValueModels: {
+									...prop.propertyValueModels,
+									[getPropValueByPropType(prop.typeofMp)]: newValue
+								}
+							}
 							: prop
 					))
 				}
@@ -119,7 +70,17 @@ export const Employee = () => {
 	return (
 		<Layout>
 			<ContentHeader title='Сотрудник' paddingBottom={true}>
-				<EmployeeMainInfo loading={loading} {...employee}/>
+				<EmployeeMainInfo
+					loading={loading && referenceBooksLoading}
+					name={employee?.fioUser}
+					email={employee?.email}
+					avatar={employee?.avatar}
+					phone={employee?.telephone}
+					department={referenceBooks.departments?.find(d => d.id === employee?.idDepartment)?.name}
+					project={referenceBooks.projects?.find(p => p.id === employee?.idProject)?.name}
+					role={referenceBooks.roles?.find(r => r.id === employee?.idRole)?.name}
+					post={referenceBooks.positions?.find(p => p.id === employee?.idPosition)?.name}
+				/>
 				<EditBlock
 					isEdit={isEdit}
 					toggleIsEdit={toggleIsEdit}
@@ -131,7 +92,7 @@ export const Employee = () => {
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
 				<ClustersList
-					clusters={employee.clusters}
+					clusters={clusters}
 					editableClusters={editableClusters}
 					isEdit={isEdit}
 					onPropChange={changeClusterField}

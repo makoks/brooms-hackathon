@@ -43,6 +43,10 @@ export const employeesAPI = {
 	deleteEmployee: async (id) => {
 		return instance.delete(`user/${id}`)
 	},
+
+	getEmployee: async (id) => {
+		return instance.get(`userCluster/${id}`)
+	}
 }
 
 export const API = {

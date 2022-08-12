@@ -1,6 +1,7 @@
 import React from 'react'
 import {Avatar, Skeleton, Space, Typography} from "antd";
 import StaticInfo from "../StaticInfo";
+import {AvatarPreview} from "../../../images";
 
 
 const EmployeeMainInfo = ({avatar, name, email, phone, department, post, role, project, loading}) => {
@@ -12,7 +13,7 @@ const EmployeeMainInfo = ({avatar, name, email, phone, department, post, role, p
 				justifyContent: 'space-between'
 			}}>
 				<Space size='large'>
-					<Avatar src={avatar} size={72}/>
+					<Avatar src={avatar ?? AvatarPreview} size={72}/>
 					<Space direction='vertical'>
 						<Typography.Title level={4}>{name}</Typography.Title>
 						<Space size='large'>
