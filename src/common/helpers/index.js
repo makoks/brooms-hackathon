@@ -1,4 +1,4 @@
-import {DatePicker, InputNumber, Select} from "antd";
+import {DatePicker, Input, InputNumber, Select} from "antd";
 
 export const getShortName = (person) => {
 	return `${person.surname} ${person.name[0]}. ${person.patronymic[0]}.`
@@ -24,6 +24,9 @@ export const getPropValueByPropType = (propType) => {
 
 		case 'Date':
 			return 'dateTimeValue'
+
+		default:
+			return 'stringValue'
 	}
 }
 
@@ -37,5 +40,8 @@ export const getInputComponentByPropType = (propType) => {
 
 		case 'Date':
 			return DatePicker
+
+		default:
+			return Input
 	}
 }
