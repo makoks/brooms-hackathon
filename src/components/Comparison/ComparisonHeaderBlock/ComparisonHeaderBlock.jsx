@@ -3,9 +3,9 @@ import {Button, Col, Row, Space, Switch} from "antd";
 import ComparisonPersons from "./ComparisonPersons/ComparisonPersons";
 
 
-const ComparisonHeaderBlock = ({persons, onlyDifferent, setOnlyDifferent}) => {
+const ComparisonHeaderBlock = ({employees, onlyDifferent, setOnlyDifferent, removeFromCompareList}) => {
 	return (
-		<Row justify='space-between' align='middle' gutter={24} style={{marginTop: 25}}>
+		<Row justify='space-between' align='middle' gutter={24}>
 			<Col flex='224px'>
 				<Space size='small'>
 					Только различия:
@@ -18,10 +18,10 @@ const ComparisonHeaderBlock = ({persons, onlyDifferent, setOnlyDifferent}) => {
 				</Space>
 			</Col>
 			<Col flex='auto'>
-				<ComparisonPersons persons={persons}/>
+				<ComparisonPersons employees={employees} removeFromCompareList={removeFromCompareList}/>
 			</Col>
 			<Col flex='194px'>
-				<Button type='primary' disabled={persons.length === 6}>Добавить сотрудника</Button>
+				<Button type='primary' disabled={employees.length === 6}>Добавить сотрудника</Button>
 			</Col>
 		</Row>
 	)

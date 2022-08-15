@@ -1,7 +1,8 @@
 import {DatePicker, Input, InputNumber, Select} from "antd";
 
-export const getShortName = (person) => {
-	return `${person.surname} ${person.name[0]}. ${person.patronymic[0]}.`
+export const getShortName = (fio) => {
+	const [surname, name, patronymic] = fio.split(' ')
+	return `${surname} ${name[0]}. ${patronymic[0]}.`
 }
 
 export const alphabetSort = (a, b) => {

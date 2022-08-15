@@ -59,7 +59,7 @@ export const employeesAPI = {
 
 export const historyAPI = {
 	getHistory: async (userId, beginDate, endDate) => {
-		return instance.post(`user/${userId}/history`, {beginDate, endDate})
+		return instance.get(`user/${userId}/history`, {beginDate, endDate})
 	}
 }
 

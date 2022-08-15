@@ -70,7 +70,11 @@ function App() {
 					<Route path={`employee/:id`} element={<Employee
 						referenceBooks={{roles, positions, departments, projects}}
 						referenceBooksLoading={loading}/>}/>
-					<Route path="comparison" element={<Comparison compare={[compareList, setCompareList]}/>}/>
+					<Route path="comparison" element={<Comparison
+						compare={[compareList, setCompareList]}
+						addToCompareList={addPersonInCompareList}
+						removeFromCompareList={removePersonFromCompareList}
+					/>}/>
 					<Route path="history" element={<History/>}/>
 				</Route>
 			</Routes>
