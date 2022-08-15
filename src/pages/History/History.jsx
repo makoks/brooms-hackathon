@@ -3,6 +3,7 @@ import {Layout, Select, Space, DatePicker, Button, Table, Form} from 'antd';
 import {ContentHeader} from '../../components';
 import './index.css'
 import {tableLocale} from "../../common/locale";
+import {employeesAPI, historyAPI} from "../../API";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
@@ -82,17 +83,30 @@ const columns = [
 
 export const History = () => {
 	const [dates, setDates] = useState([])
-	const [hero, setHero] = useState(undefined)
-	const [heroes] = useState([])
+	const [employeeId, setEmployeeId] = useState(undefined)
+	const [employees, setEmployees] = useState([])
+	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
-		// const getHeroes = async () => {
-		// 	const res = await API.getHeroes()
-		// 	setHeroes(res.data._embedded.hero)
-		// }
-		//
-		// getHeroes()
+		setLoading(true)
+
+		const getEmployees = async () => {
+			const res = await employeesAPI.getEmployees()
+			setEmployees(res.data._embedded.user)
+		}
+
+		getEmployees()
+			.finally(() => setLoading(false))
 	}, [])
+
+	const getHistory = async () => {
+		const res = historyAPI.getHistory(
+			employeeId,
+			dates[0]._d.toLocaleDateString('ru-RU'),
+			dates[1]._d.toLocaleDateString('ru-RU')
+		)
+		console.log(res)
+	}
 
 	return (
 		<Layout>
@@ -102,15 +116,14 @@ export const History = () => {
 						<Form.Item name="name" label="Сотрудник">
 							<Select
 								showSearch
-								filterOption={(input, option) => {
-									option.title.toLowerCase().includes(input.toLowerCase())
-								}}
-								onChange={selectedId => setHero(heroes.find(({id}) => id === selectedId))}
-								value={hero}
+								filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+								onChange={setEmployeeId}
+								value={employeeId}
 								style={{width: 450}}
+								loading={loading}
 							>
-								{heroes.map(hero => (
-									<Option value={hero.id} key={hero.id}>{hero.heroName}</Option>
+								{employees.map(employee => (
+									<Option value={employee.id} key={employee.id}>{employee.fioUser}</Option>
 								))}
 							</Select>
 						</Form.Item>
@@ -121,7 +134,7 @@ export const History = () => {
 								placeholder={['Начало', 'Конец']}
 							/>
 						</Form.Item>
-						<Button type='primary'>Применить</Button>
+						<Button type='primary' onClick={getHistory}>Применить</Button>
 					</Space>
 				</Form>
 			</ContentHeader>

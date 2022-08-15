@@ -35,7 +35,7 @@ export const EmployeesTable = ({
 			title: 'ФИО',
 			dataIndex: 'fioUser',
 			key: 'fioUser',
-			render: (_, {id, fioUser}) => <NavLink to={`hero/${id}`}>{fioUser}</NavLink>,
+			render: (_, {id, fioUser}) => <NavLink to={`employee/${id}`}>{fioUser}</NavLink>,
 			filters: employees.map(e => ({text: e.fioUser, value: e.id})),
 			filterSearch: true,
 			onFilter: (value, record) => record.id === value,
