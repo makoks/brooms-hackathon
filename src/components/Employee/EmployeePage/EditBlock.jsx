@@ -1,26 +1,41 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Select, Space, Switch, Typography, Input} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
+import {employeesAPI} from "../../../API";
 
 const {Option} = Select
 
 const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard}) => {
 	const [isAddition, setIsAddition] = useState(false)
 	const [newReason, setNewReason] = useState('')
-	const [reasons, setReasons] = useState([
-		{value: 1, text: 'Причина 1'},
-		{value: 2, text: 'Причина 2'},
-		{value: 3, text: 'Причина 3'},
-		{value: 4, text: 'Причина 4'},
-	])
+	const [reasons, setReasons] = useState([])
+	const [loading, setLoading] = useState(false)
+	const [creating, setCreating] = useState(false)
 
-	const addNewReason = () => {
-		setReasons(oldReasons => [
-			...oldReasons,
-			{value: oldReasons.length + 1, text: newReason}
-		])
-		setNewReason('')
-		setIsAddition(false)
+	useEffect(() => {
+		setLoading(true)
+		const getChangeReasons = async () => {
+			const res = await employeesAPI.getChangeReasons()
+			console.log(res.data)
+			setReasons(res.data._embedded.sourceOfChanges)
+		}
+
+		getChangeReasons()
+			.finally(() => setLoading(false))
+	}, [])
+
+	const addNewReason = async () => {
+		setCreating(true)
+		employeesAPI.createReason(newReason)
+			.then(() => {
+				setReasons(oldReasons => [
+					...oldReasons,
+					{id: oldReasons.length + 1, nameSource: newReason}
+				])
+				setNewReason('')
+				setIsAddition(false)
+			})
+			.finally(() => setCreating(false))
 	}
 
 	return (
@@ -39,6 +54,8 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 							onChange={setReason}
 							value={reason}
 							style={{minWidth: 300}}
+							loading={loading}
+							onDropdownVisibleChange={() => setIsAddition(false)}
 							dropdownRender={menu => (
 								<>
 									{isAddition
@@ -53,6 +70,8 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 												style={{width: '15%', borderRadius: 0}}
 												icon={<PlusOutlined/>}
 												onClick={addNewReason}
+												disabled={newReason.length === 0}
+												loading={creating}
 											/>
 										</Input.Group>
 										: <Button
@@ -66,7 +85,7 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 							)}
 						>
 							{reasons.map(reason => (
-								<Option value={reason.value} key={reason.value}>{reason.text}</Option>
+								<Option value={reason.id} key={reason.id}>{reason.nameSource}</Option>
 							))}
 						</Select>
 					</Space>

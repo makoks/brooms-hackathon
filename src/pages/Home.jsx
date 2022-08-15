@@ -58,7 +58,7 @@ export const Home = ({compareList, addPersonInCompareList, removePersonFromCompa
 					removeFromCompareList={removePersonFromCompareList}
 					deleteEmployee={deleteEmployee}
 					deletingIds={deletingIds}
-					loading={loading && referenceBooksLoading}
+					loading={loading || referenceBooksLoading}
 					{...referenceBooks}
 				/>
 				<CreateEmployeeModal

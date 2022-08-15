@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Layout} from 'antd';
+import {Layout, message} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeeMainInfo from "../components/Employee/EmployeePage/EmployeeMainInfo";
 import EditBlock from "../components/Employee/EmployeePage/EditBlock";
@@ -15,7 +15,7 @@ export const Employee = ({referenceBooks, referenceBooksLoading}) => {
 	const [employee, setEmployee] = useState(undefined)
 	const [clusters, setClusters] = useState([])
 	const [editableClusters, setEditableClusters] = useState([])
-	const [reason, setReason] = useState(1)
+	const [reason, setReason] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
 
 	useEffect(() => {
@@ -32,8 +32,12 @@ export const Employee = ({referenceBooks, referenceBooksLoading}) => {
 	}, [id])
 
 	const saveChanges = () => {
-		setClusters([...editableClusters])
-		toggleIsEdit()
+		if (!reason) {
+			message.error('Необходимо выбрать причину изменения')
+		} else {
+			setClusters([...editableClusters])
+			toggleIsEdit()
+		}
 	}
 
 	const discardChanges = () => {
@@ -69,9 +73,13 @@ export const Employee = ({referenceBooks, referenceBooksLoading}) => {
 
 	return (
 		<Layout>
-			<ContentHeader title='Сотрудник' paddingBottom={true}>
+			<ContentHeader
+				title='Сотрудник'
+				paddingBottom={true}
+				link={{text: 'Перейти к истории изменений', route: '../history'}}
+			>
 				<EmployeeMainInfo
-					loading={loading && referenceBooksLoading}
+					loading={loading || referenceBooksLoading}
 					name={employee?.fioUser}
 					email={employee?.email}
 					avatar={employee?.avatar}

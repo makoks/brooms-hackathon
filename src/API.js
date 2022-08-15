@@ -46,6 +46,20 @@ export const employeesAPI = {
 
 	getEmployee: async (id) => {
 		return instance.get(`userCluster/${id}`)
+	},
+
+	getChangeReasons: async () => {
+		return instance.get('sourceOfChanges')
+	},
+
+	createReason: async (nameSource) => {
+		return instance.post('sourceOfChanges', {nameSource})
+	}
+}
+
+export const historyAPI = {
+	getHistory: async (userId, beginDate, endDate) => {
+		return instance.post(`user/${userId}/history`, {beginDate, endDate})
 	}
 }
 
