@@ -7,10 +7,12 @@ import ClustersList from "../components/Employee/EmployeePage/ClustersList/Clust
 import {useParams} from "react-router-dom";
 import {employeesAPI} from "../API";
 import {getPropValueByPropType} from "../common/helpers";
+import {useReferenceBooks} from "../hooks";
 
 
-export const Employee = ({referenceBooks, referenceBooksLoading}) => {
+export const Employee = () => {
 	const {id} = useParams()
+	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
 	const [loading, setLoading] = useState(false)
 	const [employee, setEmployee] = useState(undefined)
 	const [clusters, setClusters] = useState([])
@@ -84,10 +86,10 @@ export const Employee = ({referenceBooks, referenceBooksLoading}) => {
 					email={employee?.email}
 					avatar={employee?.avatar}
 					phone={employee?.telephone}
-					department={referenceBooks.departments?.find(d => d.id === employee?.idDepartment)?.name}
-					project={referenceBooks.projects?.find(p => p.id === employee?.idProject)?.name}
-					role={referenceBooks.roles?.find(r => r.id === employee?.idRole)?.name}
-					post={referenceBooks.positions?.find(p => p.id === employee?.idPosition)?.name}
+					department={departments?.find(d => d.id === employee?.idDepartment)?.name}
+					project={projects?.find(p => p.id === employee?.idProject)?.name}
+					role={roles?.find(r => r.id === employee?.idRole)?.name}
+					post={positions?.find(p => p.id === employee?.idPosition)?.name}
 				/>
 				<EditBlock
 					isEdit={isEdit}

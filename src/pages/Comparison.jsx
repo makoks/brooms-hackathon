@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Layout} from 'antd';
 import {ContentHeader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
 import {employeesAPI} from "../API";
+import {CompareListContext} from "../providers/CompareListProvider";
 
-export const Comparison = ({compare, removeFromCompareList}) => {
+export const Comparison = () => {
 	const [onlyDifferent, setOnlyDifferent] = useState(false)
 	const [employees, setEmployees] = useState([])
-	const [compareList] = compare
+	const {compareList} = useContext(CompareListContext)
 	// const mutableProperties = [
 	// 	{
 	// 		title: 'Cluster 1',
@@ -246,7 +247,6 @@ export const Comparison = ({compare, removeFromCompareList}) => {
 					employees={employees.map(e => e.user)}
 					onlyDifferent={onlyDifferent}
 					setOnlyDifferent={setOnlyDifferent}
-					removeFromCompareList={removeFromCompareList}
 				/>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>

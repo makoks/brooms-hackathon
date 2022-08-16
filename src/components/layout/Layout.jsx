@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Layout as AntdLayout, Menu, Space, Typography, Switch, Badge} from 'antd';
 import {Link, NavLink, Outlet} from 'react-router-dom';
 import {ProfileOutlined, BulbOutlined, BulbFilled, UnorderedListOutlined} from '@ant-design/icons';
 import {Logo} from '../../images';
 import {useCurrentPage} from '../../hooks';
+import {CompareListContext} from "../../providers/CompareListProvider";
 
-export const Layout = ({compare}) => {
+export const Layout = () => {
 	const currentPage = useCurrentPage();
-	const [compareList] = compare
+	const {compareList} = useContext(CompareListContext)
 
 	const handleThemeChange = (checked) => {
 		if (checked) {

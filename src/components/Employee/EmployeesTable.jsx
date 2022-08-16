@@ -1,28 +1,17 @@
 import {Avatar, Button, Table} from 'antd';
 import {NavLink} from "react-router-dom";
-import React, {useState, useEffect} from "react";
+import React, {useContext} from "react";
 import ToCompareButton from "./ToCompareButton/ToCompareButton";
 import {DeleteOutlined} from "@ant-design/icons";
 import {tableLocale} from "../../common/locale";
 import {alphabetSort} from "../../common/helpers";
+import {CompareListContext} from "../../providers/CompareListProvider";
+import {useEmployees, useReferenceBooks} from "../../hooks";
 
-export const EmployeesTable = ({
-	                               compareList,
-	                               addInCompareList,
-	                               removeFromCompareList,
-	                               deleteEmployee,
-	                               deletingIds,
-	                               departments,
-	                               projects,
-	                               roles,
-	                               positions,
-	                               ...props
-                               }) => {
-	const [employees, setEmployees] = useState(props.employees ?? [])
-
-	useEffect(() => {
-		setEmployees(props.employees.map(character => ({...character, key: character.id,})))
-	}, [props.employees, compareList])
+export const EmployeesTable = () => {
+	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
+	const {loading: employeesLoading, employees, deleteEmployee, deletingIds} = useEmployees()
+	const {compareList, addToCompareList, removeFromCompareList} = useContext(CompareListContext)
 
 	const columns = [
 		{
@@ -77,7 +66,7 @@ export const EmployeesTable = ({
 			key: 'compare',
 			render: (_, {id}) => <ToCompareButton
 				inCompareList={compareList?.includes(id)}
-				onAdd={() => addInCompareList(id)}
+				onAdd={() => addToCompareList(id)}
 				onRemove={() => removeFromCompareList(id)}
 				disabled={compareList.length === 6}
 			/>,
@@ -100,7 +89,12 @@ export const EmployeesTable = ({
 	]
 
 	return (
-		<Table columns={columns} dataSource={employees} locale={tableLocale} loading={props.loading}/>
+		<Table
+			columns={columns}
+			dataSource={employees}
+			locale={tableLocale}
+			loading={referenceBooksLoading || employeesLoading}
+		/>
 	)
 }
 
