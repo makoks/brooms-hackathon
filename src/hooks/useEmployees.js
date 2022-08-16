@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {employeesAPI} from "../API";
 import {CompareListContext} from "../providers/CompareListProvider";
 import {message} from "antd";
