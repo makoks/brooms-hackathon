@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Avatar, Button, Col, Form, Input, Modal, Row, Select, Space, Upload} from "antd";
 import {AvatarPreview} from "../../../images";
-import {requiredRules} from "../../../common/form";
+import {emailRules, phoneNumberRules, requiredRules} from "../../../common/form";
 import {UploadOutlined} from "@ant-design/icons";
 import {useEmployees, useReferenceBooks} from "../../../hooks";
 
@@ -44,10 +44,10 @@ const CreateEmployeeModal = ({isModalVisible, onCancel}) => {
 						<Form.Item name="fioUser" label="ФИО" rules={[requiredRules]}>
 							<Input/>
 						</Form.Item>
-						<Form.Item name="email" label="Почта" rules={[requiredRules]}>
+						<Form.Item name="email" label="Почта" rules={[requiredRules, emailRules]}>
 							<Input/>
 						</Form.Item>
-						<Form.Item name="telephone" label="Телефон" rules={[requiredRules]}>
+						<Form.Item name="telephone" label="Телефон" rules={[requiredRules, phoneNumberRules]}>
 							<Input/>
 						</Form.Item>
 						<Form.Item name="idDepartment" label='Отдел' rules={[requiredRules]}>
