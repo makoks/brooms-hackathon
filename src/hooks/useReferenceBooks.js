@@ -14,15 +14,12 @@ export const useReferenceBooks = () => {
         const {getPositions, getDepartments, getProjects, getRoles} = referenceBooksAPI
 
         const getReferenceBooks = async () => {
-            const positions = await getPositions()
-            const departments = await getDepartments()
-            const projects = await getProjects()
-            const roles = await getRoles()
-
-            setPositions(positions.data._embedded.userPositions)
-            setDepartments(departments.data._embedded.userDepartments)
-            setProjects(projects.data._embedded.userProjects)
-            setRoles(roles.data._embedded.userRoles)
+            await Promise.all([
+                getPositions().then(({ data }) => setPositions(data._embedded.userPositions)),
+                getDepartments().then(({ data }) => setDepartments(data._embedded.userDepartments)),
+                getProjects().then(({ data }) => setProjects(data._embedded.userProjects)),
+                getRoles().then(({ data }) => setRoles(data._embedded.userRoles)),
+            ])
         }
 
         getReferenceBooks()
