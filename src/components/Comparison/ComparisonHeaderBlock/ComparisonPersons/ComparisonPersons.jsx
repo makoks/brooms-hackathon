@@ -1,21 +1,48 @@
-import React from 'react'
-import {Col, Row, Space} from "antd";
+import React, {useState} from 'react'
+import {Avatar, Col, Row, Space} from "antd";
 import {getShortName} from "../../../../common/helpers";
-import {CloseCircleTwoTone} from "@ant-design/icons";
+import {CloseCircleTwoTone, UserOutlined} from "@ant-design/icons";
+import {AvatarPreview} from "../../../../images";
 
 
-const ComparisonPersons = ({persons}) => {
+const ComparisonPersons = ({employees, removeFromCompareList}) => {
+
 	return (
 		<Row gutter={24} justify='space-around'>
-			{persons.map(person => (
-				<Col key={person.id}>
-					<Space direction='vertical' align='center' key={person.id}>
-						<CloseCircleTwoTone twoToneColor='#FFA39E' style={{fontSize: 27}}/>
-						<span>{getShortName(person)}</span>
-					</Space>
+			{employees.map(employee => (
+				<Col key={employee.id}>
+					<Person
+						id={employee.id}
+						avatar={employee.avatarUrl ?? AvatarPreview}
+						fio={employee.fioUser}
+						removeFromCompareList={() => removeFromCompareList(employee.id)}
+					/>
 				</Col>
 			))}
 		</Row>
+	)
+}
+
+const Person = ({avatar, fio, removeFromCompareList}) => {
+	const [showClose, setShowClose] = useState(false)
+
+	return (
+		<Space
+			direction='vertical'
+			align='center'
+			onMouseEnter={() => setShowClose(true)}
+			onMouseLeave={() => setShowClose(false)}
+		>
+			{showClose
+				? <CloseCircleTwoTone
+					twoToneColor='#FFA39E'
+					style={{fontSize: 32}}
+					onClick={removeFromCompareList}
+				/>
+				: <Avatar size={32} icon={<UserOutlined/>} src={avatar}/>
+			}
+			<span>{getShortName(fio)}</span>
+		</Space>
 	)
 }
 

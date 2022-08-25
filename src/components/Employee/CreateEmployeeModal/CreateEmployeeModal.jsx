@@ -1,17 +1,18 @@
 import React, {useState} from 'react'
-import {Avatar, Button, Col, Form, Input, message, Modal, Row, Select, Space, Upload} from "antd";
+import {Avatar, Button, Col, Form, Input, Modal, Row, Select, Space, Upload} from "antd";
 import {AvatarPreview} from "../../../images";
-import {employeesAPI} from "../../../API";
-import {requiredRules} from "../../../common/form";
+import {emailRules, requiredRules} from "../../../common/form";
 import {UploadOutlined} from "@ant-design/icons";
+import {useEmployees, useReferenceBooks} from "../../../hooks";
 
 
 const {Option} = Select
 
-const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, roles, projects}) => {
-	const fieldNames = ['fioUser', 'email', 'telephone', 'idDepartment', 'idPosition', 'idRole', 'idProject', 'avatar']
+const CreateEmployeeModal = ({isModalVisible, onCancel}) => {
+	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
+	const {createEmployee, loading} = useEmployees()
+	const fieldNames = ['fioUser', 'email', 'telephone', 'idDepartment', 'idPosition', 'idRole', 'idProject']
 	const [form] = Form.useForm()
-	const [loading, setLoading] = useState(false)
 	const [avatarPreview, setAvatarPreview] = useState(AvatarPreview)
 	const [avatar, setAvatar] = useState(null)
 
@@ -20,16 +21,9 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, 
 		setAvatarPreview(URL.createObjectURL(data.file))
 	}
 
-	const createEmployee = async (data) => {
-		setLoading(true)
+	const handleCreateEmployee = async (data) => {
 		const userDataWithAvatar = avatar ? {...data, avatar} : data
-		employeesAPI.createEmployee(userDataWithAvatar)
-			.then(() => {
-				onCancel()
-				message.success('Сотрудник успешно добавлен!')
-			})
-			.catch(() => message.error('Что-то пошло не так :('))
-			.finally(() => setLoading(false))
+		createEmployee(userDataWithAvatar, onCancel)
 	}
 
 	return (
@@ -40,7 +34,7 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, 
 			confirmLoading={loading}
 			onOk={() => {
 				form.validateFields(fieldNames)
-					.then(() => createEmployee(form.getFieldsValue(fieldNames)))
+					.then(() => handleCreateEmployee(form.getFieldsValue(fieldNames)))
 			}}
 			style={{minWidth: 800}}
 		>
@@ -50,35 +44,35 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, departments, positions, 
 						<Form.Item name="fioUser" label="ФИО" rules={[requiredRules]}>
 							<Input/>
 						</Form.Item>
-						<Form.Item name="email" label="Почта" rules={[requiredRules]}>
+						<Form.Item name="email" label="Почта" rules={[requiredRules, emailRules]}>
 							<Input/>
 						</Form.Item>
 						<Form.Item name="telephone" label="Телефон" rules={[requiredRules]}>
 							<Input/>
 						</Form.Item>
 						<Form.Item name="idDepartment" label='Отдел' rules={[requiredRules]}>
-							<Select>
+							<Select loading={referenceBooksLoading}>
 								{departments?.map(dep => (
 									<Option key={dep.id} value={dep.id}>{dep.name}</Option>
 								))}
 							</Select>
 						</Form.Item>
 						<Form.Item name='idPosition' label="Должность" rules={[requiredRules]}>
-							<Select>
+							<Select loading={referenceBooksLoading}>
 								{positions?.map(pos => (
 									<Option key={pos.id} value={pos.id}>{pos.name}</Option>
 								))}
 							</Select>
 						</Form.Item>
 						<Form.Item name="idRole" label='Роль' rules={[requiredRules]}>
-							<Select>
+							<Select loading={referenceBooksLoading}>
 								{roles?.map(role => (
 									<Option key={role.id} value={role.id}>{role.name}</Option>
 								))}
 							</Select>
 						</Form.Item>
 						<Form.Item name="idProject" label='Проект' rules={[requiredRules]}>
-							<Select>
+							<Select loading={referenceBooksLoading}>
 								{projects?.map(proj => (
 									<Option key={proj.id} value={proj.id}>{proj.name}</Option>
 								))}

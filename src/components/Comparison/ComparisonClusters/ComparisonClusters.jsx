@@ -1,36 +1,37 @@
 import React, {useEffect, useState} from 'react'
 import {Badge, Col, Collapse, Row, Space} from "antd";
 import '../index.css'
+import {getPropValueByPropType} from "../../../common/helpers";
 
-const createClusters = (persons, onlyDifferent) => {
+const createClusters = (employees, onlyDifferent) => {
 	const clusters = []
 
-	persons.forEach(person => {
-		person.clusters.forEach(c => {
-			const cluster = clusters.find(cl => cl.title === c.title)
+	employees.forEach(employee => {
+		employee.clusterModelWithProperties.forEach(c => {
+			const cluster = clusters.find(cl => cl.title === c.nameCluster)
 			if (!cluster) {
 				clusters.push({
-					title: c.title,
-					props: c.properties.map(prop => ({
-						title: prop.title,
+					title: c.nameCluster,
+					props: c.properties.map(p => ({
+						title: p.nameProp,
 						values: {
-							[person.id]: prop.value
+							[employee.user.id]: p.propertyValueModels[getPropValueByPropType(p.typeofMp)]
 						}
 					}))
 				})
 			} else {
 				c.properties.forEach(p => {
-					const prop = cluster.props.find(pr => pr.title === p.title)
+					const prop = cluster.props.find(pr => pr.title === p.nameProp)
 
 					if (!prop) {
 						cluster.props.push({
-							title: p.title,
+							title: p.nameProp,
 							values: {
-								[person.id]: p.value
+								[employee.user.id]: p.propertyValueModels[getPropValueByPropType(p.typeofMp)]
 							}
 						})
 					} else {
-						prop.values[person.id] = p.value
+						prop.values[employee.user.id] = p.propertyValueModels[getPropValueByPropType(p.typeofMp)]
 					}
 				})
 			}
@@ -62,13 +63,13 @@ const isAllValuesEqual = (prop) => {
 	return true
 }
 
-const ComparisonClusters = ({persons, onlyDifferent}) => {
-	const [clusters, setClusters] = useState(createClusters(persons, onlyDifferent))
-	const len = persons.length
+const ComparisonClusters = ({employees, onlyDifferent}) => {
+	const [clusters, setClusters] = useState(createClusters(employees, onlyDifferent))
+	const len = employees.length
 
 	useEffect(() => {
-		setClusters(createClusters(persons, onlyDifferent))
-	}, [persons, onlyDifferent])
+		setClusters(createClusters(employees, onlyDifferent))
+	}, [employees, onlyDifferent])
 
 	return (
 		<Collapse>
@@ -77,23 +78,23 @@ const ComparisonClusters = ({persons, onlyDifferent}) => {
 					<Space size='middle' direction='vertical' style={{width: '100%'}}>
 						{cluster.props.map((prop, index) => (
 							<Row key={index} wrap={false} align='middle' className='cluster-line'>
-								<Col flex='200px'>
+								<Col flex='188px'>
 									<Badge color='blue' text={prop.title}/>
 								</Col>
 								<Col flex='auto'>
 									<Row justify='space-around' gutter={24} align='middle'>
-										{persons.map(({id}) => {
-											const value = prop.values[id]
+										{employees.map(({user}) => {
+											const value = prop.values[user.id]
 
 											return (
-												<Col key={id} span={24 / len} style={{display: 'flex', justifyContent: 'center', width: 134}}>
+												<Col key={user.id} span={24 / len} style={{display: 'flex', justifyContent: 'center', width: 134}}>
 													<div>{value || '—'}</div>
 												</Col>
 											)
 										})}
 									</Row>
 								</Col>
-								<Col flex='158px'/>
+								<Col flex='146px'/>
 							</Row>
 						))}
 					</Space>
