@@ -11,19 +11,19 @@ const instance = axios.create(config)
 
 export const referenceBooksAPI = {
 	getRoles: async () => {
-		return instance.get('userRoles')
+		return instance.get('userRole')
 	},
 
 	getPositions: async () => {
-		return instance.get('userPositions')
+		return instance.get('userPosition')
 	},
 
 	getDepartments: async () => {
-		return instance.get('userDepartments')
+		return instance.get('userDepartment')
 	},
 
 	getProjects: async () => {
-		return instance.get('userProjects')
+		return instance.get('userProject')
 	}
 }
 
@@ -44,22 +44,37 @@ export const employeesAPI = {
 		return instance.delete(`user/${id}`)
 	},
 
-	getEmployee: async (id) => {
-		return instance.get(`userCluster/${id}`)
+	getEmployeeClustersById: async (id) => {
+		return instance.get(`user/${id}/cluster`)
+	},
+
+	getEmployeesClustersByIds: async (ids) => {
+		const params = new URLSearchParams();
+		for (const id of ids) {
+			params.append('userIds', id);
+		}
+		const query = String(params)
+
+		return instance.get(`user/cluster?${query}`)
 	},
 
 	getChangeReasons: async () => {
-		return instance.get('sourceOfChanges')
+		return instance.get('sourceOfChange')
 	},
 
-	createReason: async (nameSource) => {
-		return instance.post('sourceOfChanges', {nameSource})
+	createReason: async (name) => {
+		return instance.post('sourceOfChange', {name})
 	}
 }
 
 export const historyAPI = {
 	getHistory: async (userId, beginDate, endDate) => {
-		return instance.get(`user/${userId}/history`, {beginDate, endDate})
+		const params = new URLSearchParams()
+		params.append('beginDate', beginDate)
+		params.append('endDate', endDate)
+		const query = String(params)
+
+		return instance.get(`user/${userId}/history?${query}`)
 	}
 }
 

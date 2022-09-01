@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Select, Space, Switch, Typography, Input} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
-import {employeesAPI} from "../../../API";
+import {employeesAPI} from "../../../API/API";
 
 const {Option} = Select
 
@@ -17,7 +17,7 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 		const getChangeReasons = async () => {
 			const res = await employeesAPI.getChangeReasons()
 			console.log(res.data)
-			setReasons(res.data._embedded.sourceOfChanges)
+			setReasons(res.data._embedded.sourceOfChange)
 		}
 
 		getChangeReasons()
@@ -30,7 +30,7 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 			.then(() => {
 				setReasons(oldReasons => [
 					...oldReasons,
-					{id: oldReasons.length + 1, nameSource: newReason}
+					{id: oldReasons.length + 1, name: newReason}
 				])
 				setNewReason('')
 				setIsAddition(false)
@@ -85,7 +85,7 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 							)}
 						>
 							{reasons.map(reason => (
-								<Option value={reason.id} key={reason.id}>{reason.nameSource}</Option>
+								<Option value={reason.id} key={reason.id}>{reason.name}</Option>
 							))}
 						</Select>
 					</Space>

@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import { ContentHeader, ClusterItem } from '../components';
-import { API } from '../API';
+import { API } from '../API/API';
 
 export const HeroPropertiesReference = () => {
 	const [addingCluster, setAddingCluster] = useState(false);

@@ -5,7 +5,7 @@ import EmployeeMainInfo from "../components/Employee/EmployeePage/EmployeeMainIn
 import EditBlock from "../components/Employee/EmployeePage/EditBlock";
 import ClustersList from "../components/Employee/EmployeePage/ClustersList/ClustersList";
 import {useParams} from "react-router-dom";
-import {employeesAPI} from "../API";
+import {employeesAPI} from "../API/API";
 import {getPropValueByPropType} from "../common/helpers";
 import {useReferenceBooks} from "../hooks";
 
@@ -23,7 +23,7 @@ export const Employee = () => {
 	useEffect(() => {
 		setLoading(true)
 		const getEmployee = async () => {
-			const res = await employeesAPI.getEmployee(id)
+			const res = await employeesAPI.getEmployeeClustersById(id)
 			setEmployee(res.data.user)
 			setClusters(res.data.clusterModelWithProperties)
 			setEditableClusters(res.data.clusterModelWithProperties)
@@ -84,7 +84,7 @@ export const Employee = () => {
 					loading={loading || referenceBooksLoading}
 					name={employee?.fioUser}
 					email={employee?.email}
-					avatar={employee?.avatar}
+					avatar={employee?.avatarUrl}
 					phone={employee?.telephone}
 					department={departments?.find(d => d.id === employee?.idDepartment)?.name}
 					project={projects?.find(p => p.id === employee?.idProject)?.name}

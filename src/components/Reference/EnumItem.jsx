@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Space, Button, Typography, Input } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import { API } from '../../API';
+import { API } from '../../API/API';
 
 export const EnumItem = ({ propertyDefinition, clusterId, propertyId, clustersList, setClustersList }) => {
   const [editingEnumName, setEditingEnumName] = useState(false);

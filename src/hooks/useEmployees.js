@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
-import {employeesAPI} from "../API";
+import {employeesAPI} from "../API/API";
 import {CompareListContext} from "../providers/CompareListProvider";
 import {message} from "antd";
 
@@ -28,6 +28,7 @@ export const useEmployees = () => {
 				removeFromCompareList(id)
 				setDeletingIds(oldDeletingIds => oldDeletingIds.filter(dId => dId !== id))
 				setEmployees(oldEmployees => oldEmployees.filter(e => e.id !== id))
+				message.success('Сотрудник успешно удален!')
 			})
 	}
 
