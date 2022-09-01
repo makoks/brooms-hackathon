@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
-import {employeesAPI} from "../API";
+import {employeesAPI} from "../API/API";
 import {CompareListContext} from "../providers/CompareListProvider";
 import {message} from "antd";
 

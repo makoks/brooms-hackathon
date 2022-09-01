@@ -2,21 +2,20 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Layout} from 'antd';
 import {ContentHeader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
-import {employeesAPI} from "../API";
+import {employeesAPI} from "../API/API";
 import {CompareListContext} from "../providers/CompareListProvider";
 import ComparisonClusters from "../components/Comparison/ComparisonClusters/ComparisonClusters";
 
 export const Comparison = () => {
 	const [onlyDifferent, setOnlyDifferent] = useState(false)
-	const [employees] = useState([])
+	const [employees, setEmployees] = useState([])
 	const {compareList} = useContext(CompareListContext)
 
 	// Получение сотрудников по содержащимся в списке сравнения id
 	useEffect(() => {
 		const getEmployees = async () => {
 			const res = await employeesAPI.getEmployeesClustersByIds(compareList)
-			// setEmployees(tempEmployees)
-			console.log(res)
+			setEmployees(res.data)
 		}
 
 		getEmployees()

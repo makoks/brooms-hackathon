@@ -48,8 +48,14 @@ export const employeesAPI = {
 		return instance.get(`user/${id}/cluster`)
 	},
 
-	getEmployeesClustersByIds: async () => {
-		return instance.get(`user/cluster`)
+	getEmployeesClustersByIds: async (ids) => {
+		const params = new URLSearchParams();
+		for (const id of ids) {
+			params.append('userIds', id);
+		}
+		const query = String(params)
+
+		return instance.get(`user/cluster?${query}`)
 	},
 
 	getChangeReasons: async () => {
@@ -63,7 +69,12 @@ export const employeesAPI = {
 
 export const historyAPI = {
 	getHistory: async (userId, beginDate, endDate) => {
-		return instance.get(`user/${userId}/history`, {beginDate, endDate})
+		const params = new URLSearchParams()
+		params.append('beginDate', beginDate)
+		params.append('endDate', endDate)
+		const query = String(params)
+
+		return instance.get(`user/${userId}/history?${query}`)
 	}
 }
 
@@ -74,7 +85,7 @@ export const API = {
 	},
 
 	addCluster: async nameCluster => {
-		const response = await axios.post(`${API_URL}cluster`, {nameCluster});
+		const response = await axios.post(`${API_URL}cluster`, { nameCluster });
 		return response.data;
 	},
 
@@ -87,7 +98,7 @@ export const API = {
 	},
 
 	addProperty: async (clusterId, nameProp) => {
-		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, {nameProp, typeofMp: 'string'});
+		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, { nameProp, typeofMp: 'string' });
 		return response.data;
 	},
 
@@ -100,7 +111,7 @@ export const API = {
 	},
 
 	addEnum: async (mpId, nameEnum) => {
-		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, {nameEnum});
+		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, { nameEnum });
 		return response.data;
 	},
 

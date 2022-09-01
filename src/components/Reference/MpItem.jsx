@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { DeleteOutlined, CaretRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { EnumItem } from './EnumItem';
-import { API } from '../../API';
+import { API } from '../../API/API';
 
 export const MpItem = ({ mp, clusterId, clustersList, setClustersList }) => {
   const [editingNameProp, setEditingNameProp] = useState(false);

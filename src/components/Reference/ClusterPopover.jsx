@@ -8,7 +8,7 @@ import {
 } from 'antd';
 import { PlusOutlined, CaretRightOutlined, CheckOutlined } from '@ant-design/icons';
 import { MpItem } from './MpItem';
-import { API } from '../../API';
+import { API } from '../../API/API';
 
 export const ClusterPopover = ({ id, definition, mps, setClustersList, clustersList }) => {
   const [newDefinition, setNewDefinition] = useState('');

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Space, Button, Typography, Input } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ClusterPopover } from './ClusterPopover';
-import { API } from '../../API';
+import { API } from '../../API/API';
 
 export const ClusterItem = ({ cluster, clustersList, setClustersList }) => {
   const [clusterName, setClusterName] = useState(cluster.nameCluster);

@@ -5,7 +5,7 @@ import EmployeeMainInfo from "../components/Employee/EmployeePage/EmployeeMainIn
 import EditBlock from "../components/Employee/EmployeePage/EditBlock";
 import ClustersList from "../components/Employee/EmployeePage/ClustersList/ClustersList";
 import {useParams} from "react-router-dom";
-import {employeesAPI} from "../API";
+import {employeesAPI} from "../API/API";
 import {getPropValueByPropType} from "../common/helpers";
 import {useReferenceBooks} from "../hooks";
 

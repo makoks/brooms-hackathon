@@ -7,6 +7,7 @@ import {tableLocale} from "../../common/locale";
 import {alphabetSort} from "../../common/helpers";
 import {CompareListContext} from "../../providers/CompareListProvider";
 import {useEmployees, useReferenceBooks} from "../../hooks";
+import {AvatarPreview} from "../../images";
 
 export const EmployeesTable = () => {
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
@@ -18,7 +19,7 @@ export const EmployeesTable = () => {
 			title: 'Аватар',
 			dataIndex: 'avatarUrl',
 			key: 'avatarUrl',
-			render: (_, {avatarUrl}) => <Avatar size='large' src={avatarUrl}/>
+			render: (_, {avatarUrl}) => <Avatar size='large' src={avatarUrl ?? AvatarPreview}/>
 		},
 		{
 			title: 'ФИО',

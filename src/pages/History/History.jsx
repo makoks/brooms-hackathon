@@ -3,7 +3,7 @@ import {Layout, Select, Space, DatePicker, Button, Table, Form} from 'antd';
 import {ContentHeader} from '../../components';
 import './index.css'
 import {tableLocale} from "../../common/locale";
-import {employeesAPI, historyAPI} from "../../API";
+import {employeesAPI, historyAPI} from "../../API/API";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
@@ -100,7 +100,7 @@ export const History = () => {
 	}, [])
 
 	const getHistory = async () => {
-		const res = historyAPI.getHistory(
+		const res = await historyAPI.getHistory(
 			employeeId,
 			dates[0]._d.toLocaleDateString('ru-RU'),
 			dates[1]._d.toLocaleDateString('ru-RU')
