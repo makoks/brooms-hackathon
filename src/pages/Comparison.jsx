@@ -8,19 +8,15 @@ import ComparisonClusters from "../components/Comparison/ComparisonClusters/Comp
 
 export const Comparison = () => {
 	const [onlyDifferent, setOnlyDifferent] = useState(false)
-	const [employees, setEmployees] = useState([])
+	const [employees] = useState([])
 	const {compareList} = useContext(CompareListContext)
 
 	// Получение сотрудников по содержащимся в списке сравнения id
 	useEffect(() => {
 		const getEmployees = async () => {
-			const tempEmployees = []
-			for (const employeeId of compareList) {
-				const res = await employeesAPI.getEmployee(employeeId)
-				tempEmployees.push(res.data)
-			}
-			setEmployees(tempEmployees)
-			console.log(tempEmployees)
+			const res = await employeesAPI.getEmployeesClustersByIds(compareList)
+			// setEmployees(tempEmployees)
+			console.log(res)
 		}
 
 		getEmployees()

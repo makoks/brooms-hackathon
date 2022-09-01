@@ -15,10 +15,10 @@ export const useReferenceBooks = () => {
 
         const getReferenceBooks = async () => {
             await Promise.all([
-                getPositions().then(({ data }) => setPositions(data._embedded.userPositions)),
-                getDepartments().then(({ data }) => setDepartments(data._embedded.userDepartments)),
-                getProjects().then(({ data }) => setProjects(data._embedded.userProjects)),
-                getRoles().then(({ data }) => setRoles(data._embedded.userRoles)),
+                getPositions().then(({ data }) => setPositions(data._embedded.userPosition)),
+                getDepartments().then(({ data }) => setDepartments(data._embedded.userDepartment)),
+                getProjects().then(({ data }) => setProjects(data._embedded.userProject)),
+                getRoles().then(({ data }) => setRoles(data._embedded.userRole)),
             ])
         }
 

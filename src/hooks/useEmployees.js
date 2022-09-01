@@ -28,6 +28,7 @@ export const useEmployees = () => {
 				removeFromCompareList(id)
 				setDeletingIds(oldDeletingIds => oldDeletingIds.filter(dId => dId !== id))
 				setEmployees(oldEmployees => oldEmployees.filter(e => e.id !== id))
+				message.success('Сотрудник успешно удален!')
 			})
 	}
 

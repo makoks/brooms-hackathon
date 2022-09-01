@@ -11,19 +11,19 @@ const instance = axios.create(config)
 
 export const referenceBooksAPI = {
 	getRoles: async () => {
-		return instance.get('userRoles')
+		return instance.get('userRole')
 	},
 
 	getPositions: async () => {
-		return instance.get('userPositions')
+		return instance.get('userPosition')
 	},
 
 	getDepartments: async () => {
-		return instance.get('userDepartments')
+		return instance.get('userDepartment')
 	},
 
 	getProjects: async () => {
-		return instance.get('userProjects')
+		return instance.get('userProject')
 	}
 }
 
@@ -44,16 +44,20 @@ export const employeesAPI = {
 		return instance.delete(`user/${id}`)
 	},
 
-	getEmployee: async (id) => {
-		return instance.get(`userCluster/${id}`)
+	getEmployeeClustersById: async (id) => {
+		return instance.get(`user/${id}/cluster`)
+	},
+
+	getEmployeesClustersByIds: async () => {
+		return instance.get(`user/cluster`)
 	},
 
 	getChangeReasons: async () => {
-		return instance.get('sourceOfChanges')
+		return instance.get('sourceOfChange')
 	},
 
-	createReason: async (nameSource) => {
-		return instance.post('sourceOfChanges', {nameSource})
+	createReason: async (name) => {
+		return instance.post('sourceOfChange', {name})
 	}
 }
 
@@ -70,7 +74,7 @@ export const API = {
 	},
 
 	addCluster: async nameCluster => {
-		const response = await axios.post(`${API_URL}cluster`, { nameCluster });
+		const response = await axios.post(`${API_URL}cluster`, {nameCluster});
 		return response.data;
 	},
 
@@ -83,7 +87,7 @@ export const API = {
 	},
 
 	addProperty: async (clusterId, nameProp) => {
-		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, { nameProp, typeofMp: 'string' });
+		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, {nameProp, typeofMp: 'string'});
 		return response.data;
 	},
 
@@ -96,7 +100,7 @@ export const API = {
 	},
 
 	addEnum: async (mpId, nameEnum) => {
-		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, { nameEnum });
+		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, {nameEnum});
 		return response.data;
 	},
 
