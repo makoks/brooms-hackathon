@@ -1,7 +1,12 @@
 import React from 'react'
 import {Badge, Col, Collapse, Row, Space, Typography} from "antd";
 import {getInputComponentByPropType, getPropValueByPropType} from "../../../../common/helpers";
+import TimeAgo from 'javascript-time-ago'
+import ru from 'javascript-time-ago/locale/ru'
 
+
+TimeAgo.addDefaultLocale(ru)
+const timeAgo = new TimeAgo('ru-RU')
 const {Panel} = Collapse
 
 const ClustersList = ({clusters, isEdit, editableClusters, onPropChange}) => {
@@ -35,8 +40,8 @@ const ClustersList = ({clusters, isEdit, editableClusters, onPropChange}) => {
 													locale='ru_RU'
 												/>
 												: <Typography.Text type='secondary'>
-													{!value ? '—' : prop.typeofMp === 'Date'
-														? value._d.toLocaleDateString('ru-RU')
+													{!value ? '—' : prop.typeofMp === 'DATE'
+														? timeAgo.format(new Date(value))
 														: value
 													}
 												</Typography.Text>
