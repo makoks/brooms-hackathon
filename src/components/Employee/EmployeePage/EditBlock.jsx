@@ -5,7 +5,7 @@ import {employeesAPI} from "../../../API/API";
 
 const {Option} = Select
 
-const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard}) => {
+const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard, saving}) => {
 	const [isAddition, setIsAddition] = useState(false)
 	const [newReason, setNewReason] = useState('')
 	const [reasons, setReasons] = useState([])
@@ -89,7 +89,7 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard})
 							))}
 						</Select>
 					</Space>
-					<Button onClick={onSave} type='primary'>Сохранить</Button>
+					<Button onClick={onSave} type='primary' loading={saving}>Сохранить</Button>
 					<Button onClick={onDiscard}>Отменить</Button>
 				</Space>
 			)}

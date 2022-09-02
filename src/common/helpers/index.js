@@ -17,13 +17,13 @@ export const alphabetSort = (a, b) => {
 
 export const getPropValueByPropType = (propType) => {
 	switch (propType) {
-		case 'Enum':
+		case 'ENUM':
 			return 'enumValue'
 
-		case 'Integer':
+		case 'NUMBER':
 			return 'numberValue'
 
-		case 'Date':
+		case 'DATE':
 			return 'dateTimeValue'
 
 		default:
@@ -33,13 +33,13 @@ export const getPropValueByPropType = (propType) => {
 
 export const getInputComponentByPropType = (propType) => {
 	switch (propType) {
-		case 'Enum':
+		case 'ENUM':
 			return Select
 
-		case 'Integer':
+		case 'NUMBER':
 			return InputNumber
 
-		case 'Date':
+		case 'DATE':
 			return DatePicker
 
 		default:

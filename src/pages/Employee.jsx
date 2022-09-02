@@ -14,21 +14,23 @@ export const Employee = () => {
 	const {id} = useParams()
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
 	const [loading, setLoading] = useState(false)
+	const [saving, setSaving] = useState(false)
 	const [employee, setEmployee] = useState(undefined)
 	const [clusters, setClusters] = useState([])
 	const [editableClusters, setEditableClusters] = useState([])
 	const [reason, setReason] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
+	const [changedProperties, setChangedProperties] = useState([])
 
 	useEffect(() => {
 		setLoading(true)
 		const getEmployee = async () => {
 			const res = await employeesAPI.getEmployeeClustersById(id)
+			console.log(res.data)
 			setEmployee(res.data.user)
 			setClusters(res.data.clusterModelWithProperties)
 			setEditableClusters(res.data.clusterModelWithProperties)
 		}
-
 		getEmployee()
 			.finally(() => setLoading(false))
 	}, [id])
@@ -37,19 +39,25 @@ export const Employee = () => {
 		if (!reason) {
 			message.error('Необходимо выбрать причину изменения')
 		} else {
-			setClusters([...editableClusters])
-			toggleIsEdit()
+			setSaving(true)
+			employeesAPI.changeProperties(id, reason, changedProperties)
+				.then(() => {
+					setClusters([...editableClusters])
+					toggleIsEdit()
+					setSaving(false)
+				})
 		}
 	}
 
 	const discardChanges = () => {
 		setEditableClusters([...clusters])
+		setChangedProperties([])
 		toggleIsEdit()
 	}
 
-	const changeClusterField = (clusterName, propId, newValue) => {
+	const changeClusterField = (clusterId, propId, propValueId, newValue) => {
 		const newClusters = editableClusters.map(cluster => (
-			cluster.nameCluster === clusterName
+			cluster.id === clusterId
 				? {
 					...cluster,
 					properties: cluster.properties.map(prop => (
@@ -66,6 +74,21 @@ export const Employee = () => {
 				}
 				: cluster
 		))
+		setChangedProperties(prev => {
+			let prop = prev.find(p => p.id === propValueId)
+			if (prop) {
+				prop.newValue = newValue._d
+					? newValue._d.toLocaleDateString('ru-RU')
+					: newValue
+				return [...prev]
+			}
+			prop = {
+				id: propValueId, newValue: newValue._d
+					? newValue._d.toLocaleDateString('ru-RU')
+					: newValue
+			}
+			return [...prev, prop]
+		})
 		setEditableClusters(newClusters)
 	}
 
@@ -98,6 +121,7 @@ export const Employee = () => {
 					setReason={setReason}
 					onDiscard={discardChanges}
 					onSave={saveChanges}
+					saving={saving}
 				/>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
