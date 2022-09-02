@@ -10,8 +10,8 @@ const ClustersList = ({clusters, isEdit, editableClusters, onPropChange}) => {
 	return (
 		<Space size='middle' direction='vertical' style={{width: '100%'}}>
 			{data.map(cluster => (
-				<Collapse key={cluster.nameCluster} defaultActiveKey={[cluster.nameCluster]}>
-					<Panel key={cluster.nameCluster} header={cluster.nameCluster}>
+				<Collapse key={cluster.id} defaultActiveKey={[cluster.nameCluster]}>
+					<Panel key={cluster.id} header={cluster.nameCluster}>
 						<Typography.Paragraph>
 							{cluster.definition}
 						</Typography.Paragraph>
@@ -19,6 +19,7 @@ const ClustersList = ({clusters, isEdit, editableClusters, onPropChange}) => {
 							{cluster.properties.map(prop => {
 								const InputComponent = getInputComponentByPropType(prop.typeofMp)
 								const value = prop.propertyValueModels[getPropValueByPropType(prop.typeofMp)]
+								const propValueId = prop.propertyValueModels.id
 								return (
 									<Row justify='space-between' align='middle' key={prop.id}>
 										<Col>
@@ -29,8 +30,9 @@ const ClustersList = ({clusters, isEdit, editableClusters, onPropChange}) => {
 												? <InputComponent
 													size='small'
 													value={value}
-													onChange={value => onPropChange(cluster.nameCluster, prop.id, value)}
+													onChange={value => onPropChange(cluster.id, prop.id, propValueId, value)}
 													style={{minWidth: 500}}
+													locale='ru_RU'
 												/>
 												: <Typography.Text type='secondary'>
 													{!value ? '—' : prop.typeofMp === 'Date'

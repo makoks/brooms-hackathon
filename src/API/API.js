@@ -64,6 +64,13 @@ export const employeesAPI = {
 
 	createReason: async (name) => {
 		return instance.post('sourceOfChange', {name})
+	},
+
+	changeProperties: async (userId, changeReasonId, changedProperties) => {
+		return instance.put(`user/${userId}/values`, {
+			idSourceOfChange: changeReasonId,
+			changeValues: changedProperties
+		})
 	}
 }
 
