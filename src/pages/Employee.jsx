@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import {employeesAPI} from "../API/API";
 import {getPropValueByPropType} from "../common/helpers";
 import {useReferenceBooks} from "../hooks";
+import {dateLocale} from "../common/locale";
 
 
 export const Employee = () => {
@@ -78,13 +79,13 @@ export const Employee = () => {
 			let prop = prev.find(p => p.id === propValueId)
 			if (prop) {
 				prop.newValue = newValue._d
-					? newValue._d.toLocaleDateString('ru-RU')
+					? newValue?.format(dateLocale)
 					: newValue
 				return [...prev]
 			}
 			prop = {
 				id: propValueId, newValue: newValue._d
-					? newValue._d.toLocaleDateString('ru-RU')
+					? newValue?.format(dateLocale)
 					: newValue
 			}
 			return [...prev, prop]
