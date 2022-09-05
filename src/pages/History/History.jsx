@@ -5,6 +5,7 @@ import './index.css'
 import {dateLocale, tableLocale} from "../../common/locale";
 import {historyAPI} from "../../API/API";
 import {useEmployees} from "../../hooks";
+import moment from "moment/moment";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
@@ -15,7 +16,7 @@ const convertHistory = (historyFromAPI) => {
 	for (const propHistory of historyFromAPI) {
 		for (const history of propHistory.histories) {
 			result.push({
-				changeDate: new Date(history.dateChange),
+				changeDate: new Date(history.dateTimeChange),
 				property: history.propertyName,
 				oldValue: history.valueOld ?? '—',
 				newValue: history.valueNew ?? '—',
@@ -23,7 +24,7 @@ const convertHistory = (historyFromAPI) => {
 			})
 		}
 	}
-	result.sort((a, b) => a.changeDate.value - b.changeDate.value)
+	result.sort((a, b) => b.changeDate - a.changeDate)
 
 	return result
 }
@@ -40,17 +41,19 @@ export const History = () => {
 			title: 'Дата изменения',
 			dataIndex: 'changeDate',
 			key: 'changeDate',
-			render: (_, {changeDate}) => changeDate.toLocaleDateString('ru-RU')
+			render: (_, {changeDate}) => moment(changeDate).format(dateLocale)
 		},
 		{
 			title: 'Атрибут',
 			dataIndex: 'property',
 			key: 'property',
+			filters: [...new Set(history.map(p => p.property))].map(prop => ({text: prop, value: prop})),
+			onFilter: (value, record) => record.property === value,
 		},
 		{
 			title: 'Старое значение',
 			dataIndex: 'oldValue',
-			key: 'oldValue'
+			key: 'oldValue',
 		},
 		{
 			title: 'Новое значение',
