@@ -1,111 +1,78 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Layout, Select, Space, DatePicker, Button, Table, Form} from 'antd';
 import {ContentHeader} from '../../components';
 import './index.css'
-import {tableLocale} from "../../common/locale";
-import {employeesAPI, historyAPI} from "../../API/API";
+import {dateLocale, tableLocale} from "../../common/locale";
+import {historyAPI} from "../../API/API";
+import {useEmployees} from "../../hooks";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
 
-const data = [
-	{
-		key: 1,
-		changeDate: '20.12.2022',
-		property: 'Оклад',
-		oldValue: 20000,
-		newValue: 40000,
-		reason: 'Повышение оклада без повышения должности'
-	},
-	{
-		key: 2,
-		changeDate: '20.12.2022',
-		property: 'Оклад',
-		oldValue: 20000,
-		newValue: 40000,
-		reason: 'Повышение оклада без повышения должности'
-	},
-	{
-		key: 3,
-		changeDate: '20.12.2022',
-		property: 'Оклад',
-		oldValue: 20000,
-		newValue: 40000,
-		reason: 'Повышение оклада без повышения должности'
-	},
-	{
-		key: 4,
-		changeDate: '20.12.2022',
-		property: 'Оклад',
-		oldValue: 20000,
-		newValue: 40000,
-		reason: 'Повышение оклада без повышения должности'
-	},
-	{
-		key: 5,
-		changeDate: '20.12.2022',
-		property: 'Оклад',
-		oldValue: 20000,
-		newValue: 40000,
-		reason: 'Повышение оклада без повышения должности'
-	},
-];
+const convertHistory = (historyFromAPI) => {
+	const result = []
 
-const columns = [
-	{
-		title: 'Дата изменения',
-		dataIndex: 'changeDate',
-		key: 'changeDate'
-	},
-	{
-		title: 'Атрибут',
-		dataIndex: 'property',
-		key: 'property',
-		filters: ['Оклад', 'Должность', 'Роль', 'Проект'].map(p => ({text: p, value: p})),
-		onFilter: (value, record) => record.property === value
-	},
-	{
-		title: 'Старое значение',
-		dataIndex: 'oldValue',
-		key: 'oldValue'
-	},
-	{
-		title: 'Новое значение',
-		dataIndex: 'newValue',
-		key: 'newValue'
-	},
-	{
-		title: 'Причина',
-		dataIndex: 'reason',
-		key: 'reason'
-	},
-]
+	for (const propHistory of historyFromAPI) {
+		for (const history of propHistory.histories) {
+			result.push({
+				changeDate: new Date(history.dateChange),
+				property: history.propertyName,
+				oldValue: history.valueOld ?? '—',
+				newValue: history.valueNew ?? '—',
+				changeReason: history.sourceOfChangeModelName
+			})
+		}
+	}
+	result.sort((a, b) => a.changeDate.value - b.changeDate.value)
+
+	return result
+}
 
 export const History = () => {
+	const {employees, loading: employeesLoading} = useEmployees()
 	const [dates, setDates] = useState([])
 	const [employeeId, setEmployeeId] = useState(undefined)
-	const [employees, setEmployees] = useState([])
+	const [history, setHistory] = useState([])
 	const [loading, setLoading] = useState(false)
 
-	useEffect(() => {
-		setLoading(true)
-
-		const getEmployees = async () => {
-			const res = await employeesAPI.getEmployees()
-			setEmployees(res.data._embedded.user)
-		}
-
-		getEmployees()
-			.finally(() => setLoading(false))
-	}, [])
+	const columns = [
+		{
+			title: 'Дата изменения',
+			dataIndex: 'changeDate',
+			key: 'changeDate',
+			render: (_, {changeDate}) => changeDate.toLocaleDateString('ru-RU')
+		},
+		{
+			title: 'Атрибут',
+			dataIndex: 'property',
+			key: 'property',
+		},
+		{
+			title: 'Старое значение',
+			dataIndex: 'oldValue',
+			key: 'oldValue'
+		},
+		{
+			title: 'Новое значение',
+			dataIndex: 'newValue',
+			key: 'newValue'
+		},
+		{
+			title: 'Причина',
+			dataIndex: 'changeReason',
+			key: 'changeReason'
+		},
+	]
 
 	const getHistory = async () => {
+		setLoading(true)
 		const res = await historyAPI.getHistory(
 			employeeId,
-			dates[0]._d.toLocaleDateString('ru-RU'),
-			dates[1]._d.toLocaleDateString('ru-RU')
+			dates[0]?.format(dateLocale),
+			dates[1]?.format(dateLocale)
 		)
-		console.log(res)
+			.finally(() => setLoading(false))
+		setHistory(convertHistory(res.data.propertyHistories))
 	}
 
 	return (
@@ -120,7 +87,7 @@ export const History = () => {
 								onChange={setEmployeeId}
 								value={employeeId}
 								style={{width: 450}}
-								loading={loading}
+								loading={employeesLoading}
 							>
 								{employees.map(employee => (
 									<Option value={employee.id} key={employee.id}>{employee.fioUser}</Option>
@@ -139,7 +106,7 @@ export const History = () => {
 				</Form>
 			</ContentHeader>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				<Table columns={columns} dataSource={data} locale={tableLocale}/>
+				<Table columns={columns} dataSource={history} locale={tableLocale} loading={loading}/>
 			</Layout.Content>
 		</Layout>
 	);

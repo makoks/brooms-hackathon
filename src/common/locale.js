@@ -7,3 +7,5 @@ export const tableLocale = {
 	triggerAsc: 'Нажмите для сортировки "А-Я"',
 	cancelSort: 'Нажмите для отмены сортировки'
 }
+
+export const dateLocale = 'DD.MM.YYYY'
