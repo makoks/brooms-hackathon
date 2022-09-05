@@ -20,7 +20,7 @@ const convertHistory = (historyFromAPI) => {
 				property: history.propertyName,
 				oldValue: history.valueOld ?? '—',
 				newValue: history.valueNew ?? '—',
-				changeReason: history.sourceOfChangeModelName
+				changeReason: history.sourceOfChangeName
 			})
 		}
 	}
@@ -102,6 +102,7 @@ export const History = () => {
 								value={dates}
 								onCalendarChange={setDates}
 								placeholder={['Начало', 'Конец']}
+								format={dateLocale}
 							/>
 						</Form.Item>
 						<Button type='primary' onClick={getHistory}>Применить</Button>

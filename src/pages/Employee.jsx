@@ -29,8 +29,8 @@ export const Employee = () => {
 			const res = await employeesAPI.getEmployeeClustersById(id)
 			console.log(res.data)
 			setEmployee(res.data.user)
-			setClusters(res.data.clusterModelWithProperties)
-			setEditableClusters(res.data.clusterModelWithProperties)
+			setClusters(res.data.clusters)
+			setEditableClusters(res.data.clusters)
 		}
 		getEmployee()
 			.finally(() => setLoading(false))
@@ -56,7 +56,7 @@ export const Employee = () => {
 		toggleIsEdit()
 	}
 
-	const changeClusterField = (clusterId, propId, propValueId, newValue) => {
+	const changeClusterField = (clusterId, propId, newValue) => {
 		const newClusters = editableClusters.map(cluster => (
 			cluster.id === clusterId
 				? {
@@ -65,9 +65,9 @@ export const Employee = () => {
 						prop.id === propId
 							? {
 								...prop,
-								propertyValueModels: {
-									...prop.propertyValueModels,
-									[getPropValueByPropType(prop.typeofMp)]: newValue
+								value: {
+									...prop.value,
+									[getPropValueByPropType(prop.type)]: newValue
 								}
 							}
 							: prop
@@ -76,7 +76,7 @@ export const Employee = () => {
 				: cluster
 		))
 		setChangedProperties(prev => {
-			let prop = prev.find(p => p.id === propValueId)
+			let prop = prev.find(p => p.idProperty === propId)
 			if (prop) {
 				prop.newValue = newValue._d
 					? newValue?.format(dateLocale)
@@ -84,7 +84,7 @@ export const Employee = () => {
 				return [...prev]
 			}
 			prop = {
-				id: propValueId, newValue: newValue._d
+				idProperty: propId, newValue: newValue._d
 					? newValue?.format(dateLocale)
 					: newValue
 			}
