@@ -11,8 +11,8 @@ const ClustersList = ({clusters, isEdit, editableClusters, onPropChange}) => {
 	return (
 		<Space size='middle' direction='vertical' style={{width: '100%'}}>
 			{data.map(cluster => (
-				<Collapse key={cluster.id} defaultActiveKey={[cluster.nameCluster]}>
-					<Panel key={cluster.id} header={cluster.nameCluster}>
+				<Collapse key={cluster.id} defaultActiveKey={[cluster.id]}>
+					<Panel key={cluster.id} header={cluster.name}>
 						<Typography.Paragraph>{cluster.definition}</Typography.Paragraph>
 						<Space size='large' direction='vertical' style={{width: '100%'}}>
 							{cluster.properties.map(prop => (
