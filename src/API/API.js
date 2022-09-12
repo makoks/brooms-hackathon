@@ -85,6 +85,20 @@ export const historyAPI = {
 	}
 }
 
+export const clustersAPI = {
+	getClusters: async () => {
+		return instance.get('cluster')
+	},
+
+	createCluster: async (clusterData) => {
+		return instance.post('cluster', clusterData)
+	},
+
+	deleteCluster: async (id) => {
+		return instance.delete(`cluster/${id}`)
+	}
+}
+
 export const API = {
 	clusters: async () => {
 		const response = await axios.get(`${API_URL}cluster`);
@@ -92,7 +106,7 @@ export const API = {
 	},
 
 	addCluster: async nameCluster => {
-		const response = await axios.post(`${API_URL}cluster`, { nameCluster });
+		const response = await axios.post(`${API_URL}cluster`, {nameCluster});
 		return response.data;
 	},
 
@@ -105,7 +119,7 @@ export const API = {
 	},
 
 	addProperty: async (clusterId, nameProp) => {
-		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, { nameProp, typeofMp: 'string' });
+		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, {nameProp, typeofMp: 'string'});
 		return response.data;
 	},
 
@@ -118,7 +132,7 @@ export const API = {
 	},
 
 	addEnum: async (mpId, nameEnum) => {
-		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, { nameEnum });
+		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, {nameEnum});
 		return response.data;
 	},
 

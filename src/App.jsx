@@ -5,7 +5,7 @@ import {
 	History,
 	Comparison,
 	Employee,
-	HeroPropertiesReference,
+	Clusters,
 } from './pages';
 import {Layout} from './components';
 import './light-and-dark-theme.css';
@@ -20,7 +20,7 @@ function App() {
 				<Routes>
 					<Route element={<Layout/>}>
 						<Route path="/" element={<Home/>}/>
-						<Route path="reference" element={<HeroPropertiesReference/>}/>
+						<Route path="clusters" element={<Clusters/>}/>
 						<Route path={`employee/:id`} element={<Employee/>}/>
 						<Route path="comparison" element={<Comparison/>}/>
 						<Route path="history" element={<History/>}/>

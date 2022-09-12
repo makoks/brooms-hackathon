@@ -1,0 +1,8 @@
+.ant-card.clusters .ant-card-head {
+    min-height: inherit;
+    padding: 0;
+}
+
+.ant-card.clusters .ant-card-head-title {
+    padding: 0;
+}
