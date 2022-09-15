@@ -107,7 +107,7 @@ export const Comparison = () => {
 		}
 
 		getEmployees()
-	}, [compareList])
+	}, [compareList, removeFromCompareListByIndex])
 
 	return (
 		<Layout>
