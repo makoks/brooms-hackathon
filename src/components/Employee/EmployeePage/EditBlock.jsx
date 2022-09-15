@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {Button, Select, Space, Switch, Typography, Input} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {employeesAPI} from "../../../API/API";
+import {AddButton} from "../../common/AddButton";
 
 const {Option} = Select
 
@@ -74,11 +75,7 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard, 
 												loading={creating}
 											/>
 										</Input.Group>
-										: <Button
-											onClick={() => setIsAddition(true)}
-											type='primary' block
-											style={{borderRadius: 0}}
-										>+ Добавить</Button>
+										: <AddButton onClick={() => setIsAddition(true)}/>
 									}
 									{menu}
 								</>

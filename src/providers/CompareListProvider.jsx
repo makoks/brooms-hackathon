@@ -5,6 +5,8 @@ export const CompareListContext = createContext({
 	addToCompareList: () => {
 	},
 	removeFromCompareList: () => {
+	},
+	removeFromCompareListByIndex: () => {
 	}
 })
 
@@ -23,8 +25,16 @@ export const CompareListProvider = ({children}) => {
 		localStorage.setItem('compareList', JSON.stringify(newList))
 	}
 
+	const removeFromCompareListByIndex = (index) => {
+		const newList = [...compareList]
+		newList.splice(index, 1)
+		setCompareList(newList)
+		localStorage.setItem('compareList', JSON.stringify(newList))
+	}
+
 	return (
-		<CompareListContext.Provider value={{compareList, addToCompareList, removeFromCompareList}}>
+		<CompareListContext.Provider
+			value={{compareList, addToCompareList, removeFromCompareList, removeFromCompareListByIndex}}>
 			{children}
 		</CompareListContext.Provider>
 	)

@@ -28,6 +28,10 @@ export const referenceBooksAPI = {
 }
 
 export const employeesAPI = {
+	getEmployee: async (id) => {
+		return instance.get(`user/${id}`)
+	},
+
 	getEmployees: async () => {
 		return instance.get('user')
 	},
@@ -92,6 +96,18 @@ export const clustersAPI = {
 
 	createCluster: async (clusterData) => {
 		return instance.post('cluster', clusterData)
+	},
+
+	editCluster: async (id, name, definition) => {
+		const clusterData = {}
+		if (name) {
+			clusterData.name = name
+		}
+		if (definition) {
+			clusterData.definition = definition
+		}
+
+		return instance.put(`cluster/${id}`, clusterData)
 	},
 
 	deleteCluster: async (id) => {

@@ -1,6 +1,6 @@
 export { Loader } from './common/Loader';
 export { Layout } from './layout/Layout';
-export { MpItem } from './Reference/MpItem';
-export { ClusterItem } from './Reference/ClusterItem';
+export { MpItem } from './Clusters/ClusterProperties/MpItem';
+export { ClusterItem } from './Clusters/ClusterProperties/ClusterItem';
 export { ContentHeader } from './layout/ContentHeader';
-export { ClusterPopover } from './Reference/ClusterPopover';
+export { ClusterPopover } from './Clusters/ClusterProperties/ClusterPopover';
