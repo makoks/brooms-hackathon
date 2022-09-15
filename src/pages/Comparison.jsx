@@ -51,7 +51,7 @@ const createClusters = (employees, onlyDifferent, selectedProps) => {
 		clusters.forEach(cluster => {
 			cluster.props = cluster.props.filter(prop => {
 				return (onlyDifferent && !isAllValuesEqual(prop))
-				|| (selectedProps.length > 0 && selectedProps.includes(prop.id))
+					|| (selectedProps.length > 0 && selectedProps.includes(prop.id))
 			})
 		})
 	}
@@ -79,7 +79,7 @@ const isAllValuesEqual = (prop) => {
 export const Comparison = () => {
 	const [onlyDifferent, setOnlyDifferent] = useState(false)
 	const [employees, setEmployees] = useState([])
-	const {compareList} = useContext(CompareListContext)
+	const {compareList, removeFromCompareListByIndex} = useContext(CompareListContext)
 	const [initClusters, setInitClusters] = useState([])
 	const [clusters, setClusters] = useState([])
 	const [selectedProps, setSelectedProps] = useState([])
@@ -96,6 +96,13 @@ export const Comparison = () => {
 	useEffect(() => {
 		const getEmployees = async () => {
 			const res = await employeesAPI.getEmployeesClustersByIds(compareList)
+			res.data = res.data.filter((c, index) => {
+				if (c === null) {
+					removeFromCompareListByIndex(index)
+					return false
+				}
+				return true
+			})
 			setEmployees(res.data)
 		}
 

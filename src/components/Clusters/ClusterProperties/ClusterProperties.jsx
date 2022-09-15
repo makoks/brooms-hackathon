@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Input, Space, Typography} from "antd";
-import {CheckOutlined, PlusOutlined} from "@ant-design/icons";
-import {MpItem} from "../../Reference/MpItem";
+import {CheckOutlined} from "@ant-design/icons";
+import {MpItem} from "./MpItem";
 import {API} from "../../../API/API";
 import {ClusterDefinition} from "./ClusterDefinition";
+import {AddButton} from "../../common/AddButton";
 
 
 const {Text} = Typography
 
 export const ClusterProperties = ({id, mps, setClustersList, clustersList, definition}) => {
-	const [addingProperty, setAddingProperty] = useState(false);
+	const [addingProperty, setAddingProperty] = useState(false)
 	const [newPropertyName, setNewPropertyName] = useState('')
 
 	const addPropertyHandler = () => {
@@ -33,9 +34,11 @@ export const ClusterProperties = ({id, mps, setClustersList, clustersList, defin
 
 	return (
 		<Space direction="vertical" style={{width: 'calc((100vw - 300px) / 3)'}}>
-			<Text type="secondary">Описание:</Text>
-			<ClusterDefinition id={id} definition={definition}/>
-			<Text type="secondary">Свойства:</Text>
+			<Space direction="vertical" style={{padding: '12px 16px 0 16px', width: '100%'}}>
+				<Text type="secondary">Описание:</Text>
+				<ClusterDefinition id={id} definition={definition}/>
+				<Text type="secondary">Свойства:</Text>
+			</Space>
 			{addingProperty ? (
 				<Input.Group compact style={{marginBottom: 8}}>
 					<Input
@@ -47,9 +50,7 @@ export const ClusterProperties = ({id, mps, setClustersList, clustersList, defin
 					<Button type="primary" icon={<CheckOutlined/>} onClick={addPropertyHandler}/>
 				</Input.Group>
 			) : (
-				<Button icon={<PlusOutlined/>} type="default" onClick={() => setAddingProperty(true)}>
-					Add property
-				</Button>
+				<AddButton onClick={() => setAddingProperty(false)}/>
 			)}
 			{mps?.map(mp => (
 				<MpItem

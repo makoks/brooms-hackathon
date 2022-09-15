@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import {Button, Form, Popover} from "antd";
+import {Form, Popover} from "antd";
 import {CreateClusterForm} from "./CreateClusterForm";
+import {AddButton} from "../../common/AddButton";
 
 
 export const CreatingClusterPopover = (props) => {
@@ -24,13 +25,7 @@ export const CreatingClusterPopover = (props) => {
 			placement="rightTop"
 			trigger='click'
 		>
-			<Button
-				type='primary'
-				block
-				style={{borderRadius: 0}}
-			>
-				+ Добавить
-			</Button>
+			<AddButton />
 		</Popover>
 	)
 }

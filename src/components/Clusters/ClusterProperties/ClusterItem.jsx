@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Space, Button, Typography, Input, message, Spin} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ClusterPopover} from './ClusterPopover';
-import {clustersAPI} from "../../API/API";
+import {clustersAPI} from "../../../API/API";
 
 export const ClusterItem = ({cluster, deleteCluster}) => {
 	const [isEdit, setIsEdit] = useState(false)

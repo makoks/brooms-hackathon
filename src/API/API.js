@@ -28,6 +28,10 @@ export const referenceBooksAPI = {
 }
 
 export const employeesAPI = {
+	getEmployee: async (id) => {
+		return instance.get(`user/${id}`)
+	},
+
 	getEmployees: async () => {
 		return instance.get('user')
 	},
