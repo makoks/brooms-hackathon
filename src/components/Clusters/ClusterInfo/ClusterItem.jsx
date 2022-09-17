@@ -1,22 +1,13 @@
 import React, {useState} from 'react';
 import {Space, Button, Typography, Input, message, Spin} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
-import {ClusterPopover} from './ClusterPopover';
+import {ClusterPopover} from '../ClusterProperties/ClusterPopover';
 import {clustersAPI} from "../../../API/API";
 
 export const ClusterItem = ({cluster, deleteCluster}) => {
 	const [isEdit, setIsEdit] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [clusterName, setClusterName] = useState(cluster.name)
-
-	// const onEditClusterName = () => {
-	// 	setEditingClusterName(false);
-	// 	const newClustersList = [...clustersList];
-	// 	const currentClaster = newClustersList.find(({id}) => id === cluster.id);
-	// 	currentClaster.nameCluster = clusterName;
-	// 	setClustersList(newClustersList);
-	// 	API.editCluster(cluster.id, {nameCluster: clusterName});
-	// };
 
 	const changeName = async () => {
 		setLoading(true)
@@ -50,7 +41,7 @@ export const ClusterItem = ({cluster, deleteCluster}) => {
 					)}
 				</div>
 			</Space>
-			<ClusterPopover id={cluster.id} definition={cluster.definition}/>
+			<ClusterPopover cluster={cluster}/>
 		</div>
 	);
 };
