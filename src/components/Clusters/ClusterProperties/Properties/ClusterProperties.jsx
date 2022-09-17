@@ -35,7 +35,7 @@ export const ClusterProperties = ({id, definition}) => {
 		setLoading(true)
 		setProperties(await clustersAPI.getClusterProperties(id))
 		setLoading(false)
-	}, [])
+	}, [id])
 
 	return (
 		<Space direction="vertical" style={{width: 'calc((100vw - 300px) / 3)'}}>
