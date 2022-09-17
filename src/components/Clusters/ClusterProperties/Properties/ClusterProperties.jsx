@@ -31,10 +31,14 @@ export const ClusterProperties = ({id, definition}) => {
 			})
 	}
 
-	useEffect(async () => {
+	useEffect(() => {
+		const getProperties = async () => {
+			setProperties(await clustersAPI.getClusterProperties(id))
+		}
+
 		setLoading(true)
-		setProperties(await clustersAPI.getClusterProperties(id))
-		setLoading(false)
+		getProperties()
+			.finally(() => setLoading(false))
 	}, [id])
 
 	return (
