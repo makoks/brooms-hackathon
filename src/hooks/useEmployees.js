@@ -13,8 +13,15 @@ export const useEmployees = () => {
 	const createEmployee = async (data, onSuccess) => {
 		setLoading(true)
 		employeesAPI.createEmployee(data)
-			.then(() => {
+			.then(async ({data: {id}}) => {
 				message.success('Сотрудник успешно добавлен!')
+				setLoading(true)
+				const {data: newEmployee} = await employeesAPI.getEmployee(id)
+				setEmployees(oldEmployees => {
+					console.log([...oldEmployees, newEmployee])
+					return [...oldEmployees, newEmployee]
+				})
+				setLoading(false)
 				onSuccess()
 			})
 			.catch(() => message.error('Что-то пошло не так :('))

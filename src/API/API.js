@@ -29,7 +29,7 @@ export const referenceBooksAPI = {
 
 export const employeesAPI = {
 	getEmployee: async (id) => {
-		return instance.get(`user/${id}`)
+		return instance.get(`user/${id}?projection=userView`)
 	},
 
 	getEmployees: async () => {
@@ -94,6 +94,11 @@ export const clustersAPI = {
 		return instance.get('cluster')
 	},
 
+	getClusterProperties: async (id) => {
+		const res = await instance.get(`cluster/${id}`)
+		return res.data._embedded.properties
+	},
+
 	createCluster: async (clusterData) => {
 		return instance.post('cluster', clusterData)
 	},
@@ -112,6 +117,17 @@ export const clustersAPI = {
 
 	deleteCluster: async (id) => {
 		return instance.delete(`cluster/${id}`)
+	},
+
+	addProperty: async (clusterId, propertyData) => {
+		return instance.post(`cluster/${clusterId}/property`, propertyData)
+	},
+}
+
+export const propertiesAPI = {
+	getPropertyTypes: async () => {
+		const res = await instance.get('property/types')
+		return res.data
 	}
 }
 
