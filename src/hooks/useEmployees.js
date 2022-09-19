@@ -17,10 +17,7 @@ export const useEmployees = () => {
 				message.success('Сотрудник успешно добавлен!')
 				setLoading(true)
 				const {data: newEmployee} = await employeesAPI.getEmployee(id)
-				setEmployees(oldEmployees => {
-					console.log([...oldEmployees, newEmployee])
-					return [...oldEmployees, newEmployee]
-				})
+				setEmployees(oldEmployees => [...oldEmployees, newEmployee])
 				setLoading(false)
 				onSuccess()
 			})
