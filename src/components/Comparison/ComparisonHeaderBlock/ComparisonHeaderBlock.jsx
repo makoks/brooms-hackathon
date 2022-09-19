@@ -3,9 +3,11 @@ import {Button, Col, Modal, Row, Space, Switch} from "antd";
 import ComparisonPersons from "./ComparisonPersons/ComparisonPersons";
 import {CompareListContext} from "../../../providers/CompareListProvider";
 import EmployeesTable from "../../Employee/EmployeesTable";
+import {useEmployees} from "../../../hooks";
 
 
 const ComparisonHeaderBlock = ({employees, onlyDifferent, setOnlyDifferent}) => {
+	const {loading, employees: allEmployees, deleteEmployee, deletingIds} = useEmployees()
 	const {removeFromCompareList} = useContext(CompareListContext)
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -51,7 +53,12 @@ const ComparisonHeaderBlock = ({employees, onlyDifferent, setOnlyDifferent}) => 
 				footer={null}
 				width='fit-content'
 			>
-				<EmployeesTable />
+				<EmployeesTable
+					employeesLoading={loading}
+					employees={allEmployees}
+					deleteEmployee={deleteEmployee}
+					deletingIds={deletingIds}
+				/>
 			</Modal>
 		</>
 	)

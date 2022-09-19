@@ -3,14 +3,13 @@ import {Avatar, Button, Col, Form, Input, Modal, Row, Select, Space, Upload} fro
 import {AvatarPreview} from "../../../images";
 import {emailRules, requiredRules} from "../../../common/form";
 import {UploadOutlined} from "@ant-design/icons";
-import {useEmployees, useReferenceBooks} from "../../../hooks";
+import {useReferenceBooks} from "../../../hooks";
 
 
 const {Option} = Select
 
-const CreateEmployeeModal = ({isModalVisible, onCancel}) => {
+const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}) => {
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
-	const {createEmployee, loading} = useEmployees()
 	const fieldNames = ['fioUser', 'email', 'telephone', 'idDepartment', 'idPosition', 'idRole', 'idProject']
 	const [form] = Form.useForm()
 	const [avatarPreview, setAvatarPreview] = useState(AvatarPreview)

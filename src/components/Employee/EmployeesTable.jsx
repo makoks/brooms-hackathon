@@ -6,12 +6,11 @@ import {DeleteOutlined} from "@ant-design/icons";
 import {tableLocale} from "../../common/locale";
 import {alphabetSort} from "../../common/helpers";
 import {CompareListContext} from "../../providers/CompareListProvider";
-import {useEmployees, useReferenceBooks} from "../../hooks";
+import {useReferenceBooks} from "../../hooks";
 import {AvatarPreview} from "../../images";
 
-export const EmployeesTable = () => {
+export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, deletingIds}) => {
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
-	const {loading: employeesLoading, employees, deleteEmployee, deletingIds} = useEmployees()
 	const {compareList, addToCompareList, removeFromCompareList} = useContext(CompareListContext)
 
 	const columns = [

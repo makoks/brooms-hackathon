@@ -3,8 +3,10 @@ import {Button, Layout} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Employee/EmployeesTable";
 import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/CreateEmployeeModal";
+import {useEmployees} from "../hooks";
 
 export const Home = () => {
+	const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
 	const [isModalVisible, setIsModalVisible] = useState(false)
 
 	const showModal = () => {
@@ -22,8 +24,18 @@ export const Home = () => {
 				<Button onClick={showModal} type="primary" style={{marginBottom: 16}}>
 					Добавить сотрудника
 				</Button>
-				<EmployeesTable />
-				<CreateEmployeeModal isModalVisible={isModalVisible} onCancel={hideModal}/>
+				<EmployeesTable
+					employeesLoading={loading}
+					employees={employees}
+					deleteEmployee={deleteEmployee}
+					deletingIds={deletingIds}
+				/>
+				<CreateEmployeeModal
+					isModalVisible={isModalVisible}
+					onCancel={hideModal}
+					createEmployee={createEmployee}
+					loading={loading}
+				/>
 			</Layout.Content>
 		</Layout>
 	);

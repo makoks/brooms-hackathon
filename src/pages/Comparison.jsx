@@ -94,19 +94,23 @@ export const Comparison = () => {
 
 	// Получение сотрудников по содержащимся в списке сравнения id
 	useEffect(() => {
-		const getEmployees = async () => {
-			const res = await employeesAPI.getEmployeesClustersByIds(compareList)
-			res.data = res.data.filter((c, index) => {
-				if (c === null) {
-					removeFromCompareListByIndex(index)
-					return false
-				}
-				return true
-			})
-			setEmployees(res.data)
-		}
+		if (compareList.length === 0) {
+			setEmployees([])
+		} else {
+			const getEmployees = async () => {
+				const res = await employeesAPI.getEmployeesClustersByIds(compareList)
+				res.data = res.data.filter((c, index) => {
+					if (c === null) {
+						removeFromCompareListByIndex(index)
+						return false
+					}
+					return true
+				})
+				setEmployees(res.data)
+			}
 
-		getEmployees()
+			getEmployees()
+		}
 	}, [compareList, removeFromCompareListByIndex])
 
 	return (
