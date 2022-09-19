@@ -1,27 +1,49 @@
-import React from 'react'
-import {Button, Space, Typography} from "antd";
+import React, {useState} from 'react'
+import {Button, Select, Space} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
+import {EditingTextByDoubleClick} from "../../../common/EditingTextByDoubleClick";
 
 
-export const Property = ({property}) => {
+const {Option} = Select
+
+export const Property = ({property, deleteProperty, deleting, types, loadingTypes, changeProperty}) => {
+	const [isEdit, setIsEdit] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const [propName, setPropName] = useState(property.name)
+
+	const changeName = () => {
+		setLoading(true)
+		changeProperty(property.id, propName)
+			.then(() => {
+				setLoading(false)
+				setIsEdit(false)
+			})
+	}
+
 	return (
-		<div>
+		<div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
 			<Space size="middle">
 				<Button
 					icon={<DeleteOutlined/>}
 					shape="circle" type="default"
 					danger size="small"
-					disabled={true}
+					disabled={deleting}
+					onClick={deleteProperty}
 				/>
-				<div>
-					<Typography.Text style={{marginBottom: 0}}>
-						{property.name}
-					</Typography.Text>
-				</div>
+				<EditingTextByDoubleClick
+					isEdit={isEdit}
+					setIsEdit={setIsEdit}
+					value={propName}
+					onChange={setPropName}
+					onBlur={changeName}
+					loading={loading}
+				/>
 			</Space>
-			{/*<Button type="text" style={{float: 'right'}}>*/}
-			{/*	<CaretRightOutlined/>*/}
-			{/*</Button>*/}
+			<Select value={property.type} loading={loadingTypes} style={{float: 'right', width: 90}}>
+				{types.map(t => (
+					<Option value={t.type} key={t.type}>{t.title}</Option>
+				))}
+			</Select>
 		</div>
 	)
 }

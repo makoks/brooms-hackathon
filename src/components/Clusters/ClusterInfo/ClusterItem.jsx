@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Space, Button, Typography, Input, message, Spin} from 'antd';
+import {Space, Button, message} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ClusterPopover} from '../ClusterProperties/ClusterPopover';
 import {clustersAPI} from "../../../API/API";
+import {EditingTextByDoubleClick} from "../../common/EditingTextByDoubleClick";
 
 export const ClusterItem = ({cluster, deleteCluster}) => {
 	const [isEdit, setIsEdit] = useState(false)
@@ -26,20 +27,14 @@ export const ClusterItem = ({cluster, deleteCluster}) => {
 					danger size="small"
 					onClick={() => deleteCluster(cluster.id)}
 				/>
-				<div>
-					{isEdit ? (
-						<Input
-							value={clusterName}
-							onChange={e => setClusterName(e.target.value)}
-							onBlur={changeName}
-							suffix={loading ? <Spin size='small'/> : <></>}
-						/>
-					) : (
-						<Typography.Text style={{marginBottom: 0}} onDoubleClick={() => setIsEdit(true)}>
-							{clusterName}
-						</Typography.Text>
-					)}
-				</div>
+				<EditingTextByDoubleClick
+					isEdit={isEdit}
+					setIsEdit={setIsEdit}
+					value={clusterName}
+					onChange={setClusterName}
+					onBlur={changeName}
+					loading={loading}
+				/>
 			</Space>
 			<ClusterPopover cluster={cluster}/>
 		</div>

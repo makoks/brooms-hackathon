@@ -128,6 +128,14 @@ export const propertiesAPI = {
 	getPropertyTypes: async () => {
 		const res = await instance.get('property/types')
 		return res.data
+	},
+
+	deleteProperty: async (id) => {
+		return instance.delete(`property/${id}`)
+	},
+
+	changeProperty: async (propertyId, idCluster, propData) => {
+		return instance.put(`property/${propertyId}`, {...propData, idCluster})
 	}
 }
 

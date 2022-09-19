@@ -1,26 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {Button, Form, Input, Select} from "antd";
 import {requiredRules} from "../../../common/form";
-import {propertiesAPI} from "../../../API/API";
 
 
 const {Option} = Select
 
-export const CreatePropertyForm = ({form, onFinish, loading}) => {
-	const [types, setTypes] = useState([])
-	const [loadingTypes, setLoadingTypes] = useState(false)
-
-	useEffect(() => {
-		const getTypes = async () => {
-			setLoadingTypes(true)
-			const res = await propertiesAPI.getPropertyTypes()
-			setTypes(res)
-		}
-
-		getTypes()
-			.finally(() => setLoadingTypes(false))
-	}, [])
-
+export const CreatePropertyForm = ({form, onFinish, loading, types, loadingTypes}) => {
 	return (
 		<Form style={{padding: '0 16px'}} form={form} onFinish={onFinish}>
 			<Form.Item rules={[requiredRules]} name='name'>
