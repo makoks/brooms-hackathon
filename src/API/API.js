@@ -140,6 +140,6 @@ export const propertiesAPI = {
 
 	getEnumList: async (id) => {
 		const res = await instance.get(`property/${id}`)
-		return res.data._embedded.definitions
+		return res.data._embedded.definitions ?? []
 	}
 }
