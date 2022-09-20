@@ -136,51 +136,10 @@ export const propertiesAPI = {
 
 	changeProperty: async (propertyId, idCluster, propData) => {
 		return instance.put(`property/${propertyId}`, {...propData, idCluster})
+	},
+
+	getEnumList: async (id) => {
+		const res = await instance.get(`property/${id}`)
+		return res.data._embedded.definitions
 	}
 }
-
-export const API = {
-	clusters: async () => {
-		const response = await axios.get(`${API_URL}cluster`);
-		return response.data._embedded.cluster;
-	},
-
-	addCluster: async nameCluster => {
-		const response = await axios.post(`${API_URL}cluster`, {nameCluster});
-		return response.data;
-	},
-
-	editCluster: async (id, body) => {
-		await axios.put(`${API_URL}cluster/${id}`, body);
-	},
-
-	deleteCluster: async id => {
-		await axios.delete(`${API_URL}cluster/${id}`);
-	},
-
-	addProperty: async (clusterId, nameProp) => {
-		const response = await axios.post(`${API_URL}cluster/${clusterId}/properties`, {nameProp, typeofMp: 'string'});
-		return response.data;
-	},
-
-	deleteProperty: async id => {
-		await axios.delete(`${API_URL}property/${id}`);
-	},
-
-	editProperty: async (id, body) => {
-		await axios.put(`${API_URL}property/${id}`, body);
-	},
-
-	addEnum: async (mpId, nameEnum) => {
-		const response = await axios.post(`${API_URL}property/${mpId}/propertyDefinitions`, {nameEnum});
-		return response.data;
-	},
-
-	deleteEnum: async id => {
-		await axios.delete(`${API_URL}definition/${id}`);
-	},
-
-	editEnum: async (id, body) => {
-		await axios.put(`${API_URL}definition/${id}`, body);
-	},
-};

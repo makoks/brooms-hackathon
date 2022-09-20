@@ -115,15 +115,6 @@ export const ClusterProperties = ({id, definition}) => {
 					}
 				</>
 			)}
-			{/*{mps?.map(mp => (*/}
-			{/*	<MpItem*/}
-			{/*		mp={mp}*/}
-			{/*		key={mp.id}*/}
-			{/*		clustersList={clustersList}*/}
-			{/*		setClustersList={setClustersList}*/}
-			{/*		clusterId={id}*/}
-			{/*	/>*/}
-			{/*))}*/}
 		</Space>
 	)
 }
