@@ -52,7 +52,7 @@ export const ClusterProperties = ({id, definition}) => {
 			propData.type = type
 		}
 
-		await propertiesAPI.changeProperty(propId, id, propData)
+		await propertiesAPI.changeProperty(propId, propData)
 			.then(() => {
 				setProperties(props => props.map(prop => {
 					if (prop.id === propId) {

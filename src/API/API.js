@@ -134,8 +134,8 @@ export const propertiesAPI = {
 		return instance.delete(`property/${id}`)
 	},
 
-	changeProperty: async (propertyId, idCluster, propData) => {
-		return instance.put(`property/${propertyId}`, {...propData, idCluster})
+	changeProperty: async (propertyId, propData) => {
+		return instance.put(`property/${propertyId}`, propData)
 	},
 
 	getEnumList: async (id) => {
