@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {Card, Space, Layout} from 'antd';
-import {ClusterItem} from '../../components';
+import {ClusterItem, Loader} from '../../components';
 import {clustersAPI} from '../../API/API';
 import './index.css'
 import {CreatingClusterPopover} from "../../components/Clusters/CreatingClusterPopover/CreatingClusterPopover";
 
 export const Clusters = () => {
 	const [clusters, setClusters] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	const createCluster = async (clusterData) => {
 		await clustersAPI.createCluster(clusterData)
@@ -22,12 +23,14 @@ export const Clusters = () => {
 	}
 
 	useEffect(() => {
+		setLoading(true)
 		const getClusters = async () => {
 			const res = await clustersAPI.getClusters()
 			setClusters(res.data._embedded.cluster)
 		}
 
 		getClusters()
+			.finally(() => setLoading(false))
 	}, []);
 
 	return (
@@ -39,15 +42,20 @@ export const Clusters = () => {
 					className='clusters'
 					title={<CreatingClusterPopover createCluster={createCluster}/>}
 				>
-					<Space direction="vertical" style={{width: '100%'}}>
-						{clusters.map(cluster => (
-							<ClusterItem
-								key={cluster.id}
-								cluster={cluster}
-								deleteCluster={deleteCluster}
-							/>
-						))}
-					</Space>
+					{!loading
+						? (
+							<Space direction="vertical" style={{width: '100%'}}>
+								{clusters.map(cluster => (
+									<ClusterItem
+										key={cluster.id}
+										cluster={cluster}
+										deleteCluster={deleteCluster}
+									/>
+								))}
+							</Space>
+						)
+						: <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div>
+					}
 				</Card>
 			</Layout.Content>
 		</Layout>
