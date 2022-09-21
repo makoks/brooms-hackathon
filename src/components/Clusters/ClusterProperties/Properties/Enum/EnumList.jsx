@@ -16,7 +16,7 @@ export const EnumList = ({id}) => {
 		setLoading(true)
 		getEnumList()
 			.finally(() => setLoading(false))
-	}, [])
+	}, [id])
 
 	return (
 		<Space direction="vertical" size='middle' style={{width: 'calc((100vw - 300px) / 3)', padding: '12px 16px'}}>
