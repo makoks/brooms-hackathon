@@ -87,6 +87,7 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 								maxCount={1}
 								onChange={onUploadChange}
 								beforeUpload={() => false}
+								showUploadList={false}
 							>
 								<Button icon={<UploadOutlined/>}>Выбрать изображение</Button>
 							</Upload>
