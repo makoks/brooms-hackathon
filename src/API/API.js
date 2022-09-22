@@ -152,6 +152,6 @@ export const propertiesAPI = {
 	},
 
 	createEnumItem: async (name, idProperty) => {
-		return instance.post(`definition`, {name, idProperty})
+		return instance.post(`property/${idProperty}/definition`, {name})
 	}
 }
