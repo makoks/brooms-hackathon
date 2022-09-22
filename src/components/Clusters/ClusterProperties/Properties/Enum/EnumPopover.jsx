@@ -5,12 +5,12 @@ import {EnumList} from "./EnumList";
 import './style.css'
 
 
-export const EnumPopover = ({id}) => {
+export const EnumPopover = ({propertyId}) => {
 	return (
         <Popover
             placement="rightTop"
             trigger='click'
-            content={<EnumList id={id}/>}
+            content={<EnumList propertyId={propertyId}/>}
             destroyTooltipOnHide={true}
             overlayClassName='enum-popover-overlay'
         >

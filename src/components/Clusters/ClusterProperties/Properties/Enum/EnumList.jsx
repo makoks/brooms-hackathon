@@ -1,15 +1,30 @@
 import React, {useEffect, useState} from 'react'
 import {propertiesAPI} from "../../../../../API/API";
-import {Space} from "antd";
+import {Space, Input, Button} from "antd";
 import {Loader} from "../../../../common/Loader";
 import {AddButton} from "../../../../common/AddButton";
 import {EnumItem} from "./EnumItem";
+import {CheckOutlined} from "@ant-design/icons";
 
 
-export const EnumList = ({id}) => {
+export const EnumList = ({propertyId}) => {
 	const [loading, setLoading] = useState(false)
 	const [enumList, setEnumList] = useState([])
 	const [deletingItemsIds, setDeletingItemsIds] = useState([])
+	const [isEdit, setIsEdit] = useState(false)
+	const [creating, setCreating] = useState(false)
+	const [newEnumItem, setNewEnumItem] = useState('')
+
+	const createEnumItem = async () => {
+		setCreating(true)
+		propertiesAPI.createEnumItem(newEnumItem, propertyId)
+			.then(({data: {id}}) => {
+				setEnumList(list => [...list, {name: newEnumItem, id}])
+				setCreating(false)
+				setIsEdit(false)
+				setNewEnumItem('')
+			})
+	}
 
 	const deleteEnumItem = async (id) => {
 		setDeletingItemsIds(ids => [...ids, id])
@@ -34,20 +49,36 @@ export const EnumList = ({id}) => {
 
 	useEffect(() => {
 		const getEnumList = async () => {
-			setEnumList(await propertiesAPI.getEnumList(id))
+			setEnumList(await propertiesAPI.getEnumList(propertyId))
 		}
 
 		setLoading(true)
 		getEnumList()
 			.finally(() => setLoading(false))
-	}, [id])
+	}, [propertyId])
 
 	return (
 		<Space direction="vertical" size='middle' style={{width: 'calc((100vw - 300px) / 3)', padding: '0'}}>
 			{loading
 				? <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div>
 				: <>
-					<AddButton/>
+					{isEdit
+						? <Input.Group compact style={{padding: '16px 12px 0', display: 'flex', justifyContent: 'center'}}>
+							<Input
+								value={newEnumItem}
+								onChange={e => setNewEnumItem(e.target.value)}
+								style={{width: '80%'}}
+							/>
+							<Button
+								type="primary"
+								onClick={createEnumItem}
+								loading={creating}
+							>
+								<CheckOutlined/>
+							</Button>
+						</Input.Group>
+						: <AddButton onClick={() => setIsEdit(true)}/>
+					}
 					<Space style={{width: '100%', padding: '0 12px 16px 12px'}} direction='vertical' size='middle'>
 						{enumList.map(e => (
 							<EnumItem
