@@ -141,5 +141,17 @@ export const propertiesAPI = {
 	getEnumList: async (id) => {
 		const res = await instance.get(`property/${id}`)
 		return res.data._embedded.definitions ?? []
+	},
+
+	deleteEnumItem: async (id) => {
+		return instance.delete(`definition/${id}`)
+	},
+
+	changeEnumItem: async (id, name) => {
+		return instance.put(`definition/${id}`, {name})
+	},
+
+	createEnumItem: async (name, idProperty) => {
+		return instance.post(`definition`, {name, idProperty})
 	}
 }

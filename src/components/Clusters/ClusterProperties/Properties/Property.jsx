@@ -67,7 +67,7 @@ export const Property = ({property, deleteProperty, deleting, types, loadingType
 						<Option value={t.type} key={t.type}>{t.title}</Option>
 					))}
 				</Select>
-				{type === 'ENUM' && <EnumPopover id={property.id}/>}
+				{type === 'ENUM' && <EnumPopover propertyId={property.id}/>}
 			</div>
 		</div>
 	)
