@@ -6,7 +6,7 @@ import {InputComponent} from "./InputComponent";
 
 export const Property = ({prop, onPropChange, isEdit}) => {
 	const value = prop.value[getPropValueByPropType(prop.type)]
-	console.log(value)
+
 	return (
 		<Row justify='space-between' align='middle' key={prop.id}>
 			<Col>
