@@ -22,7 +22,7 @@ export const InputComponent = ({prop, onChange, value}) => {
 		if (prop.type === 'ENUM') {
 			getEnumList()
 		}
-	}, [prop.type])
+	}, [prop.type, getEnumList])
 
 	switch (prop.type) {
 		case 'ENUM': {
