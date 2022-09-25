@@ -1,8 +1,13 @@
 .cluster-line {
-    padding: 10px 0;
+    padding: 10px 5px;
     transition: 100ms;
+    border-radius: 4px;
 }
 
-.cluster-line:hover {
+.light-theme .cluster-line:hover {
     background-color: #fafafa;
+}
+
+.dark-theme .cluster-line:hover {
+    background-color: #262626;
 }

@@ -23,7 +23,11 @@ const PropRow = ({prop, employees}) => {
 								     justifyContent: 'center',
 								     width: 134
 							     }}>
-								<div>{value || '—'}</div>
+								<div>{value
+									? value.name
+										? value.name
+										: value
+									: '—'}</div>
 							</Col>
 						)
 					})}
