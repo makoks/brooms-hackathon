@@ -17,7 +17,6 @@ const EditBlock = ({isEdit, toggleIsEdit, setReason, reason, onSave, onDiscard, 
 		setLoading(true)
 		const getChangeReasons = async () => {
 			const res = await employeesAPI.getChangeReasons()
-			console.log(res.data)
 			setReasons(res.data._embedded.sourceOfChange)
 		}
 
