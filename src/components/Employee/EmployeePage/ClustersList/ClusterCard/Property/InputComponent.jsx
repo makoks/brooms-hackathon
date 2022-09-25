@@ -11,18 +11,18 @@ export const InputComponent = ({prop, onChange, value}) => {
 	const [enumList, setEnumList] = useState([])
 	const [loading, setLoading] = useState(false)
 
-	const getEnumList = async () => {
-		setLoading(true)
-		const list = await propertiesAPI.getEnumList(prop.id)
-		setEnumList(list)
-		setLoading(false)
-	}
-
 	useEffect(() => {
+		const getEnumList = async () => {
+			setLoading(true)
+			const list = await propertiesAPI.getEnumList(prop.id)
+			setEnumList(list)
+			setLoading(false)
+		}
+
 		if (prop.type === 'ENUM') {
 			getEnumList()
 		}
-	}, [prop.type, getEnumList])
+	}, [prop.type])
 
 	switch (prop.type) {
 		case 'ENUM': {
