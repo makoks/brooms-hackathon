@@ -8,7 +8,6 @@ import {useParams} from "react-router-dom";
 import {employeesAPI} from "../API/API";
 import {getPropValueByPropType} from "../common/helpers";
 import {useReferenceBooks} from "../hooks";
-import {dateLocale} from "../common/locale";
 
 
 export const Employee = () => {
@@ -27,7 +26,6 @@ export const Employee = () => {
 		setLoading(true)
 		const getEmployee = async () => {
 			const res = await employeesAPI.getEmployeeClustersById(id)
-			console.log(res.data)
 			setEmployee(res.data.user)
 			setClusters(res.data.clusters)
 			setEditableClusters(res.data.clusters)
@@ -56,7 +54,7 @@ export const Employee = () => {
 		toggleIsEdit()
 	}
 
-	const changeClusterField = (clusterId, propId, newValue) => {
+	const changeClusterField = (clusterId, propId, propType, newValue) => {
 		const newClusters = editableClusters.map(cluster => (
 			cluster.id === clusterId
 				? {
@@ -75,22 +73,20 @@ export const Employee = () => {
 				}
 				: cluster
 		))
+		setEditableClusters(newClusters)
+
 		setChangedProperties(prev => {
 			let prop = prev.find(p => p.idProperty === propId)
 			if (prop) {
-				prop.newValue = newValue._d
-					? newValue?.format(dateLocale)
-					: newValue
+				prop.newValue = propType === 'ENUM' ? newValue.id: newValue
 				return [...prev]
 			}
 			prop = {
-				idProperty: propId, newValue: newValue._d
-					? newValue?.format(dateLocale)
-					: newValue
+				idProperty: propId,
+				newValue: propType === 'ENUM' ? newValue.id : newValue
 			}
 			return [...prev, prop]
 		})
-		setEditableClusters(newClusters)
 	}
 
 	const toggleIsEdit = () => {

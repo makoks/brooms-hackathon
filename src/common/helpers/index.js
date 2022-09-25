@@ -1,5 +1,3 @@
-import {DatePicker, Input, InputNumber, Select} from "antd";
-
 export const getShortName = (fio) => {
 	const [surname, name, patronymic] = fio.split(' ')
 	return `${surname} ${name ? `${name[0]}.` : ''} ${patronymic ? `${patronymic[0]}.` : ''}`
@@ -31,18 +29,14 @@ export const getPropValueByPropType = (propType) => {
 	}
 }
 
-export const getInputComponentByPropType = (propType) => {
+export const getValueViewByPropType = (propType, value) => {
+	if (!value) return '—'
+
 	switch (propType) {
 		case 'ENUM':
-			return Select
-
-		case 'NUMBER':
-			return InputNumber
-
-		case 'DATE':
-			return DatePicker
+			return value.name
 
 		default:
-			return Input
+			return value
 	}
 }
