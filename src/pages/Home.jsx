@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Button, Layout} from 'antd';
+import {Button, Layout, Space} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Employee/EmployeesTable";
 import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/CreateEmployeeModal";
 import {useEmployees} from "../hooks";
+import {FileExcelOutlined} from "@ant-design/icons";
 
 export const Home = () => {
 	const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
@@ -21,9 +22,17 @@ export const Home = () => {
 		<Layout>
 			<ContentHeader title='Сотрудники'/>
 			<Layout.Content style={{margin: '27px 34px'}}>
-				<Button onClick={showModal} type="primary" style={{marginBottom: 16}}>
-					Добавить сотрудника
-				</Button>
+				<Space align='center' style={{marginBottom: 16}}>
+					<Button onClick={showModal} type="primary">
+						Добавить сотрудника
+					</Button>
+					<Button
+						icon={<FileExcelOutlined/>}
+						size='large'
+						type='text'
+						disabled={true}
+					/>
+				</Space>
 				<EmployeesTable
 					employeesLoading={loading}
 					employees={employees}
