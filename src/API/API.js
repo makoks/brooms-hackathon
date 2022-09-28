@@ -75,6 +75,27 @@ export const employeesAPI = {
 			idSourceOfChange: changeReasonId,
 			changeValues: changedProperties
 		})
+	},
+
+	excelLoad: async (params) => {
+		// let filename = "Сотрудники.xlsx"
+		// let xmlHttpRequest = new XMLHttpRequest()
+		//
+		// xmlHttpRequest.onreadystatechange = function() {
+		// 	if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
+		// 		const a = document.createElement('a')
+		// 		a.download = filename
+		// 		a.style.display = 'none'
+		// 		a.href = window.URL.createObjectURL(xmlHttpRequest.response.data)
+		// 		a.click()
+		// 	}
+		// }
+		//
+		// xmlHttpRequest.open("POST", API_URL + 'user/excel')
+		// xmlHttpRequest.setRequestHeader("Content-Type", "application/json")
+		// xmlHttpRequest.responseType = 'blob'
+		// xmlHttpRequest.send(JSON.stringify(params))
+		return instance.post('user/excel', params, { responseType: 'blob' })
 	}
 }
 

@@ -9,7 +9,7 @@ import {CompareListContext} from "../../providers/CompareListProvider";
 import {useReferenceBooks} from "../../hooks";
 import {AvatarPreview} from "../../images";
 
-export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, deletingIds}) => {
+export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, deletingIds, setFilters, setSorters}) => {
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
 	const {compareList, addToCompareList, removeFromCompareList} = useContext(CompareListContext)
 
@@ -25,9 +25,9 @@ export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, del
 			dataIndex: 'fioUser',
 			key: 'fioUser',
 			render: (_, {id, fioUser}) => <NavLink to={`employee/${id}`}>{fioUser}</NavLink>,
-			filters: employees.map(e => ({text: e.fioUser, value: e.id})),
+			filters: employees.map(e => ({text: e.fioUser, value: e.fioUser})),
 			filterSearch: true,
-			onFilter: (value, record) => record.id === value,
+			onFilter: (value, record) => record.fioUser === value,
 			sorter: (a, b) => alphabetSort(a.fioUser, b.fioUser),
 		},
 		{title: 'Почта', dataIndex: 'email', key: 'email'},
@@ -35,30 +35,30 @@ export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, del
 		{
 			title: 'Отдел',
 			dataIndex: ['userDepartment', 'name'],
-			key: 'department',
-			filters: departments?.map(d => ({text: d.name, value: d.id})),
-			onFilter: (value, record) => record.userDepartment.id === value
+			key: 'userDepartment',
+			filters: departments?.map(d => ({text: d.name, value: d.name})),
+			onFilter: (value, record) => record.userDepartment.name === value,
 		},
 		{
 			title: 'Должность',
 			dataIndex: ['userPosition', 'name'],
-			key: 'position',
-			filters: positions?.map(p => ({text: p.name, value: p.id})),
-			onFilter: (value, record) => record.userPosition.id === value
+			key: 'userPosition',
+			filters: positions?.map(p => ({text: p.name, value: p.name})),
+			onFilter: (value, record) => record.userPosition.name === value
 		},
 		{
 			title: 'Роль',
 			dataIndex: ['userRole', 'name'],
-			key: 'role',
-			filters: roles?.map(r => ({text: r.name, value: r.id})),
-			onFilter: (value, record) => record.userRole.id === value
+			key: 'userRole',
+			filters: roles?.map(r => ({text: r.name, value: r.name})),
+			onFilter: (value, record) => record.userRole.name === value
 		},
 		{
 			title: 'Проект',
 			dataIndex: ['userProject', 'name'],
-			key: 'project',
-			filters: projects?.map(p => ({text: p.name, value: p.id})),
-			onFilter: (value, record) => record.userProject.id === value
+			key: 'userProject',
+			filters: projects?.map(p => ({text: p.name, value: p.name})),
+			onFilter: (value, record) => record.userProject.name === value
 		},
 		{
 			title: '',
@@ -94,6 +94,10 @@ export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, del
 			dataSource={employees}
 			locale={tableLocale}
 			loading={referenceBooksLoading || employeesLoading}
+			onChange={(_, filters, sorters) => {
+				setFilters(filters)
+				setSorters(sorters)
+			}}
 		/>
 	)
 }
