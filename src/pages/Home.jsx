@@ -1,22 +1,77 @@
 import React, {useState} from 'react';
-import {Button, Layout, Space} from 'antd';
+import {Button, Layout, message, Space} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Employee/EmployeesTable";
 import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/CreateEmployeeModal";
 import {useEmployees} from "../hooks";
-import {FileExcelOutlined} from "@ant-design/icons";
+import {employeesAPI} from "../API/API";
+import {ExcelIcon} from "../components/common/Icons/ExcelIcon";
 
 export const Home = () => {
 	const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
 	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [filters, setFilters] = useState([])
+	const [sorters, setSorters] = useState([])
+
+	const setFiltersHandler = (filters) => {
+		const filterParams = []
+
+		Object.keys(filters).forEach(field => {
+			if (!filters[field]) return
+
+			filterParams.push({
+				field: field,
+				values: filters[field]
+			})
+		})
+
+		setFilters([...filterParams])
+	}
+
+	const setSortersHandler = ({columnKey: field, order}) => {
+		const orderTypes = {'ascend': 'ASC', 'descend': 'DESC'}
+		const sortParams = [...sorters]
+		const param = sortParams.find(p => p.field === field)
+
+		if (param && !order) {
+			setSorters(sortParams.filter(p => p.field !== field))
+		} else if (param && order) {
+			setSorters(sortParams.map(p => {
+				if (p.field === field) {
+					return {...p, type: orderTypes[order]}
+				}
+				return p
+			}))
+		} else if (!param && order) {
+			setSorters([...sortParams, {field, type: orderTypes[order]}])
+		}
+	}
 
 	const showModal = () => {
-		setIsModalVisible(true);
-	};
+		setIsModalVisible(true)
+	}
 
 	const hideModal = () => {
-		setIsModalVisible(false);
-	};
+		setIsModalVisible(false)
+	}
+
+	const excelLoad = async () => {
+		employeesAPI.excelLoad({filterParams: filters, sortParams: sorters})
+			.then((res) => {
+				const blobFile = new Blob([res.data], {type: 'application/vnd.ms-excel'})
+				const href = URL.createObjectURL(blobFile)
+
+				const a = Object.assign(document.createElement('a'), {
+					href,
+					style: 'display: none',
+					download: 'Сотрудники.xlsx'
+				})
+				a.click()
+				URL.revokeObjectURL(href)
+				a.remove()
+			})
+			.catch(() => message.error('При выгрузке произошла ошибка :('))
+	}
 
 	return (
 		<Layout>
@@ -27,10 +82,10 @@ export const Home = () => {
 						Добавить сотрудника
 					</Button>
 					<Button
-						icon={<FileExcelOutlined/>}
+						icon={<ExcelIcon style={{color: '#00adb5'}}/>}
 						size='large'
 						type='text'
-						disabled={true}
+						onClick={excelLoad}
 					/>
 				</Space>
 				<EmployeesTable
@@ -38,6 +93,8 @@ export const Home = () => {
 					employees={employees}
 					deleteEmployee={deleteEmployee}
 					deletingIds={deletingIds}
+					setFilters={setFiltersHandler}
+					setSorters={setSortersHandler}
 				/>
 				<CreateEmployeeModal
 					isModalVisible={isModalVisible}
