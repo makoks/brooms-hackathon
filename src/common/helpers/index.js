@@ -40,3 +40,17 @@ export const getValueViewByPropType = (propType, value) => {
 			return value
 	}
 }
+
+export const downloadExcel = (blob, fileName) => {
+	const blobFile = new Blob([blob], {type: 'application/vnd.ms-excel'})
+	const href = URL.createObjectURL(blobFile)
+
+	const a = Object.assign(document.createElement('a'), {
+		href,
+		style: 'display: none',
+		download: `${fileName}.xlsx`
+	})
+	a.click()
+	URL.revokeObjectURL(href)
+	a.remove()
+}

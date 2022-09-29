@@ -6,9 +6,11 @@ import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/Crea
 import {useEmployees} from "../hooks";
 import {employeesAPI} from "../API/API";
 import {ExcelIcon} from "../components/common/Icons/ExcelIcon";
+import {downloadExcel} from "../common/helpers";
 
 export const Home = () => {
 	const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
+	const [isExcelLoading, setIsExcelLoading] = useState(false)
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [filters, setFilters] = useState([])
 	const [sorters, setSorters] = useState([])
@@ -56,21 +58,13 @@ export const Home = () => {
 	}
 
 	const excelLoad = async () => {
+		setIsExcelLoading(true)
 		employeesAPI.excelLoad({filterParams: filters, sortParams: sorters})
 			.then((res) => {
-				const blobFile = new Blob([res.data], {type: 'application/vnd.ms-excel'})
-				const href = URL.createObjectURL(blobFile)
-
-				const a = Object.assign(document.createElement('a'), {
-					href,
-					style: 'display: none',
-					download: 'Сотрудники.xlsx'
-				})
-				a.click()
-				URL.revokeObjectURL(href)
-				a.remove()
+				downloadExcel(res.data, 'Сотрудники')
 			})
 			.catch(() => message.error('При выгрузке произошла ошибка :('))
+			.finally(() => setIsExcelLoading(false))
 	}
 
 	return (
@@ -86,6 +80,7 @@ export const Home = () => {
 						size='large'
 						type='text'
 						onClick={excelLoad}
+						loading={isExcelLoading}
 					/>
 				</Space>
 				<EmployeesTable
