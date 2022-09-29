@@ -11,6 +11,7 @@ import {downloadExcel} from "../common/helpers";
 export const Home = () => {
 	const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
 	const [isExcelLoading, setIsExcelLoading] = useState(false)
+	const [isExcelDisabled, setIsExcelDisabled] = useState(false)
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [filters, setFilters] = useState([])
 	const [sorters, setSorters] = useState([])
@@ -76,11 +77,12 @@ export const Home = () => {
 						Добавить сотрудника
 					</Button>
 					<Button
-						icon={<ExcelIcon style={{color: '#00adb5'}}/>}
+						icon={<ExcelIcon disabled={isExcelDisabled}/>}
 						size='large'
 						type='text'
 						onClick={excelLoad}
 						loading={isExcelLoading}
+						disabled={isExcelDisabled}
 					/>
 				</Space>
 				<EmployeesTable
@@ -90,6 +92,7 @@ export const Home = () => {
 					deletingIds={deletingIds}
 					setFilters={setFiltersHandler}
 					setSorters={setSortersHandler}
+					setIsExcelDisabled={setIsExcelDisabled}
 				/>
 				<CreateEmployeeModal
 					isModalVisible={isModalVisible}
