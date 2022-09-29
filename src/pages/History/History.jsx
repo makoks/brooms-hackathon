@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Layout, Select, Space, DatePicker, Button, Table, Form, message} from 'antd';
 import {ContentHeader} from '../../components';
 import './index.css'
@@ -39,6 +39,9 @@ export const History = () => {
 	const [loading, setLoading] = useState(false)
 	const [filters, setFilters] = useState([])
 	const [isExcelLoading, setIsExcelLoading] = useState(false)
+	const [isExcelDisabled, setIsExcelDisabled] = useState(
+		!history.length || !employeeId || !dates || dates?.length < 2
+	)
 
 	const columns = [
 		{
@@ -110,6 +113,10 @@ export const History = () => {
 		setHistory(convertHistory(res.data.propertyHistories))
 	}
 
+	useEffect(() => {
+		setIsExcelDisabled(!history.length || !employeeId || !dates || dates?.length < 2)
+	}, [history, employeeId, dates])
+
 	return (
 		<Layout>
 			<ContentHeader title='История изменений' paddingBottom={true}>
@@ -143,8 +150,8 @@ export const History = () => {
 					</Form>
 					<Button
 						style={{marginRight: 10}}
-						icon={<ExcelIcon style={{color: '#00adb5'}}/>}
-						disabled={!history.length || !employeeId || !dates || dates?.length < 2}
+						icon={<ExcelIcon disabled={isExcelDisabled}/>}
+						disabled={isExcelDisabled}
 						size='large' type='text'
 						onClick={excelLoad}
 						loading={isExcelLoading}
@@ -157,7 +164,10 @@ export const History = () => {
 					dataSource={history}
 					locale={tableLocale}
 					loading={loading}
-					onChange={(_, filters) => setFiltersHandler(filters)}
+					onChange={(_, filters, __, {currentDataSource}) => {
+						setFiltersHandler(filters)
+						setIsExcelDisabled(currentDataSource.length < 1)
+					}}
 				/>
 			</Layout.Content>
 		</Layout>

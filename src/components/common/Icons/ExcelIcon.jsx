@@ -3,8 +3,8 @@ import Icon from "@ant-design/icons";
 import {Vector} from "./Vector";
 
 
-export const ExcelIcon = (props) => {
+export const ExcelIcon = ({disabled, ...props}) => {
 	return (
-        <Icon component={Vector} {...props}/>
+        <Icon component={Vector} style={{color: !disabled ? '#00adb5' : 'lightgray'}} {...props}/>
 	)
 }

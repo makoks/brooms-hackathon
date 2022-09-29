@@ -9,7 +9,15 @@ import {CompareListContext} from "../../providers/CompareListProvider";
 import {useReferenceBooks} from "../../hooks";
 import {AvatarPreview} from "../../images";
 
-export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, deletingIds, setFilters, setSorters}) => {
+export const EmployeesTable = ({
+	                               employees,
+	                               employeesLoading,
+	                               deleteEmployee,
+	                               deletingIds,
+	                               setFilters,
+	                               setSorters,
+	                               setIsExcelDisabled
+                               }) => {
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
 	const {compareList, addToCompareList, removeFromCompareList} = useContext(CompareListContext)
 
@@ -94,9 +102,10 @@ export const EmployeesTable = ({employees, employeesLoading, deleteEmployee, del
 			dataSource={employees}
 			locale={tableLocale}
 			loading={referenceBooksLoading || employeesLoading}
-			onChange={(_, filters, sorters) => {
-				setFilters(filters)
-				setSorters(sorters)
+			onChange={(_, filters, sorters, {currentDataSource}) => {
+				setFilters?.(filters)
+				setSorters?.(sorters)
+				setIsExcelDisabled?.(currentDataSource.length < 1)
 			}}
 		/>
 	)

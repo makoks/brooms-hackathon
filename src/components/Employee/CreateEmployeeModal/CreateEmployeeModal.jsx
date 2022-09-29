@@ -22,7 +22,12 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 
 	const handleCreateEmployee = async (data) => {
 		const userDataWithAvatar = avatar ? {...data, avatar} : data
-		createEmployee(userDataWithAvatar, onCancel)
+		createEmployee(userDataWithAvatar, () => {
+			onCancel()
+			form.resetFields()
+			setAvatar(null)
+			setAvatarPreview(AvatarPreview)
+		})
 	}
 
 	return (
@@ -36,6 +41,7 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 					.then(() => handleCreateEmployee(form.getFieldsValue(fieldNames)))
 			}}
 			style={{minWidth: 800}}
+			destroyOnClose={true}
 		>
 			<Form form={form}>
 				<Row justify='space-between'>
@@ -70,7 +76,7 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 								))}
 							</Select>
 						</Form.Item>
-						<Form.Item name="idProject" label='Проект' rules={[requiredRules]}>
+						<Form.Item name="idProject" label='Проект'>
 							<Select loading={referenceBooksLoading}>
 								{projects?.map(proj => (
 									<Option key={proj.id} value={proj.id}>{proj.name}</Option>
