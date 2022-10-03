@@ -8,7 +8,12 @@ export const emailRules = {
 	message: 'Почта введена некорректно'
 }
 
+export const maxLengthRule = (len) => ({
+	max: len,
+	message: 'Превышена максимальная длина'
+})
+
 // export const phoneNumberRules = {
-// 	pattern: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/,
+// 	pattern: /^((\d)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/,
 // 	message: 'Номер телефона введен некорректно'
 // }
