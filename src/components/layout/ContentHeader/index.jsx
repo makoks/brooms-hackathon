@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, Col, Layout, Row, Space, Typography} from 'antd';
+import {Col, Layout, Row, Space, Typography} from 'antd';
 import './styles.css';
 import {ArrowRightOutlined} from "@ant-design/icons";
+import {Link} from "react-router-dom";
 
 export const ContentHeader = ({ title, children, paddingBottom = undefined, link }) => (
   <Layout.Header
@@ -17,7 +18,7 @@ export const ContentHeader = ({ title, children, paddingBottom = undefined, link
         </Col>
         {link && (
             <Col>
-              <Button type="link" href={link.route}>{link.text}<ArrowRightOutlined /></Button>
+              <Link to={link.route} className='history-link'>{link.text}<ArrowRightOutlined /></Link>
             </Col>
         )}
       </Row>
