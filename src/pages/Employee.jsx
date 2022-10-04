@@ -98,7 +98,7 @@ export const Employee = () => {
 			<ContentHeader
 				title='Сотрудник'
 				paddingBottom={true}
-				link={{text: 'Перейти к истории изменений', route: '../history'}}
+				link={{text: 'Перейти к истории изменений', route: `../history?id=${id}`}}
 			>
 				<EmployeeMainInfo
 					loading={loading || referenceBooksLoading}

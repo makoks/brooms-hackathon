@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Layout, message, Space} from 'antd';
 import {ContentHeader} from '../components';
 import EmployeesTable from "../components/Employee/EmployeesTable";
@@ -11,7 +11,7 @@ import {downloadExcel} from "../common/helpers";
 export const Home = () => {
 	const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
 	const [isExcelLoading, setIsExcelLoading] = useState(false)
-	const [isExcelDisabled, setIsExcelDisabled] = useState(false)
+	const [isExcelDisabled, setIsExcelDisabled] = useState(loading)
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [filters, setFilters] = useState([])
 	const [sorters, setSorters] = useState([])
@@ -67,6 +67,10 @@ export const Home = () => {
 			.catch(() => message.error('При выгрузке произошла ошибка :('))
 			.finally(() => setIsExcelLoading(false))
 	}
+
+	useEffect(() => {
+		setIsExcelDisabled(loading)
+	}, [loading])
 
 	return (
 		<Layout>

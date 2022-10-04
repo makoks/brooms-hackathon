@@ -8,6 +8,7 @@ import {useEmployees} from "../../hooks";
 import moment from "moment/moment";
 import {ExcelIcon} from "../../components/common/Icons/ExcelIcon";
 import {downloadExcel} from "../../common/helpers";
+import {useLocation} from "react-router-dom";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
@@ -32,15 +33,18 @@ const convertHistory = (historyFromAPI) => {
 }
 
 export const History = () => {
+	const {search} = useLocation()
 	const {employees, loading: employeesLoading} = useEmployees()
 	const [dates, setDates] = useState([])
-	const [employeeId, setEmployeeId] = useState(undefined)
+	const [employeeId, setEmployeeId] = useState(Number(new URLSearchParams(search).get('id')) || undefined)
 	const [history, setHistory] = useState([])
 	const [loading, setLoading] = useState(false)
 	const [filters, setFilters] = useState([])
+	const [loadedEmployee, setLoadedEmployee] = useState(undefined)
+	const [loadedDates, setLoadedDates] = useState([])
 	const [isExcelLoading, setIsExcelLoading] = useState(false)
 	const [isExcelDisabled, setIsExcelDisabled] = useState(
-		!history.length || !employeeId || !dates || dates?.length < 2
+		!history.length || !loadedEmployee || !loadedDates || !loadedDates[0] || !loadedDates[1] || loading
 	)
 
 	const columns = [
@@ -92,9 +96,9 @@ export const History = () => {
 	const excelLoad = async () => {
 		setIsExcelLoading(true)
 		historyAPI.excelLoad(
-			employeeId,
-			dates[0]?.format(dateLocale),
-			dates[1]?.format(dateLocale),
+			loadedEmployee,
+			loadedDates[0],
+			loadedDates[1],
 			{filterParams: filters}
 		)
 			.then(res => downloadExcel(res.data, 'История'))
@@ -114,8 +118,18 @@ export const History = () => {
 	}
 
 	useEffect(() => {
-		setIsExcelDisabled(!history.length || !employeeId || !dates || dates?.length < 2)
-	}, [history, employeeId, dates])
+		setIsExcelDisabled(
+			!history.length || !loadedEmployee || !loadedDates || !loadedDates[0] || !loadedDates[1] || loading
+		)
+	}, [history, loadedEmployee, loadedDates, loading])
+
+	useEffect(() => {
+		setLoadedEmployee(employeeId)
+		setLoadedDates([
+			dates[0]?.format(dateLocale),
+			dates[1]?.format(dateLocale)
+		])
+	}, [history])
 
 	return (
 		<Layout>
@@ -131,6 +145,7 @@ export const History = () => {
 									value={employeeId}
 									style={{width: 450}}
 									loading={employeesLoading}
+									defaultValue={employeeId}
 								>
 									{employees.map(employee => (
 										<Option value={employee.id} key={employee.id}>{employee.fioUser}</Option>
@@ -145,7 +160,11 @@ export const History = () => {
 									format={dateLocale}
 								/>
 							</Form.Item>
-							<Button type='primary' onClick={getHistory}>Применить</Button>
+							<Button
+								type='primary'
+								onClick={getHistory}
+								disabled={!employeeId || !dates || !dates[0] || !dates[1]}
+							>Применить</Button>
 						</Space>
 					</Form>
 					<Button
