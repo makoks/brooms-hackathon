@@ -108,13 +108,20 @@ export const History = () => {
 
 	const getHistory = async () => {
 		setLoading(true)
-		const res = await historyAPI.getHistory(
+		historyAPI.getHistory(
 			employeeId,
 			dates[0]?.format(dateLocale),
 			dates[1]?.format(dateLocale)
 		)
+			.then((res) => {
+				setHistory(convertHistory(res.data.propertyHistories))
+				setLoadedEmployee(employeeId)
+				setLoadedDates([
+					dates[0]?.format(dateLocale),
+					dates[1]?.format(dateLocale)
+				])
+			})
 			.finally(() => setLoading(false))
-		setHistory(convertHistory(res.data.propertyHistories))
 	}
 
 	useEffect(() => {
@@ -122,14 +129,6 @@ export const History = () => {
 			!history.length || !loadedEmployee || !loadedDates || !loadedDates[0] || !loadedDates[1] || loading
 		)
 	}, [history, loadedEmployee, loadedDates, loading])
-
-	useEffect(() => {
-		setLoadedEmployee(employeeId)
-		setLoadedDates([
-			dates[0]?.format(dateLocale),
-			dates[1]?.format(dateLocale)
-		])
-	}, [history])
 
 	return (
 		<Layout>
