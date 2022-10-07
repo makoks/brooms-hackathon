@@ -23,11 +23,8 @@ export const ClusterProperties = ({id, definition}) => {
 	const addPropertyHandler = async (propertyData) => {
 		setCreating(true)
 		await clustersAPI.addProperty(id, propertyData)
-			.then(propertyId => {
-				setProperties([...properties, {
-					...propertyData,
-					id: propertyId
-				}])
+			.then(({data: {id}}) => {
+				setProperties([...properties, {...propertyData, id}])
 				setAddingProperty(false)
 				setCreating(false)
 				form.resetFields()
