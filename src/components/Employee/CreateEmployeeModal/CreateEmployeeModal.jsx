@@ -7,6 +7,35 @@ import {useReferenceBooks} from "../../../hooks";
 import './style.css'
 
 
+const mask = (inputValue) => {
+	const value = inputValue.replace(/\D+/g, "")
+	if (value.length === 0) return ''
+
+	const numberLength = 11
+	let result = "+"
+
+	for (let i = 0; i < value.length && i < numberLength; i++) {
+		switch (i) {
+			case 1 :
+				result += ' ('
+				break;
+			case 4:
+				result += ") ";
+				break;
+			case 7:
+				result += "-";
+				break;
+			case 9:
+				result += "-";
+				break;
+			default:
+				break;
+		}
+		result += value[i];
+	}
+	return result;
+}
+
 const {Option} = Select
 
 const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}) => {
@@ -15,8 +44,6 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 	const [form] = Form.useForm()
 	const [avatarPreview, setAvatarPreview] = useState(AvatarPreview)
 	const [fileList, setFileList] = useState([])
-	// const [number, setNumber] = useState('')
-	// const [maskedNumber, setMaskedNumber] = useState('')
 
 	const onUploadChange = ({fileList: newFileList}) => {
 		if (newFileList.length) {
@@ -47,44 +74,9 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 		})
 	}
 
-	// useEffect(() => {
-	// 	window.addEventListener("DOMContentLoaded", function() {
-	// 		[].forEach.call( document.querySelectorAll('.tel'), function(input) {
-	// 			var keyCode;
-	// 			function mask(event) {
-	// 				event.keyCode && (keyCode = event.keyCode);
-	// 				var pos = this.selectionStart;
-	// 				if (pos < 3) event.preventDefault();
-	// 				var matrix = "+7 (___) ___ ____",
-	// 					i = 0,
-	// 					def = matrix.replace(/\D/g, ""),
-	// 					val = this.value.replace(/\D/g, ""),
-	// 					new_value = matrix.replace(/[_\d]/g, function(a) {
-	// 						return i < val.length ? val.charAt(i++) || def.charAt(i) : a
-	// 					});
-	// 				i = new_value.indexOf("_");
-	// 				if (i != -1) {
-	// 					i < 5 && (i = 3);
-	// 					new_value = new_value.slice(0, i)
-	// 				}
-	// 				var reg = matrix.substr(0, this.value.length).replace(/_+/g,
-	// 					function(a) {
-	// 						return "\\d{1," + a.length + "}"
-	// 					}).replace(/[+()]/g, "\\$&");
-	// 				reg = new RegExp("^" + reg + "$");
-	// 				if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = new_value;
-	// 				if (event.type == "blur" && this.value.length < 5)  this.value = ""
-	// 			}
-	//
-	// 			input.addEventListener("input", mask, false);
-	// 			input.addEventListener("focus", mask, false);
-	// 			input.addEventListener("blur", mask, false);
-	// 			input.addEventListener("keydown", mask, false)
-	//
-	// 		});
-	//
-	// 	});
-	// }, [])
+	const onNumberChange = (e) => {
+		form.setFieldsValue({telephone: mask(e.target.value)})
+	}
 
 	return (
 		<Modal
@@ -114,7 +106,7 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 							<Input/>
 						</Form.Item>
 						<Form.Item name="telephone" label="Телефон" rules={[requiredRules, maxLengthRule(20)]}>
-							<Input/>
+							<Input onChange={onNumberChange}/>
 						</Form.Item>
 						<Form.Item name="idDepartment" label='Отдел' rules={[requiredRules]}>
 							<Select loading={referenceBooksLoading}>
