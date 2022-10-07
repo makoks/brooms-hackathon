@@ -50,8 +50,9 @@ const createClusters = (employees, onlyDifferent, selectedProps) => {
 	if (onlyDifferent || selectedProps.length > 0) {
 		clusters.forEach(cluster => {
 			cluster.props = cluster.props.filter(prop => {
-				return (onlyDifferent && !isAllValuesEqual(prop))
-					|| (selectedProps.length > 0 && selectedProps.includes(prop.id))
+				return (onlyDifferent && !isAllValuesEqual(prop) && selectedProps.length > 0 && selectedProps.includes(prop.id))
+					|| (onlyDifferent && !isAllValuesEqual(prop) && !selectedProps.length)
+					|| (!onlyDifferent && selectedProps.includes(prop.id))
 			})
 		})
 	}
