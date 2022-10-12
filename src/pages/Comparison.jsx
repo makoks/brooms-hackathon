@@ -19,28 +19,31 @@ const createClusters = (employees, onlyDifferent, selectedProps) => {
 					id: `cluster-${c.id}`,
 					definition: c.definition,
 					title: c.name,
-					props: c.properties.map(p => ({
-						id: `prop-${p.id}`,
-						title: p.name,
-						values: {
-							[employee.user.id]: p.value[getPropValueByPropType(p.type)]
+					props: c.properties.map(p => {
+						const value = p.value[getPropValueByPropType(p.type)]
+						return {
+							id: `prop-${p.id}`,
+							title: p.name,
+							values: {
+								[employee.user.id]: value.name ?? value
+							}
 						}
-					}))
+					})
 				})
 			} else {
 				c.properties.forEach(p => {
 					const prop = cluster.props.find(pr => pr.title === p.name)
-
+					const value = p.value[getPropValueByPropType(p.type)]
 					if (!prop) {
 						cluster.props.push({
 							id: `prop-${p.id}`,
 							title: p.name,
 							values: {
-								[employee.user.id]: p.value[getPropValueByPropType(p.type)]
+								[employee.user.id]: value.name ?? value
 							}
 						})
 					} else {
-						prop.values[employee.user.id] = p.value[getPropValueByPropType(p.type)]
+						prop.values[employee.user.id] = value.name ?? value
 					}
 				})
 			}
@@ -50,30 +53,20 @@ const createClusters = (employees, onlyDifferent, selectedProps) => {
 	if (onlyDifferent || selectedProps.length > 0) {
 		clusters.forEach(cluster => {
 			cluster.props = cluster.props.filter(prop => {
-				return (onlyDifferent && !isAllValuesEqual(prop) && selectedProps.length > 0 && selectedProps.includes(prop.id))
-					|| (onlyDifferent && !isAllValuesEqual(prop) && !selectedProps.length)
-					|| (!onlyDifferent && selectedProps.includes(prop.id))
+				const equal = isAllValuesEqual(prop)
+				const len = selectedProps.length
+				const includes = selectedProps.includes(prop.id)
+				return (onlyDifferent && !equal && len > 0 && includes)
+					|| (onlyDifferent && !equal && !len)
+					|| (!onlyDifferent && includes)
 			})
 		})
 	}
-
 	return clusters
 }
 
 const isAllValuesEqual = (prop) => {
-	const ids = Object.keys(prop.values)
-	if (ids.length === 1) return false
-
-	let prev = prop.values[ids[0]]
-
-	for (let i = 1; i < ids.length; i++) {
-		if (prop.values[ids[i]] !== prev) {
-			return false
-		}
-		prev = prop.values[ids[i]]
-	}
-
-	return true
+	return new Set(Object.values(prop.values)).size === 1
 }
 
 
