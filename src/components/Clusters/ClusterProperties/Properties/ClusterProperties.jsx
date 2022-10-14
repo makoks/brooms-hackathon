@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {Form, Space, Typography} from "antd";
+import {Button, Form, Space, Typography} from "antd";
 import {clustersAPI, propertiesAPI} from "../../../../API/API";
 import {ClusterDefinition} from "../../ClusterInfo/ClusterDefinition";
 import {AddButton} from "../../../common/AddButton";
 import {CreatePropertyForm} from "../CreatePropertyForm";
 import {Loader} from "../../../common/Loader";
 import {Properties} from "./Properties";
+import {EyeInvisibleOutlined} from "@ant-design/icons";
 
 
 const {Text} = Typography
@@ -83,11 +84,17 @@ export const ClusterProperties = ({id, definition}) => {
 
 	return (
 		<Space direction="vertical" style={{width: 'calc((100vw - 300px) / 3)'}}>
-			<Space direction="vertical" style={{padding: '12px 16px 0 16px', width: '100%'}}>
-				<Text type="secondary">Описание:</Text>
-				<ClusterDefinition id={id} definition={definition}/>
-				<Text type="secondary">Свойства:</Text>
-			</Space>
+			<div className='header'>
+				<Space direction='vertical' size='small'>
+					<Text type="secondary" style={{fontWeight: 'bold'}}>Описание:</Text>
+					<ClusterDefinition id={id} definition={definition}/>
+				</Space>
+				<Button
+					icon={<EyeInvisibleOutlined style={{color: 'rgba(0, 0, 0, 0.5)'}}/>}
+					className='visible-button'
+					disabled
+				/>
+			</div>
 			{addingProperty ? (
 				<CreatePropertyForm
 					form={form}

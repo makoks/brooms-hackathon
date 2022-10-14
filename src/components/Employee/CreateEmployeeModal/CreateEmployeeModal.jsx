@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
-import {Avatar, Button, Col, Form, Input, message, Modal, Row, Select, Space, Upload} from "antd";
+import {Avatar, Button, Col, Form, Input, message, Modal, Row, Select, Space, Typography, Upload} from "antd";
 import {AvatarPreview} from "../../../images";
 import {emailRules, maxLengthRule, requiredRules} from "../../../common/form";
-import {UploadOutlined} from "@ant-design/icons";
 import {useReferenceBooks} from "../../../hooks";
 import './style.css'
 
@@ -80,7 +79,7 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 
 	return (
 		<Modal
-			title="Добавить сотрудника"
+			title="Добавление сотрудника"
 			visible={isModalVisible}
 			onCancel={onCancel}
 			confirmLoading={loading}
@@ -95,10 +94,11 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 			}}
 			style={{minWidth: 800}}
 			destroyOnClose={true}
+			className='create-employee-modal'
 		>
 			<Form form={form}>
 				<Row justify='space-between'>
-					<Col span={16}>
+					<Col span={16} className='form'>
 						<Form.Item name="fioUser" label="ФИО" rules={[requiredRules, maxLengthRule(250)]}>
 							<Input/>
 						</Form.Item>
@@ -137,8 +137,8 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 							</Select>
 						</Form.Item>
 					</Col>
-					<Col span={8} style={{display: 'flex', justifyContent: 'center', maxWidth: 250}}>
-						<Space direction='vertical' align='center' style={{width: '100%'}} className='upload-avatar'>
+					<Col span={8} className='upload'>
+						<Space direction='vertical' align='center' className='upload-avatar'>
 							<Avatar src={avatarPreview} size={140}/>
 							<Upload
 								name="avatar"
@@ -160,7 +160,8 @@ const CreateEmployeeModal = ({isModalVisible, onCancel, createEmployee, loading}
 									return !isAvailableType || !isAvailableSize
 								}}
 							>
-								<Button icon={<UploadOutlined/>}>Выбрать изображение</Button>
+								<Typography.Text className='message'>Размер файла должен быть не больше 5 мб</Typography.Text>
+								<Button className='button'>Выбрать файл</Button>
 							</Upload>
 						</Space>
 					</Col>

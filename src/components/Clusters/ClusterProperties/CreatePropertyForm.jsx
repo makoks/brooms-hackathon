@@ -12,7 +12,7 @@ export const CreatePropertyForm = ({form, onFinish, loading, types, loadingTypes
 				<Input placeholder='Название'/>
 			</Form.Item>
 			<Form.Item rules={[requiredRules]} name='type'>
-				<Select placeholder='Типа свойства' loading={loadingTypes}>
+				<Select placeholder='Типа свойства' loading={loadingTypes} defaultValue='STRING'>
 					{types.map(t => (
 						<Option value={t.type} key={t.type}>{t.title}</Option>
 					))}

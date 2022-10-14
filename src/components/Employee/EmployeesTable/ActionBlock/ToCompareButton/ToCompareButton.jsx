@@ -12,11 +12,14 @@ const ToCompareButton = ({inCompareList, onAdd, onRemove, disabled}) => {
 	}
 
 	return (
-		<Button onClick={handleClick} disabled={!inCompareList && disabled} type={inCompareList ? 'default' : 'primary'}>{
-			inCompareList
-				? 'Убрать из сравнения'
-				: 'Добавить в сравнение'
-		}</Button>
+		<Button
+			onClick={handleClick}
+			disabled={!inCompareList && disabled}
+			type={inCompareList ? 'default' : 'primary'}
+			style={{flex: 1}}
+		>
+			{inCompareList ? 'Убрать из сравнения' : 'Добавить в сравнение'}
+		</Button>
 	)
 }
 
