@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react'
 import {Button, Col, Modal, Row, Space, Switch} from "antd";
 import ComparisonPersons from "./ComparisonPersons/ComparisonPersons";
 import {CompareListContext} from "../../../providers/CompareListProvider";
-import EmployeesTable from "../../Employee/EmployeesTable";
+import EmployeesTable from "../../Employee/EmployeesTable/EmployeesTable";
 import {useEmployees} from "../../../hooks";
 
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Layout, message, Space} from 'antd';
 import {ContentHeader} from '../components';
-import EmployeesTable from "../components/Employee/EmployeesTable";
+import EmployeesTable from "../components/Employee/EmployeesTable/EmployeesTable";
 import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/CreateEmployeeModal";
 import {useEmployees} from "../hooks";
 import {employeesAPI} from "../API/API";

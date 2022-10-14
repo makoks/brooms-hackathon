@@ -1,3 +1,14 @@
 .cluster-properties .ant-popover-inner .ant-popover-inner-content {
     padding: 0;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px 0 16px;
+    width: 100%;
+}
+
+div.header button.visible-button {
+    border: none;
+}

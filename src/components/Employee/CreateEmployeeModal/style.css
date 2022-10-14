@@ -1,6 +1,52 @@
+.create-employee-modal div.ant-modal-title {
+    font-weight: bold;
+}
+
+.create-employee-modal .form {
+    padding-right: 24px;
+}
+
+.create-employee-modal .upload {
+    display: flex;
+    justify-content: center;
+    max-width: 250px;
+    padding: 0 24px;
+}
+
+.upload .upload-avatar {
+    width: 100%;
+}
+
 .upload-avatar .ant-space-item {
     max-width: 200px;
-    /*align-items: center;*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
+}
+
+.upload-avatar .message {
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 22px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.85);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.upload-avatar button.button {
+    display: block;
+    margin: 0 auto;
+}
+
+.ant-row.ant-form-item {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*.create-employee-modal .ant-input {*/
+/*    width: 330px*/
+/*}*/
+
+.create-employee-modal .ant-col.ant-form-item-control {
+    width: 330px;
 }
