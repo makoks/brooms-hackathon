@@ -39,11 +39,11 @@ const createClusters = (employees, onlyDifferent, selectedProps) => {
 							id: `prop-${p.id}`,
 							title: p.name,
 							values: {
-								[employee.user.id]: value.name ?? value
+								[employee.user.id]: value?.name ?? value
 							}
 						})
 					} else {
-						prop.values[employee.user.id] = value.name ?? value
+						prop.values[employee.user.id] = value?.name ?? value
 					}
 				})
 			}
