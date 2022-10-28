@@ -5,7 +5,7 @@ import {Divider, Space, Statistic} from "antd";
 type StaticInfo = {
     info: {
         title: string;
-        value: string;
+        value: string | undefined;
     }[];
 }
 

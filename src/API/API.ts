@@ -2,7 +2,7 @@ import axios from "axios";
 import {
 	DepartmentsResponse,
 	EmployeeResponse,
-	EmployeesResponse,
+	EmployeesResponse, HistoryResponse, Id,
 	PositionsResponse,
 	ProjectsResponse,
 	RolesResponse, SourceOfChangeResponse
@@ -10,7 +10,6 @@ import {
 import {NewEmployeeData} from "../hooks/types";
 import {
 	ExcelParams,
-	FilterParam,
 	NewProperty,
 	UserClusters
 } from "../components/Employee/types";
@@ -48,7 +47,7 @@ export const referenceBooksAPI = {
 }
 
 export const employeesAPI = {
-	getEmployee: async (id: string) => {
+	getEmployee: async (id: Id) => {
 		const res = await instance.get<EmployeeResponse>(`user/${id}?projection=userView`);
 		return res.data._embedded.user;
 	},
@@ -59,15 +58,15 @@ export const employeesAPI = {
 	},
 
 	createEmployee: async (data: NewEmployeeData) => {
-		return instance.post<{id: string}>('user', data, {
+		return instance.post<{id: Id}>('user', data, {
 			headers: {
 				'content-type': 'multipart/form-data'
 			}
 		});
 	},
 
-	deleteEmployee: async (id: string) => {
-		return instance.delete<{id: string}>(`user/${id}`);
+	deleteEmployee: async (id: Id) => {
+		return instance.delete<{id: Id}>(`user/${id}`);
 	},
 
 	getEmployeeClustersById: async (id: string) => {
@@ -85,7 +84,8 @@ export const employeesAPI = {
 	},
 
 	getChangeReasons: async () => {
-		return instance.get<SourceOfChangeResponse>('sourceOfChange');
+		const res = await instance.get<SourceOfChangeResponse>('sourceOfChange');
+		return res.data._embedded;
 	},
 
 	createReason: async (name: string) => {
@@ -105,22 +105,23 @@ export const employeesAPI = {
 }
 
 export const historyAPI = {
-	getHistory: async (userId: string, beginDate: string, endDate: string) => {
+	getHistory: async (userId: Id, beginDate: string, endDate: string) => {
 		const params = new URLSearchParams();
 		params.append('beginDate', beginDate);
 		params.append('endDate', endDate);
 		const query = String(params);
 
-		return instance.get(`user/${userId}/history?${query}`);
+		const res = await instance.get<HistoryResponse>(`user/${userId}/history?${query}`);
+		return res.data.propertyHistories;
 	},
 
-	excelLoad: async (userId: string, beginDate: string, endDate: string, filters: FilterParam[]) => {
+	excelLoad: async (userId: Id, beginDate: string, endDate: string, excelParams: ExcelParams) => {
 		const params = new URLSearchParams();
 		params.append('beginDate', beginDate);
 		params.append('endDate', endDate);
 		const query = String(params);
 
-		return instance.post(`user/${userId}/history/excel?${query}`, filters, { responseType: 'blob' });
+		return instance.post(`user/${userId}/history/excel?${query}`, excelParams, { responseType: 'blob' });
 	}
 }
 
@@ -129,7 +130,7 @@ export const clustersAPI = {
 		return instance.get('cluster');
 	},
 
-	getClusterProperties: async (id: string) => {
+	getClusterProperties: async (id: Id) => {
 		const res = await instance.get(`cluster/${id}`);
 		return res.data._embedded.properties;
 	},
@@ -138,7 +139,7 @@ export const clustersAPI = {
 		return instance.post('cluster', clusterData);
 	},
 
-	editCluster: async (id: string, name?: string, definition?: string) => {
+	editCluster: async (id: Id, name?: string, definition?: string) => {
 		const clusterData: NewClusterData = {};
 		if (name) {
 			clusterData.name = name;
@@ -150,7 +151,7 @@ export const clustersAPI = {
 		return instance.put(`cluster/${id}`, clusterData);
 	},
 
-	deleteCluster: async (id: string) => {
+	deleteCluster: async (id: Id) => {
 		return instance.delete(`cluster/${id}`);
 	},
 
@@ -165,28 +166,28 @@ export const propertiesAPI = {
 		return res.data;
 	},
 
-	deleteProperty: async (id: string) => {
+	deleteProperty: async (id: Id) => {
 		return instance.delete(`property/${id}`);
 	},
 
-	changeProperty: async (propertyId: string, propData: NewPropertyData) => {
+	changeProperty: async (propertyId: Id, propData: NewPropertyData) => {
 		return instance.put(`property/${propertyId}`, propData);
 	},
 
-	getEnumList: async (id: string) => {
+	getEnumList: async (id: Id) => {
 		const res = await instance.get(`property/${id}`);
 		return res.data._embedded.definitions ?? [];
 	},
 
-	deleteEnumItem: async (id: string) => {
+	deleteEnumItem: async (id: Id) => {
 		return instance.delete(`definition/${id}`);
 	},
 
-	changeEnumItem: async (id: string, name: string) => {
+	changeEnumItem: async (id: Id, name: string) => {
 		return instance.put(`definition/${id}`, {name});
 	},
 
-	createEnumItem: async (name: string, idProperty: string) => {
+	createEnumItem: async (name: string, idProperty: Id) => {
 		return instance.post(`property/${idProperty}/definition`, {name});
 	}
 }

@@ -4,11 +4,11 @@ import ComparisonPersons from "./ComparisonPersons/ComparisonPersons";
 import {CompareListContext} from "../../../providers/CompareListProvider";
 import EmployeesTable from "../../Employee/EmployeesTable/EmployeesTable";
 import {useEmployees} from "../../../hooks";
-import {Employee} from "../../../hooks/types";
+import {EmployeeForPage} from "../../../hooks/types";
 
 
 type ComparisonHeaderBlockProps = {
-    employees: Employee[];
+    employees: EmployeeForPage[];
     onlyDifferent: boolean;
     setOnlyDifferent: React.Dispatch<React.SetStateAction<boolean>>;
 }

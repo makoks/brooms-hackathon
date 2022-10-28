@@ -3,17 +3,18 @@ import {Avatar, Col, Row, Space} from "antd";
 import {getShortName} from "../../../../common/helpers";
 import {CloseCircleTwoTone, UserOutlined} from "@ant-design/icons";
 import {AvatarPreview} from "../../../../images";
-import {Employee} from "../../../../hooks/types";
+import {EmployeeForPage} from "../../../../hooks/types";
+import {Id} from "../../../../API/types";
 
 
 type ComparisonPersonsProps = {
-    employees: Employee[];
-    removeFromCompareList: (id: string) => void;
+    employees: EmployeeForPage[];
+    removeFromCompareList: (id: Id) => void;
 };
 
 type PersonProps = {
     avatar: string;
-    id: string;
+    id: Id;
     fio: string;
     removeFromCompareList: Function
 }

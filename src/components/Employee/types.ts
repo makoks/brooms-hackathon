@@ -1,8 +1,8 @@
-import {Employee} from "../../hooks/types";
+import {EmployeeForPage} from "../../hooks/types";
 import {PropertyType} from "../Clusters/types";
 
 export type UserClusters = {
-    user: Employee;
+    user: EmployeeForPage;
     clusters: Cluster[];
 }
 
@@ -17,12 +17,14 @@ export type ClusterProperty = {
     id: string;
     name: string;
     type: PropertyType;
-    value: {
-        dateTimeValue: string | null;
-        numberValue: number | null;
-        stringValue: string | null;
-        enumValue: { id: string, name: string } | null;
-    };
+    value: ClusterPropertyValue
+};
+
+export type ClusterPropertyValue = {
+    dateTimeValue: string | null;
+    numberValue: string | null;
+    stringValue: string | null;
+    enumValue: { id: string, name: string } | null;
 };
 
 export type SourceOfChange = {
@@ -31,7 +33,7 @@ export type SourceOfChange = {
 };
 
 export type NewProperty = {
-    id: string;
+    idProperty: string;
     newValue: string;
 };
 
@@ -46,6 +48,6 @@ export type SortParam = {
 };
 
 export type ExcelParams = {
-    filterParams: FilterParam[];
-    sortParams: SortParam[];
+    filterParams?: FilterParam[];
+    sortParams?: SortParam[];
 };

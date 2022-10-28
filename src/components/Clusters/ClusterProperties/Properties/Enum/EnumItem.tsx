@@ -13,13 +13,13 @@ type EnumItemProps = {
 }
 
 export const EnumItem: React.FC<EnumItemProps> = ({deleting, deleteItem, id, ...props}) => {
-	const [name, setName] = useState(props.name)
+	const [name, setName] = useState<string | undefined>(props.name)
 	const [isEdit, setIsEdit] = useState(false)
 	const [loading, setLoading] = useState(false)
 
 	const changeItem = async () => {
 		setLoading(true)
-		await props.changeItem(id, name)
+		await props.changeItem(id, name as string)
 		setLoading(false)
 		setIsEdit(false)
 	}

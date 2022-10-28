@@ -8,7 +8,8 @@ import {useParams} from "react-router-dom";
 import {employeesAPI} from "../API/API";
 import {getPropValueByPropType} from "../common/helpers";
 import {useReferenceBooks} from "../hooks";
-import {Employee as EmployeeType} from "../hooks/types";
+import {EmployeeForPage} from "../hooks/types";
+import {Cluster, ClusterPropertyValue, NewProperty} from "../components/Employee/types";
 
 
 export const Employee = () => {
@@ -16,17 +17,17 @@ export const Employee = () => {
 	const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
 	const [loading, setLoading] = useState(false)
 	const [saving, setSaving] = useState(false)
-	const [employee, setEmployee] = useState<EmployeeType | undefined>(undefined)
-	const [clusters, setClusters] = useState([])
-	const [editableClusters, setEditableClusters] = useState([])
+	const [employee, setEmployee] = useState<EmployeeForPage | undefined>(undefined)
+	const [clusters, setClusters] = useState<Cluster[]>([])
+	const [editableClusters, setEditableClusters] = useState<Cluster[]>([])
 	const [reason, setReason] = useState('')
 	const [isEdit, setIsEdit] = useState(false)
-	const [changedProperties, setChangedProperties] = useState([])
+	const [changedProperties, setChangedProperties] = useState<NewProperty[]>([])
 
 	useEffect(() => {
 		setLoading(true)
 		const getEmployee = async () => {
-			const res = await employeesAPI.getEmployeeClustersById(id)
+			const res = await employeesAPI.getEmployeeClustersById(id as string)
 			setEmployee(res.data.user)
 			setClusters(res.data.clusters)
 			setEditableClusters(res.data.clusters)
@@ -40,7 +41,7 @@ export const Employee = () => {
 			message.error('Необходимо выбрать причину изменения')
 		} else {
 			setSaving(true)
-			employeesAPI.changeProperties(id, reason, changedProperties)
+			employeesAPI.changeProperties(id as string, reason, changedProperties)
 				.then(() => {
 					setClusters([...editableClusters])
 					toggleIsEdit()
@@ -55,7 +56,12 @@ export const Employee = () => {
 		toggleIsEdit()
 	}
 
-	const changeClusterField = (clusterId, propId, propType, newValue) => {
+	const changeClusterField = (
+		clusterId: string,
+		propId: string,
+		propType: string,
+		newValue: string | undefined | ClusterPropertyValue['enumValue']
+	) => {
 		const newClusters = editableClusters.map(cluster => (
 			cluster.id === clusterId
 				? {
@@ -79,12 +85,12 @@ export const Employee = () => {
 		setChangedProperties(prev => {
 			let prop = prev.find(p => p.idProperty === propId)
 			if (prop) {
-				prop.newValue = propType === 'ENUM' ? newValue.id : newValue
+				prop.newValue = typeof newValue !== 'string' ? newValue?.id as string : newValue
 				return [...prev]
 			}
 			prop = {
 				idProperty: propId,
-				newValue: propType === 'ENUM' ? newValue.id : newValue
+				newValue: typeof newValue !== 'string' ? newValue?.id as string : newValue
 			}
 			return [...prev, prop]
 		})

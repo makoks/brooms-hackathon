@@ -31,7 +31,7 @@ export const getPropValueByPropType = (propType: PropertyType) => {
     }
 }
 
-export const getValueViewByPropType = (propType: PropertyType, value: string | { name: string } | undefined) => {
+export const getValueViewByPropType = (propType: PropertyType, value: string | { name: string } | undefined | null) => {
     if (!value) return '—';
 
     switch (propType) {
@@ -39,7 +39,7 @@ export const getValueViewByPropType = (propType: PropertyType, value: string | {
             return typeof value !== "string" ? value.name : '';
 
         default:
-            return value;
+            return String(value);
     }
 }
 

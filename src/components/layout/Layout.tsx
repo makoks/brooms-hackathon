@@ -10,7 +10,7 @@ export const Layout = () => {
 	const currentPage = useCurrentPage();
 	const {compareList} = useContext(CompareListContext)
 
-	const handleThemeChange = (checked) => {
+	const handleThemeChange = (checked: boolean) => {
 		if (checked) {
 			document.body.classList.add('dark-theme');
 			document.body.classList.remove('light-theme');

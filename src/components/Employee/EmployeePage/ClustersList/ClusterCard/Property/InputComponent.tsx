@@ -3,12 +3,19 @@ import moment from "moment";
 import {dateLocale} from "../../../../../../common/locale";
 import {DatePicker, Input, InputNumber, Select} from "antd";
 import {propertiesAPI} from "../../../../../../API/API";
+import {ClusterProperty, ClusterPropertyValue} from "../../../../types";
 
 
 moment.locale('ru')
 
-export const InputComponent = ({prop, onChange, value}) => {
-	const [enumList, setEnumList] = useState([])
+type InputComponentProps = {
+	prop: ClusterProperty;
+	onChange: (value: string | ClusterPropertyValue['enumValue'] | undefined) => void;
+	value: string | ClusterPropertyValue['enumValue'];
+}
+
+export const InputComponent: React.FC<InputComponentProps> = ({prop, onChange, value}) => {
+	const [enumList, setEnumList] = useState<ClusterPropertyValue['enumValue'][]>([])
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
@@ -30,12 +37,12 @@ export const InputComponent = ({prop, onChange, value}) => {
 				<Select
 					size='small'
 					style={{minWidth: 500}}
-					value={value?.id}
-					onChange={id => onChange(enumList.find(item => item.id === id))}
+					value={typeof value !== 'string' ? value?.id : undefined}
+					onChange={id => onChange(enumList.find(item => item?.id === id) ?? '1')}
 					loading={loading}
 				>
 					{enumList.map(item => (
-						<Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
+						<Select.Option key={item?.id} value={item?.id}>{item?.name}</Select.Option>
 					))}
 				</Select>
 			)
@@ -46,7 +53,7 @@ export const InputComponent = ({prop, onChange, value}) => {
 				<InputNumber
 					size='small'
 					style={{minWidth: 500}}
-					value={value}
+					value={typeof value === 'string' ? value : undefined}
 					onChange={onChange}
 				/>
 			)
@@ -57,7 +64,7 @@ export const InputComponent = ({prop, onChange, value}) => {
 				<DatePicker
 					size='small'
 					style={{minWidth: 500}}
-					value={moment(value, dateLocale)}
+					value={typeof value === 'string' ? moment(value, dateLocale) : undefined}
 					format={value => moment(value).format('DD.MM.YYYY')}
 					onChange={value => onChange(value?.format(dateLocale))}
 				/>
@@ -69,7 +76,7 @@ export const InputComponent = ({prop, onChange, value}) => {
 				<Input
 					size='small'
 					style={{minWidth: 500}}
-					value={value}
+					value={typeof value === 'string' ? value : undefined}
 					onChange={e => onChange(e.target.value)}
 				/>
 			)

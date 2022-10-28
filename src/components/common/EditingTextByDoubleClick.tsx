@@ -8,7 +8,7 @@ type EditingTextByDoubleClickProps = {
     value: string | undefined;
     onChange: React.Dispatch<React.SetStateAction<string | undefined>>;
     onBlur: Function;
-    loading: false;
+    loading: boolean;
 }
 
 export const EditingTextByDoubleClick: React.FC<EditingTextByDoubleClickProps> = ({

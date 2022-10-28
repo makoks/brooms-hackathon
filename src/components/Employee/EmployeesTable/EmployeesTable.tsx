@@ -1,6 +1,6 @@
 import {Avatar, Table} from 'antd';
 import {NavLink} from "react-router-dom";
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {tableLocale} from "../../../common/locale";
 import {alphabetSort} from "../../../common/helpers";
 import {CompareListContext} from "../../../providers/CompareListProvider";
@@ -8,15 +8,16 @@ import {useReferenceBooks} from "../../../hooks";
 import {AvatarPreview} from "../../../images";
 import './style.css'
 import {ActionBlock} from "./ActionBlock/ActionBlock";
-import {Employee} from "../../../hooks/types";
+import {EmployeeForTable} from "../../../hooks/types";
 import {ColumnsType} from "antd/es/table/interface";
 import {SorterHandlerParams} from "../../../pages/Home";
+import {Id} from "../../../API/types";
 
 type EmployeesTableProps = {
-    employees: Employee[];
+    employees: EmployeeForTable[];
     employeesLoading: boolean;
-    deleteEmployee: (id: string) => void;
-    deletingIds: string[];
+    deleteEmployee: (id: Id) => Promise<void>;
+    deletingIds: Id[];
     setFilters?: (filters: Record<string, string[] | null>) => void;
     setSorters?: (sorters: SorterHandlerParams) => void;
     setIsExcelDisabled?: (disabled: boolean) => void;
@@ -43,7 +44,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
     //     }
     // })
 
-    const columns: ColumnsType<Employee> = [
+    const columns: ColumnsType<EmployeeForTable> = [
         {
             title: 'Аватар',
             dataIndex: 'avatarUrl',

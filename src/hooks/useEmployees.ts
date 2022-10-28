@@ -2,13 +2,14 @@ import {useContext, useEffect, useState} from 'react'
 import {employeesAPI} from "../API/API";
 import {CompareListContext} from "../providers/CompareListProvider";
 import {message} from "antd";
-import {Employee, NewEmployeeData} from "./types";
+import {EmployeeForTable, NewEmployeeData} from "./types";
+import {Id} from "../API/types";
 
 
 export const useEmployees = () => {
 	const {removeFromCompareList} = useContext(CompareListContext)
-	const [employees, setEmployees] = useState<Employee[]>([])
-	const [deletingIds, setDeletingIds] = useState<string[]>([])
+	const [employees, setEmployees] = useState<EmployeeForTable[]>([])
+	const [deletingIds, setDeletingIds] = useState<Id[]>([])
 	const [loading, setLoading] = useState(false)
 
 	const createEmployee = async (data: NewEmployeeData, onSuccess: Function) => {
@@ -26,7 +27,7 @@ export const useEmployees = () => {
 			.finally(() => setLoading(false))
 	}
 
-	const deleteEmployee = async (id: string) => {
+	const deleteEmployee = async (id: Id) => {
 		setDeletingIds(oldDeletingIds => [...oldDeletingIds, id])
 		employeesAPI.deleteEmployee(id)
 			.then(() => {
@@ -35,6 +36,7 @@ export const useEmployees = () => {
 				setEmployees(oldEmployees => oldEmployees.filter(e => e.id !== id))
 				message.success('Сотрудник успешно удален!')
 			})
+			.catch(() => message.error('Что-то пошло не так :('))
 	}
 
 	useEffect(() => {
@@ -46,6 +48,7 @@ export const useEmployees = () => {
 		}
 
 		getEmployees()
+			.catch(() => message.error('Не удалось загрузить список сотрудников :('))
 			.finally(() => setLoading(false))
 	}, [])
 

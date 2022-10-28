@@ -5,14 +5,14 @@ import {AvatarPreview} from "../../../images";
 
 
 type EmployeeMainInfoProps = {
-    avatar: string;
-    name: string;
-    email: string;
-    phone: string;
-    department: string;
-    post: string;
-    role: string;
-    project: string;
+    avatar: string | undefined;
+    name: string | undefined;
+    email: string | undefined;
+    phone: string | undefined;
+    department: string | undefined;
+    post: string | undefined;
+    role: string | undefined;
+    project: string | undefined;
     loading: boolean;
 }
 

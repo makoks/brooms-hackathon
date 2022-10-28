@@ -1,10 +1,12 @@
+import {Id} from "../API/types";
+
 export type ReferenceBookType = {
-    id: number;
+    id: Id;
     name: string;
 };
 
-export type Employee = {
-    id: string;
+export type EmployeeForTable = {
+    id: Id;
     avatarUrl: string;
     fioUser: string;
     email: string;
@@ -15,15 +17,25 @@ export type Employee = {
     userProject: ReferenceBookType;
 };
 
+export type EmployeeForPage = {
+    id: Id;
+    avatarUrl: string;
+    fioUser: string;
+    email: string;
+    telephone: string;
+    idDepartment: Id;
+    idPosition: Id;
+    idRole: Id;
+    idProject?: Id;
+}
+
 export type NewEmployeeData = {
     fioUser: string;
     email: string;
     telephone: string;
-    idDepartment: string;
-    idPosition: string;
-    idRole: string;
-    idProject?: string;
+    idDepartment: Id;
+    idPosition: Id;
+    idRole: Id;
+    idProject?: Id;
     avatar?: File | null;
 }
-
-export type EmployeeData = { id: string } & NewEmployeeData;

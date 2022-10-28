@@ -1,3 +1,5 @@
+import {Id} from "../../API/types";
+
 export type PropertyType = 'NUMBER' | 'STRING' | 'ENUM' | 'DATE';
 export type PropertyTitle = 'Число' | 'Строка' | 'Список' | 'Дата';
 
@@ -6,14 +8,14 @@ export type PropertyTypeObj = {
     title: PropertyTitle;
 };
 
-export type ClusterData = { id: string; } & NewClusterData;
+export type ClusterData = { id: Id; } & NewClusterData;
 
 export type NewClusterData = {
     name?: string;
     definition?: string;
 };
 
-export type PropertyData = { id: string; } & NewPropertyData;
+export type PropertyData = { id: Id; } & NewPropertyData;
 
 export type NewPropertyData = {
     name?: string;

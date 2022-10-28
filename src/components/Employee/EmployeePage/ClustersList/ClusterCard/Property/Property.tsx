@@ -2,9 +2,16 @@ import React from 'react'
 import {Badge, Col, Row, Typography} from "antd";
 import {getPropValueByPropType, getValueViewByPropType} from "../../../../../../common/helpers";
 import {InputComponent} from "./InputComponent";
+import {ClusterProperty, ClusterPropertyValue} from "../../../../types";
 
 
-export const Property = ({prop, onPropChange, isEdit}) => {
+type PropertyProps = {
+	prop: ClusterProperty;
+	onPropChange: (value: string | ClusterPropertyValue['enumValue'] | undefined) => void;
+	isEdit: boolean;
+}
+
+export const Property: React.FC<PropertyProps> = ({prop, onPropChange, isEdit}) => {
 	const value = prop.value[getPropValueByPropType(prop.type)]
 
 	return (
