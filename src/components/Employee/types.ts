@@ -22,7 +22,7 @@ export type ClusterProperty = {
 
 export type ClusterPropertyValue = {
     dateTimeValue: string | null;
-    numberValue: string | null;
+    numberValue: number | null;
     stringValue: string | null;
     enumValue: { id: string, name: string } | null;
 };
