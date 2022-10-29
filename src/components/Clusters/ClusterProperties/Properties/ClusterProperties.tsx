@@ -9,19 +9,20 @@ import {Properties} from "./Properties";
 import {EyeInvisibleOutlined} from "@ant-design/icons";
 import '../style.css';
 import {NewPropertyData, PropertyData, PropertyType, PropertyTypeObj} from "../../types";
+import {Id} from "../../../../API/types";
 
 
 const {Text} = Typography
 
 type ClusterPropertiesProps = {
-	id: string;
+	id: Id;
 	definition?: string;
 }
 
 export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definition}) => {
 	const [addingProperty, setAddingProperty] = useState(false)
 	const [properties, setProperties] = useState<PropertyData[]>([])
-	const [deletingPropertyIds, setDeletingPropertyIds] = useState<string[]>([])
+	const [deletingPropertyIds, setDeletingPropertyIds] = useState<Id[]>([])
 	const [creating, setCreating] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [types, setTypes] = useState<PropertyTypeObj[]>([])
@@ -39,7 +40,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
 			})
 	}
 
-	const deleteProperty = async (id: string) => {
+	const deleteProperty = async (id: Id) => {
 		setDeletingPropertyIds(ids => [...ids, id])
 		propertiesAPI.deleteProperty(id)
 			.then(() => {
@@ -48,7 +49,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
 			})
 	}
 
-	const changeProperty = async (propId: string, name?: string, type?: PropertyType) => {
+	const changeProperty = async (propId: Id, name?: string, type?: PropertyType) => {
 		const propData: NewPropertyData = {}
 		if (name) {
 			propData.name = name

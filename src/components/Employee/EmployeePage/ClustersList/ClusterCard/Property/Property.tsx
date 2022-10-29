@@ -3,11 +3,12 @@ import {Badge, Col, Row, Typography} from "antd";
 import {getPropValueByPropType, getValueViewByPropType} from "../../../../../../common/helpers";
 import {InputComponent} from "./InputComponent";
 import {ClusterProperty, ClusterPropertyValue} from "../../../../types";
+import './index.css';
 
 
 type PropertyProps = {
 	prop: ClusterProperty;
-	onPropChange: (value: string | ClusterPropertyValue['enumValue'] | undefined) => void;
+	onPropChange: (value: string | ClusterPropertyValue['enumValue'] | number | undefined) => void;
 	isEdit: boolean;
 }
 
@@ -15,7 +16,7 @@ export const Property: React.FC<PropertyProps> = ({prop, onPropChange, isEdit}) 
 	const value = prop.value[getPropValueByPropType(prop.type)]
 
 	return (
-		<Row justify='space-between' align='middle' key={prop.id}>
+		<Row justify='space-between' align='middle' key={prop.id} className='prop-line'>
 			<Col>
 				<Badge color='blue' text={prop.name}/>
 			</Col>

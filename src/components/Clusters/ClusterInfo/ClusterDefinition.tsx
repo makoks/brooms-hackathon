@@ -3,11 +3,12 @@ import {Button, Input, message, Space, Typography} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {clustersAPI} from "../../../API/API";
 import './style.css';
+import {Id} from "../../../API/types";
 
 const {Paragraph} = Typography
 
 type ClusterDefinitionProps = {
-    id: string;
+    id: Id;
     definition: string | undefined;
 }
 

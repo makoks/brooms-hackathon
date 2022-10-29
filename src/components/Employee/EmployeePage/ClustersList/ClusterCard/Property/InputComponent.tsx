@@ -10,8 +10,8 @@ moment.locale('ru')
 
 type InputComponentProps = {
 	prop: ClusterProperty;
-	onChange: (value: string | ClusterPropertyValue['enumValue'] | undefined) => void;
-	value: string | ClusterPropertyValue['enumValue'];
+	onChange: (value: string | ClusterPropertyValue['enumValue'] | number | undefined) => void;
+	value: string | ClusterPropertyValue['enumValue'] | number;
 }
 
 export const InputComponent: React.FC<InputComponentProps> = ({prop, onChange, value}) => {
@@ -37,7 +37,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({prop, onChange, v
 				<Select
 					size='small'
 					style={{minWidth: 500}}
-					value={typeof value !== 'string' ? value?.id : undefined}
+					value={typeof value !== 'string' && typeof value !== 'number' ? value?.id : undefined}
 					onChange={id => onChange(enumList.find(item => item?.id === id) ?? '1')}
 					loading={loading}
 				>
@@ -53,7 +53,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({prop, onChange, v
 				<InputNumber
 					size='small'
 					style={{minWidth: 500}}
-					value={typeof value === 'string' ? value : undefined}
+					value={typeof value === 'number' ? value : undefined}
 					onChange={onChange}
 				/>
 			)

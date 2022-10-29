@@ -5,6 +5,7 @@ import {clustersAPI} from '../../API/API';
 import './index.css';
 import {CreatingClusterPopover} from "../../components/Clusters/CreatingClusterPopover/CreatingClusterPopover";
 import {ClusterData} from "../../components/Clusters/types";
+import {Id} from "../../API/types";
 
 export const Clusters = () => {
 	const [clusters, setClusters] = useState<ClusterData[]>([]);
@@ -18,7 +19,7 @@ export const Clusters = () => {
 			]))
 	}
 
-	const deleteCluster = async (id: string) => {
+	const deleteCluster = async (id: Id) => {
 		clustersAPI.deleteCluster(id)
 			.then(() => setClusters(c => c.filter(cluster => cluster.id !== id)))
 	}

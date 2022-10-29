@@ -1,6 +1,6 @@
-import {Avatar, Table} from 'antd';
+import {Avatar, PaginationProps, Table} from 'antd';
 import {NavLink} from "react-router-dom";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {tableLocale} from "../../../common/locale";
 import {alphabetSort} from "../../../common/helpers";
 import {CompareListContext} from "../../../providers/CompareListProvider";
@@ -9,8 +9,7 @@ import {AvatarPreview} from "../../../images";
 import './style.css'
 import {ActionBlock} from "./ActionBlock/ActionBlock";
 import {EmployeeForTable} from "../../../hooks/types";
-import {ColumnsType} from "antd/es/table/interface";
-import {SorterHandlerParams} from "../../../pages/Home";
+import {ColumnsType, SorterResult} from "antd/es/table/interface";
 import {Id} from "../../../API/types";
 
 type EmployeesTableProps = {
@@ -19,7 +18,7 @@ type EmployeesTableProps = {
     deleteEmployee: (id: Id) => Promise<void>;
     deletingIds: Id[];
     setFilters?: (filters: Record<string, string[] | null>) => void;
-    setSorters?: (sorters: SorterHandlerParams) => void;
+    setSorters?: (sorters: SorterResult<EmployeeForTable> | SorterResult<EmployeeForTable>[]) => void;
     setIsExcelDisabled?: (disabled: boolean) => void;
 }
 
@@ -34,15 +33,15 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
                                                               }) => {
     const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
     const {compareList, addToCompareList, removeFromCompareList} = useContext(CompareListContext)
-    // const [tableParams, setTableParams] = useState({
-    //     pagination: {
-    //         showTotal: (total: number, range: number[]) => `${range[0]}-${range[1]} из ${total}`,
-    //         showSizeChanger: true,
-    //         defaultCurrent: 1,
-    //         current: 1,
-    //         pageSize: 10
-    //     }
-    // })
+    const [tableParams, setTableParams] = useState<{pagination: PaginationProps}>({
+        pagination: {
+            showTotal: (total: number, range: number[]) => `${range[0]}-${range[1]} из ${total}`,
+            showSizeChanger: true,
+            defaultCurrent: 1,
+            current: 1,
+            pageSize: 10
+        }
+    })
 
     const columns: ColumnsType<EmployeeForTable> = [
         {
@@ -120,19 +119,19 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
             locale={tableLocale}
             loading={referenceBooksLoading || employeesLoading}
             onChange={(pagination, filters, sorters, {currentDataSource}) => {
-                // setTableParams({
-                //     ...tableParams,
-                //     pagination: {
-                //         ...tableParams.pagination,
-                //         ...pagination,
-                //         // total: currentDataSource.length,
-                //     }
-                // })
+                setTableParams({
+                    ...tableParams,
+                    pagination: {
+                        ...tableParams.pagination,
+                        ...pagination,
+                        total: currentDataSource.length,
+                    }
+                })
                 setFilters?.(filters as Record<string, string[] | null>)
-                setSorters?.(sorters as SorterHandlerParams)
+                setSorters?.(sorters)
                 setIsExcelDisabled?.(currentDataSource.length < 1)
             }}
-            // pagination={tableParams.pagination}
+            pagination={tableParams.pagination}
         />
     )
 }

@@ -1,4 +1,8 @@
 import {PropertyType} from "../../components/Clusters/types";
+import React from "react";
+import {FilterParam, SortParam} from "../../components/Employee/types";
+import {SorterResult} from "antd/es/table/interface";
+import {EmployeeForTable} from "../../hooks/types";
 
 export const getShortName = (fio: string) => {
     const [surname, name, patronymic] = fio.split(' ')
@@ -31,12 +35,12 @@ export const getPropValueByPropType = (propType: PropertyType) => {
     }
 }
 
-export const getValueViewByPropType = (propType: PropertyType, value: string | { name: string } | undefined | null) => {
-    if (!value) return '—';
+export const getValueViewByPropType = (propType: PropertyType, value: string | number | { name: string } | undefined | null) => {
+    if (!value && value !== 0) return '—';
 
     switch (propType) {
         case 'ENUM':
-            return typeof value !== "string" ? value.name : '';
+            return typeof value !== "string" && typeof value !== "number" ? value.name : '';
 
         default:
             return String(value);
@@ -55,4 +59,46 @@ export const downloadExcel = (blob: Blob, fileName: string) => {
     a.click()
     URL.revokeObjectURL(href)
     a.remove()
+}
+
+export const setFilterParams = (
+    filters: Record<string, string[] | null>,
+    setFilters: React.Dispatch<React.SetStateAction<FilterParam[]>>
+) => {
+    const filterParams: FilterParam[] = []
+
+    Object.keys(filters).forEach(field => {
+        if (!filters[field]) return
+
+        filterParams.push({
+            field: field,
+            values: filters[field] ?? []
+        })
+    })
+
+    setFilters([...filterParams])
+}
+
+export const setSorterParams = (
+    sorter: SorterResult<EmployeeForTable> | SorterResult<EmployeeForTable>[],
+    prevSorters: SortParam[],
+    setSorters: React.Dispatch<React.SetStateAction<SortParam[]>>
+) => {
+    const {columnKey: field, order} = Array.isArray(sorter) ? sorter[0] : sorter;
+    const orderTypes: Record<'ascend' | 'descend', 'ASC' | 'DESC'> = {'ascend': 'ASC', 'descend': 'DESC'};
+    const sortParams = [...prevSorters];
+    const param = sortParams.find(p => p.field === field);
+
+    if (param && !order) {
+        setSorters(sortParams.filter(p => p.field !== field));
+    } else if (param && order) {
+        setSorters(sortParams.map(p => {
+            if (p.field === field) {
+                return {...p, type: orderTypes[order]};
+            }
+            return p;
+        }))
+    } else if (!param && order) {
+        setSorters([...sortParams, {field: String(field), type: orderTypes[order]}]);
+    }
 }

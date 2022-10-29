@@ -34,7 +34,7 @@ export type SourceOfChange = {
 
 export type NewProperty = {
     idProperty: string;
-    newValue: string;
+    newValue: string | number;
 };
 
 export type FilterParam = {

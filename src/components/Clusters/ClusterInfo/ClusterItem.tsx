@@ -5,11 +5,12 @@ import {ClusterPopover} from '../ClusterProperties/ClusterPopover';
 import {clustersAPI} from "../../../API/API";
 import {EditingTextByDoubleClick} from "../../common/EditingTextByDoubleClick";
 import {ClusterData} from "../types";
+import {Id} from "../../../API/types";
 
 
 type ClusterItemProps = {
 	cluster: ClusterData;
-	deleteCluster: (id: string) => Promise<void>
+	deleteCluster: (id: Id) => Promise<void>
 }
 
 export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster}) => {

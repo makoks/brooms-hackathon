@@ -2,15 +2,16 @@ import React from 'react'
 import {Space} from "antd";
 import {Property} from "./Property";
 import {PropertyData, PropertyType, PropertyTypeObj} from "../../types";
+import {Id} from "../../../../API/types";
 
 
 type PropertiesProps = {
     properties: PropertyData[];
-    deleteProperty: (id: string) => Promise<void>;
-    deletingIds: string[];
+    deleteProperty: (id: Id) => Promise<void>;
+    deletingIds: Id[];
     types: PropertyTypeObj[];
     loadingTypes: boolean;
-    changeProperty: (propId: string, name?: string, type?: PropertyType) => Promise<void>;
+    changeProperty: (propId: Id, name?: string, type?: PropertyType) => Promise<void>;
 };
 
 export const Properties: React.FC<PropertiesProps> = ({

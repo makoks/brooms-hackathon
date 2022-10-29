@@ -1,0 +1,13 @@
+.prop-line {
+    padding: 10px 5px;
+    transition: 100ms;
+    border-radius: 4px;
+}
+
+.light-theme .prop-line:hover {
+    background-color: #fafafa;
+}
+
+.dark-theme .prop-line:hover {
+    background-color: #262626;
+}

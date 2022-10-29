@@ -4,6 +4,7 @@ import {DeleteOutlined} from "@ant-design/icons";
 import {EditingTextByDoubleClick} from "../../../common/EditingTextByDoubleClick";
 import {EnumPopover} from "./Enum/EnumPopover";
 import {PropertyData, PropertyType, PropertyTypeObj} from "../../types";
+import {Id} from "../../../../API/types";
 
 
 const {Option} = Select
@@ -14,7 +15,7 @@ type PropertyProps = {
     deleting: boolean;
     types: PropertyTypeObj[];
     loadingTypes: boolean;
-    changeProperty: (propId: string, name?: string, type?: PropertyType) => Promise<void>;
+    changeProperty: (propId: Id, name?: string, type?: PropertyType) => Promise<void>;
 };
 
 export const Property: React.FC<PropertyProps> = ({

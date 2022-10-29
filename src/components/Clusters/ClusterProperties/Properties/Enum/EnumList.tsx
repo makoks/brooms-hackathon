@@ -6,10 +6,11 @@ import {AddButton} from "../../../../common/AddButton";
 import {EnumItem} from "./EnumItem";
 import {CheckOutlined} from "@ant-design/icons";
 import {Enum} from "../../../types";
+import {Id} from "../../../../../API/types";
 
 
 type EnumListProps = {
-	propertyId: string;
+	propertyId: Id;
 };
 
 export const EnumList: React.FC<EnumListProps> = ({propertyId}) => {

@@ -3,10 +3,11 @@ import {Button, Popover} from "antd";
 import {CaretRightOutlined} from "@ant-design/icons";
 import {EnumList} from "./EnumList";
 import './style.css';
+import {Id} from "../../../../../API/types";
 
 
 type EnumPopoverProps = {
-    propertyId: string;
+    propertyId: Id;
 }
 
 export const EnumPopover: React.FC<EnumPopoverProps> = ({propertyId}) => {

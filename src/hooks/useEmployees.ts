@@ -12,7 +12,7 @@ export const useEmployees = () => {
 	const [deletingIds, setDeletingIds] = useState<Id[]>([])
 	const [loading, setLoading] = useState(false)
 
-	const createEmployee = async (data: NewEmployeeData, onSuccess: Function) => {
+	const createEmployee = async (data: NewEmployeeData, onSuccess?: Function) => {
 		setLoading(true)
 		employeesAPI.createEmployee(data)
 			.then(async ({data: {id}}) => {
@@ -21,9 +21,9 @@ export const useEmployees = () => {
 				const newEmployee = await employeesAPI.getEmployee(id)
 				setEmployees(oldEmployees => [...oldEmployees, newEmployee])
 				setLoading(false)
-				onSuccess()
+				onSuccess?.()
 			})
-			.catch(() => message.error('Что-то пошло не так :('))
+			.catch(() => message.error('Не удалось создать сотрудника :('))
 			.finally(() => setLoading(false))
 	}
 
@@ -36,7 +36,7 @@ export const useEmployees = () => {
 				setEmployees(oldEmployees => oldEmployees.filter(e => e.id !== id))
 				message.success('Сотрудник успешно удален!')
 			})
-			.catch(() => message.error('Что-то пошло не так :('))
+			.catch(() => message.error('Не удалось удалить сотрудника :('))
 	}
 
 	useEffect(() => {

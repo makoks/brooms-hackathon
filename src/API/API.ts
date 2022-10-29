@@ -73,10 +73,10 @@ export const employeesAPI = {
 		return instance.get<UserClusters>(`user/${id}/cluster`);
 	},
 
-	getEmployeesClustersByIds: async (ids: string[]) => {
+	getEmployeesClustersByIds: async (ids: Id[]) => {
 		const params = new URLSearchParams();
 		for (const id of ids) {
-			params.append('userIds', id);
+			params.append('userIds', String(id));
 		}
 		const query = String(params);
 
@@ -85,7 +85,7 @@ export const employeesAPI = {
 
 	getChangeReasons: async () => {
 		const res = await instance.get<SourceOfChangeResponse>('sourceOfChange');
-		return res.data._embedded;
+		return res.data._embedded.sourceOfChange;
 	},
 
 	createReason: async (name: string) => {
@@ -155,7 +155,7 @@ export const clustersAPI = {
 		return instance.delete(`cluster/${id}`);
 	},
 
-	addProperty: async (clusterId: string, propertyData: NewPropertyData) => {
+	addProperty: async (clusterId: Id, propertyData: NewPropertyData) => {
 		return instance.post(`cluster/${clusterId}/property`, propertyData);
 	},
 }

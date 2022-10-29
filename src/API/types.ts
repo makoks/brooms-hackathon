@@ -14,6 +14,6 @@ export type PositionsResponse = ResponseType<{ userPosition: ReferenceBookType[]
 export type EmployeeResponse = ResponseType<{ user: EmployeeForTable; }>;
 export type EmployeesResponse = ResponseType<{ user: EmployeeForTable[]; }>;
 
-export type SourceOfChangeResponse = ResponseType<SourceOfChange[]>;
+export type SourceOfChangeResponse = ResponseType<{sourceOfChange: SourceOfChange[]}>;
 
 export type HistoryResponse = { propertyHistories: HistoryFromAPI; };

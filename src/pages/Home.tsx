@@ -6,8 +6,10 @@ import CreateEmployeeModal from "../components/Employee/CreateEmployeeModal/Crea
 import {useEmployees} from "../hooks";
 import {employeesAPI} from "../API/API";
 import {ExcelIcon} from "../components/common/Icons/ExcelIcon";
-import {downloadExcel} from "../common/helpers";
+import {downloadExcel, setFilterParams, setSorterParams} from "../common/helpers";
 import {FilterParam, SortParam} from "../components/Employee/types";
+import {SorterResult} from "antd/es/table/interface";
+import {EmployeeForTable} from "../hooks/types";
 
 export type SorterHandlerParams = {
     columnKey: Key | undefined;
@@ -15,45 +17,19 @@ export type SorterHandlerParams = {
 };
 
 export const Home = () => {
-    const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees()
-    const [isExcelLoading, setIsExcelLoading] = useState(false)
-    const [isExcelDisabled, setIsExcelDisabled] = useState(loading)
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [filters, setFilters] = useState<FilterParam[]>([])
-    const [sorters, setSorters] = useState<SortParam[]>([])
+    const {loading, employees, deleteEmployee, deletingIds, createEmployee} = useEmployees();
+    const [isExcelLoading, setIsExcelLoading] = useState(false);
+    const [isExcelDisabled, setIsExcelDisabled] = useState(loading);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [filters, setFilters] = useState<FilterParam[]>([]);
+    const [sorters, setSorters] = useState<SortParam[]>([]);
 
     const setFiltersHandler = (filters: Record<string, string[] | null>) => {
-        const filterParams: FilterParam[] = []
-
-        Object.keys(filters).forEach(field => {
-            if (!filters[field]) return
-
-            filterParams.push({
-                field: field,
-                values: filters[field] ?? []
-            })
-        })
-
-        setFilters([...filterParams])
+        setFilterParams(filters, setFilters);
     }
 
-    const setSortersHandler = ({columnKey: field, order}: SorterHandlerParams) => {
-        const orderTypes: Record<'ascend' | 'descend', 'ASC' | 'DESC'> = {'ascend': 'ASC', 'descend': 'DESC'};
-        const sortParams: SortParam[] = [...sorters];
-        const param = sortParams.find(p => p.field === field);
-
-        if (param && !order) {
-            setSorters(sortParams.filter(p => p.field !== field));
-        } else if (param && order) {
-            setSorters(sortParams.map(p => {
-                if (p.field === field) {
-                    return {...p, type: orderTypes[order]};
-                }
-                return p;
-            }))
-        } else if (!param && order) {
-            setSorters([...sortParams, {field: field as string, type: orderTypes[order]}]);
-        }
+    const setSortersHandler = (sorter: SorterResult<EmployeeForTable> | SorterResult<EmployeeForTable>[]) => {
+        setSorterParams(sorter, sorters, setSorters);
     }
 
     const showModal = () => {
