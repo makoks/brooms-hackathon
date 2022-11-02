@@ -2,14 +2,14 @@ import React from 'react'
 import {Divider, Space, Statistic} from "antd";
 
 
-type StaticInfo = {
+type StaticInfoProps = {
     info: {
         title: string;
         value: string | undefined;
     }[];
 }
 
-const StaticInfo: React.FC<StaticInfo> = ({info}) => {
+const StaticInfo: React.FC<StaticInfoProps> = ({info}) => {
     return (
         <Space>
             {info.map((v, i) => (
