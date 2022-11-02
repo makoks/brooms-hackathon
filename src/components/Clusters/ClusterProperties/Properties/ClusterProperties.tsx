@@ -17,10 +17,10 @@ const {Text} = Typography
 type ClusterPropertiesProps = {
     id: Id;
     definition?: string;
-    propTypes: PropertyTypeObj[];
+    propertyTypes: PropertyTypeObj[];
 }
 
-export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definition, propTypes}) => {
+export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definition, propertyTypes}) => {
     const [addingProperty, setAddingProperty] = useState(false)
     const [properties, setProperties] = useState<PropertyData[]>([])
     const [deletingPropertyIds, setDeletingPropertyIds] = useState<Id[]>([])
@@ -96,7 +96,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
                     form={form}
                     onFinish={addPropertyHandler}
                     loading={creating}
-                    types={propTypes}
+                    types={propertyTypes}
                 />
             ) : (
                 <>
@@ -107,7 +107,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
                             properties={properties}
                             deletingIds={deletingPropertyIds}
                             deleteProperty={deleteProperty}
-                            types={propTypes}
+                            types={propertyTypes}
                             changeProperty={changeProperty}
                         />
                     }

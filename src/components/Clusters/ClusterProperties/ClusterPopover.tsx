@@ -8,15 +8,15 @@ import {ClusterData, PropertyTypeObj} from "../types";
 
 type ClusterPopoverProps = {
 	cluster: ClusterData;
-	propTypes: PropertyTypeObj[];
+	propertyTypes: PropertyTypeObj[];
 }
 
-export const ClusterPopover: React.FC<ClusterPopoverProps> = ({cluster, propTypes}) => {
+export const ClusterPopover: React.FC<ClusterPopoverProps> = ({cluster, propertyTypes}) => {
 	return (
 		<Popover
 			placement="rightTop"
 			trigger='click'
-			content={<ClusterProperties {...cluster} propTypes={propTypes}/>}
+			content={<ClusterProperties {...cluster} propertyTypes={propertyTypes}/>}
 			overlayClassName='cluster-properties'
 			destroyTooltipOnHide={true}
 		>

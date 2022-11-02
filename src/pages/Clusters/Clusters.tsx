@@ -54,7 +54,7 @@ export const Clusters = () => {
 										key={cluster.id}
 										cluster={cluster}
 										deleteCluster={deleteCluster}
-										propTypes={types}
+										propertyTypes={types}
 									/>
 								))}
 							</Space>

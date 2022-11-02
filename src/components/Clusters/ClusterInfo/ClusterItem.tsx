@@ -11,10 +11,10 @@ import {Id} from "../../../API/types";
 type ClusterItemProps = {
 	cluster: ClusterData;
 	deleteCluster: (id: Id) => Promise<void>;
-	propTypes: PropertyTypeObj[];
+	propertyTypes: PropertyTypeObj[];
 }
 
-export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster, propTypes}) => {
+export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster, propertyTypes}) => {
 	const [isEdit, setIsEdit] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [clusterName, setClusterName] = useState(cluster.name)
@@ -45,7 +45,7 @@ export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster,
 					loading={loading}
 				/>
 			</Space>
-			<ClusterPopover cluster={cluster} propTypes={propTypes}/>
+			<ClusterPopover cluster={cluster} propertyTypes={propertyTypes}/>
 		</div>
 	);
 };
