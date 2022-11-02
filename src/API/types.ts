@@ -1,6 +1,7 @@
 import {EmployeeForTable, ReferenceBookType} from "../hooks/types";
 import {SourceOfChange} from "../components/Employee/types";
 import {HistoryFromAPI} from "../pages/History/types";
+import {AxiosError} from "axios";
 
 export type Id = number | string;
 
@@ -17,3 +18,5 @@ export type EmployeesResponse = ResponseType<{ user: EmployeeForTable[]; }>;
 export type SourceOfChangeResponse = ResponseType<{sourceOfChange: SourceOfChange[]}>;
 
 export type HistoryResponse = { propertyHistories: HistoryFromAPI; };
+
+export type Error = AxiosError<{ cause: string | null, message: string }>

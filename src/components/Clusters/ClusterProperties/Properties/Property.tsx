@@ -14,7 +14,6 @@ type PropertyProps = {
     deleteProperty: Function;
     deleting: boolean;
     types: PropertyTypeObj[];
-    loadingTypes: boolean;
     changeProperty: (propId: Id, name?: string, type?: PropertyType) => Promise<void>;
 };
 
@@ -23,7 +22,6 @@ export const Property: React.FC<PropertyProps> = ({
                                                       deleteProperty,
                                                       deleting,
                                                       types,
-                                                      loadingTypes,
                                                       changeProperty
                                                   }) => {
     const [isEdit, setIsEdit] = useState(false)
@@ -78,7 +76,7 @@ export const Property: React.FC<PropertyProps> = ({
                 <Select
                     value={type}
                     onChange={value => changeType(value)}
-                    loading={loadingTypes || loading}
+                    loading={loading}
                     style={{width: 90}}
                 >
                     {types.map(t => (

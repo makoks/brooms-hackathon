@@ -10,7 +10,6 @@ type PropertiesProps = {
     deleteProperty: (id: Id) => Promise<void>;
     deletingIds: Id[];
     types: PropertyTypeObj[];
-    loadingTypes: boolean;
     changeProperty: (propId: Id, name?: string, type?: PropertyType) => Promise<void>;
 };
 
@@ -19,7 +18,6 @@ export const Properties: React.FC<PropertiesProps> = ({
                                                           deleteProperty,
                                                           deletingIds,
                                                           types,
-                                                          loadingTypes,
                                                           changeProperty
                                                       }) => {
     return (
@@ -31,7 +29,6 @@ export const Properties: React.FC<PropertiesProps> = ({
                     deleteProperty={() => deleteProperty(property.id)}
                     deleting={deletingIds.includes(property.id)}
                     types={types}
-                    loadingTypes={loadingTypes}
                     changeProperty={changeProperty}
                 />
             ))}

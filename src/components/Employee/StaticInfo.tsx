@@ -14,7 +14,7 @@ const StaticInfo: React.FC<StaticInfo> = ({info}) => {
         <Space>
             {info.map((v, i) => (
                 <>
-                    <Statistic title={v.title} value={v.value} />
+                    <Statistic title={v.title} value={v.value ?? '—'} />
                     {i !== info.length - 1 && <Divider type='vertical'/>}
                 </>
             ))}

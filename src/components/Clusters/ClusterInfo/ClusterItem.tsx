@@ -4,16 +4,17 @@ import {DeleteOutlined} from '@ant-design/icons';
 import {ClusterPopover} from '../ClusterProperties/ClusterPopover';
 import {clustersAPI} from "../../../API/API";
 import {EditingTextByDoubleClick} from "../../common/EditingTextByDoubleClick";
-import {ClusterData} from "../types";
+import {ClusterData, PropertyTypeObj} from "../types";
 import {Id} from "../../../API/types";
 
 
 type ClusterItemProps = {
 	cluster: ClusterData;
-	deleteCluster: (id: Id) => Promise<void>
+	deleteCluster: (id: Id) => Promise<void>;
+	propTypes: PropertyTypeObj[];
 }
 
-export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster}) => {
+export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster, propTypes}) => {
 	const [isEdit, setIsEdit] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [clusterName, setClusterName] = useState(cluster.name)
@@ -44,7 +45,7 @@ export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster}
 					loading={loading}
 				/>
 			</Space>
-			<ClusterPopover cluster={cluster}/>
+			<ClusterPopover cluster={cluster} propTypes={propTypes}/>
 		</div>
 	);
 };

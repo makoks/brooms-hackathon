@@ -6,10 +6,12 @@ import './index.css';
 import {CreatingClusterPopover} from "../../components/Clusters/CreatingClusterPopover/CreatingClusterPopover";
 import {ClusterData} from "../../components/Clusters/types";
 import {Id} from "../../API/types";
+import {usePropertyTypes} from "../../hooks/usePropertyTypes";
 
 export const Clusters = () => {
 	const [clusters, setClusters] = useState<ClusterData[]>([]);
 	const [loading, setLoading] = useState(false);
+	const {types, loading: typesLoading} = usePropertyTypes();
 
 	const createCluster = async (clusterData: ClusterData) => {
 		await clustersAPI.createCluster(clusterData)
@@ -44,7 +46,7 @@ export const Clusters = () => {
 					className='clusters'
 					title={<CreatingClusterPopover createCluster={createCluster}/>}
 				>
-					{!loading
+					{!(loading || typesLoading)
 						? (
 							<Space direction="vertical" style={{width: '100%'}}>
 								{clusters.map(cluster => (
@@ -52,6 +54,7 @@ export const Clusters = () => {
 										key={cluster.id}
 										cluster={cluster}
 										deleteCluster={deleteCluster}
+										propTypes={types}
 									/>
 								))}
 							</Space>

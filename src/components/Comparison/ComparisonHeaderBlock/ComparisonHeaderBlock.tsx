@@ -37,6 +37,7 @@ const ComparisonHeaderBlock: React.FC<ComparisonHeaderBlockProps> = ({employees,
                             unCheckedChildren="выкл"
                             checked={onlyDifferent}
                             onChange={setOnlyDifferent}
+                            disabled={employees.length < 2}
                         />
                     </Space>
                 </Col>

@@ -10,7 +10,6 @@ type CreatePropertyFormProps = {
     onFinish: (values: NewPropertyData) => void;
     loading: boolean;
     types: PropertyTypeObj[];
-    loadingTypes: boolean;
     form: FormInstance<NewPropertyData>;
 }
 
@@ -19,7 +18,6 @@ export const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                                                           onFinish,
                                                                           loading,
                                                                           types,
-                                                                          loadingTypes
                                                                       }) => {
     return (
         <Form style={{padding: '0 16px'}} form={form} onFinish={onFinish}>
@@ -27,14 +25,14 @@ export const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                 <Input placeholder='Название'/>
             </Form.Item>
             <Form.Item rules={[requiredRules]} name='type'>
-                <Select placeholder='Типа свойства' loading={loadingTypes} defaultValue='STRING'>
+                <Select placeholder='Типа свойства' defaultValue='STRING'>
                     {types.map(t => (
                         <Option value={t.type} key={t.type}>{t.title}</Option>
                     ))}
                 </Select>
             </Form.Item>
             <Form.Item>
-                <Button type='primary' htmlType="submit" loading={loading || loadingTypes}>
+                <Button type='primary' htmlType="submit" loading={loading}>
                     Создать
                 </Button>
             </Form.Item>

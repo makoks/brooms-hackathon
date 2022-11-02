@@ -12,6 +12,7 @@ import {useLocation} from "react-router-dom";
 import {HistoryFromAPI, HistoryLine} from "./types";
 import {ColumnsType} from "antd/es/table/interface";
 import {FilterParam} from "../../components/Employee/types";
+import {Id} from "../../API/types";
 
 const {RangePicker} = DatePicker
 const {Option} = Select
@@ -39,11 +40,11 @@ export const History = () => {
     const {search} = useLocation()
     const {employees, loading: employeesLoading} = useEmployees()
     const [dates, setDates] = useState<[Moment | null, Moment | null] | null>(null)
-    const [employeeId, setEmployeeId] = useState(String(new URLSearchParams(search).get('id')))
+    const [employeeId, setEmployeeId] = useState<Id>(Number(new URLSearchParams(search).get('id') || ''))
     const [history, setHistory] = useState<HistoryLine[]>([])
     const [loading, setLoading] = useState(false)
     const [filters, setFilters] = useState<FilterParam[]>([])
-    const [loadedEmployee, setLoadedEmployee] = useState('')
+    const [loadedEmployee, setLoadedEmployee] = useState<Id>('')
     const [loadedDates, setLoadedDates] = useState<string[]>([])
     const [isExcelLoading, setIsExcelLoading] = useState(false)
     const [isExcelDisabled, setIsExcelDisabled] = useState(

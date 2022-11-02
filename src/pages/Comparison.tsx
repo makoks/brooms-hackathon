@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Layout, TreeSelect} from 'antd';
+import {Empty, Layout, TreeSelect} from 'antd';
 import {ContentHeader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
 import {employeesAPI} from "../API/API";
@@ -72,15 +72,16 @@ const isAllValuesEqual = (prop: ComparisonProperty) => {
 }
 
 export const Comparison = () => {
-    const [onlyDifferent, setOnlyDifferent] = useState(false)
-    const [employees, setEmployees] = useState<UserClusters[]>([])
-    const {compareList, removeFromCompareListByIndex} = useContext(CompareListContext)
-    const [initClusters, setInitClusters] = useState<ComparisonCluster[]>([])
-    const [clusters, setClusters] = useState<ComparisonCluster[]>([])
-    const [selectedProps, setSelectedProps] = useState([])
+    const [onlyDifferent, setOnlyDifferent] = useState(false);
+    const [employees, setEmployees] = useState<UserClusters[]>([]);
+    const {compareList, removeFromCompareListByIndex} = useContext(CompareListContext);
+    const [initClusters, setInitClusters] = useState<ComparisonCluster[]>([]);
+    const [clusters, setClusters] = useState<ComparisonCluster[]>([]);
+    const [selectedProps, setSelectedProps] = useState([]);
 
     useEffect(() => {
-        setInitClusters(createClusters(employees, false, []))
+        setOnlyDifferent(false);
+        setInitClusters(createClusters(employees, false, []));
     }, [employees])
 
     useEffect(() => {
@@ -130,7 +131,8 @@ export const Comparison = () => {
                 />
             </ContentHeader>
             <Layout.Content style={{margin: '27px 34px'}}>
-                <ComparisonClusters employees={employees} clusters={clusters}/>
+                {!clusters.every(c => c.props.length === 0) ? <ComparisonClusters employees={employees} clusters={clusters}/> :
+                    <Empty description={'Нет свойств, удовлетворяющих фильтрам'}/>}
             </Layout.Content>
         </Layout>
     );

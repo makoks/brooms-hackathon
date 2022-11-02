@@ -3,7 +3,7 @@ import {employeesAPI} from "../API/API";
 import {CompareListContext} from "../providers/CompareListProvider";
 import {message} from "antd";
 import {EmployeeForTable, NewEmployeeData} from "./types";
-import {Id} from "../API/types";
+import {Id, Error} from "../API/types";
 
 
 export const useEmployees = () => {
@@ -14,16 +14,19 @@ export const useEmployees = () => {
 
 	const createEmployee = async (data: NewEmployeeData, onSuccess?: Function) => {
 		setLoading(true)
-		employeesAPI.createEmployee(data)
-			.then(async ({data: {id}}) => {
+		return employeesAPI.createEmployee(data)
+			.then(({data: {id}}) => {
 				message.success('Сотрудник успешно добавлен!')
 				setLoading(true)
-				const newEmployee = await employeesAPI.getEmployee(id)
-				setEmployees(oldEmployees => [...oldEmployees, newEmployee])
-				setLoading(false)
+				employeesAPI.getEmployee(id)
+					.then(newEmployee => {
+						setEmployees(oldEmployees => [...oldEmployees, newEmployee])
+						setLoading(false)
+					})
 				onSuccess?.()
+			}).catch((err: Error) => {
+				message.error(err.response?.data.message)
 			})
-			.catch(() => message.error('Не удалось создать сотрудника :('))
 			.finally(() => setLoading(false))
 	}
 
