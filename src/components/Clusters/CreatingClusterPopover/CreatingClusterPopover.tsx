@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Form, Popover} from "antd";
+import {Form, message, Popover} from "antd";
 import {CreateClusterForm} from "./CreateClusterForm";
 import {AddButton} from "../../common/AddButton";
 import {ClusterData} from "../types";
@@ -17,6 +17,7 @@ export const CreatingClusterPopover: React.FC<CreatingClusterPopoverProps> = (pr
 		setCreating(true)
 		props.createCluster(values)
 			.then(() => form.resetFields())
+			.catch(() => message.error('Не удалось создать кластер :('))
 			.finally(() => setCreating(false))
 	}
 

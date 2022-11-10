@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {propertiesAPI} from "../../../../../API/API";
-import {Space, Input, Button} from "antd";
+import {Space, Input, Button, message} from "antd";
 import {Loader} from "../../../../common/Loader";
 import {AddButton} from "../../../../common/AddButton";
 import {EnumItem} from "./EnumItem";
@@ -30,6 +30,7 @@ export const EnumList: React.FC<EnumListProps> = ({propertyId}) => {
 				setIsEdit(false)
 				setNewEnumItem('')
 			})
+			.catch(() => message.error('Не удалось добавить элемент в список :('))
 	}
 
 	const deleteEnumItem = async (id: string) => {
@@ -39,6 +40,7 @@ export const EnumList: React.FC<EnumListProps> = ({propertyId}) => {
 				setDeletingItemsIds(ids => ids.filter(itemId => itemId !== id))
 				setEnumList(items => items.filter(item => item.id !== id))
 			})
+			.catch(() => message.error('Не удалось удалить элемент из списка :('))
 	}
 
 	const changeEnumItem = async (id: string, name: string) => {
@@ -51,6 +53,7 @@ export const EnumList: React.FC<EnumListProps> = ({propertyId}) => {
 					return item
 				}))
 			})
+			.catch(() => message.error('Не удалось изменить элемент списка :('))
 	}
 
 	useEffect(() => {
@@ -61,6 +64,7 @@ export const EnumList: React.FC<EnumListProps> = ({propertyId}) => {
 		setLoading(true)
 		getEnumList()
 			.finally(() => setLoading(false))
+			.catch(() => message.error('Не удалось получить список :('))
 	}, [propertyId])
 
 	return (

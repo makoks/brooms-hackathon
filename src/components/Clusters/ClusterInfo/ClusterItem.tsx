@@ -23,7 +23,7 @@ export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster,
 		setLoading(true)
 		clustersAPI.editCluster(cluster.id, clusterName)
 			.then(() => setIsEdit(false))
-			.catch(() => message.error('Не удалось изменить название кластера'))
+			.catch(() => message.error('Не удалось изменить название кластера :('))
 			.finally(() => setLoading(false))
 	}
 

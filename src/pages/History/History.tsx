@@ -125,6 +125,7 @@ export const History = () => {
                     dates?.[1]?.format(dateLocale) ?? ''
                 ])
             })
+            .catch(() => message.error('Не удалось получить историю изменений :('))
             .finally(() => setLoading(false))
     }
 

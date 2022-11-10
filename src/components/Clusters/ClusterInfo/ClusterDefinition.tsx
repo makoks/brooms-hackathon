@@ -24,7 +24,7 @@ export const ClusterDefinition: React.FC<ClusterDefinitionProps> = ({id, ...prop
                 setSaving(false)
                 setIsEdit(false)
             })
-            .catch(() => message.error('Не удалось изменить описание'))
+            .catch(() => message.error('Не удалось изменить описание :('))
     }
 
     return (

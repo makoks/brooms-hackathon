@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Select, Space, Switch, Typography, Input} from "antd";
+import {Button, Select, Space, Switch, Typography, Input, message} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {employeesAPI} from "../../../API/API";
 import {AddButton} from "../../common/AddButton";
@@ -32,6 +32,7 @@ const EditBlock: React.FC<EditBlockProps> = ({isEdit, toggleIsEdit, setReason, r
         }
 
         getChangeReasons()
+            .catch(() => message.error('Не удалось получить список причин изменения :('))
             .finally(() => setLoading(false))
     }, [])
 

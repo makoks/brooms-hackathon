@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Empty, Layout, TreeSelect} from 'antd';
+import {Empty, Layout, message, TreeSelect} from 'antd';
 import {ContentHeader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
 import {employeesAPI} from "../API/API";
@@ -106,6 +106,7 @@ export const Comparison = () => {
             }
 
             getEmployees()
+                .catch(() => message.error('Не удалось получить свойства сотрудника :('))
         }
     }, [compareList, removeFromCompareListByIndex])
 
