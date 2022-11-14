@@ -38,7 +38,7 @@ export const Employee = () => {
 
     const saveChanges = () => {
         if (!reason) {
-            message.error('Необходимо выбрать причину изменения')
+            message.warn('Необходимо выбрать причину изменения')
         } else {
             setSaving(true)
             employeesAPI.changeProperties(String(id), reason, changedProperties)

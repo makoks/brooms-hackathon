@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Card, Space, Layout} from 'antd';
+import {Card, Space, Layout, message} from 'antd';
 import {ClusterItem, Loader} from '../../components';
 import {clustersAPI} from '../../API/API';
 import './index.css';
@@ -19,11 +19,13 @@ export const Clusters = () => {
 				...clusters,
 				{...clusterData, id: res.data.id}
 			]))
+			.catch(() => message.error('Не удалось создать кластер :('))
 	}
 
 	const deleteCluster = async (id: Id) => {
 		clustersAPI.deleteCluster(id)
 			.then(() => setClusters(c => c.filter(cluster => cluster.id !== id)))
+			.catch(() => message.error('Не удалось удалить кластер :('))
 	}
 
 	useEffect(() => {
@@ -35,6 +37,7 @@ export const Clusters = () => {
 
 		getClusters()
 			.finally(() => setLoading(false))
+			.catch(() => message.error('Не удалось получить список кластеров :('))
 	}, []);
 
 	return (

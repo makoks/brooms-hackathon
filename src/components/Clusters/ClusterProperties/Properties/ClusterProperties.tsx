@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Form, Space, Typography} from "antd";
+import {Button, Form, message, Space, Typography} from "antd";
 import {clustersAPI, propertiesAPI} from "../../../../API/API";
 import {ClusterDefinition} from "../../ClusterInfo/ClusterDefinition";
 import {AddButton} from "../../../common/AddButton";
@@ -37,6 +37,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
                 setCreating(false)
                 form.resetFields()
             })
+            .catch(() => message.error('Не удалось добавить свойство :('))
     }
 
     const deleteProperty = async (id: Id) => {
@@ -46,6 +47,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
                 setDeletingPropertyIds(ids => ids.filter(propId => propId !== id))
                 setProperties(props => props.filter(prop => prop.id !== id))
             })
+            .catch(() => message.error('Не удалось удалить свойство :('))
     }
 
     const changeProperty = async (propId: Id, name?: string, type?: PropertyType) => {
@@ -66,6 +68,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
                     return prop
                 }))
             })
+            .catch(() => message.error('Не удалось изменить свойство :('))
     }
 
     useEffect(() => {
@@ -76,6 +79,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({id, definit
         setLoading(true)
         getProperties()
             .finally(() => setLoading(false))
+            .catch(() => message.error('Не удалось получить список свойств :('))
     }, [id])
 
     return (

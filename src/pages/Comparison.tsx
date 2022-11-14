@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Empty, Layout, TreeSelect} from 'antd';
-import {ContentHeader} from '../components';
+import {Empty, Layout, message, TreeSelect} from 'antd';
+import {ContentHeader, Loader} from '../components';
 import ComparisonHeaderBlock from "../components/Comparison/ComparisonHeaderBlock/ComparisonHeaderBlock";
 import {employeesAPI} from "../API/API";
 import {CompareListContext} from "../providers/CompareListProvider";
@@ -78,6 +78,7 @@ export const Comparison = () => {
     const [initClusters, setInitClusters] = useState<ComparisonCluster[]>([]);
     const [clusters, setClusters] = useState<ComparisonCluster[]>([]);
     const [selectedProps, setSelectedProps] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setOnlyDifferent(false);
@@ -105,34 +106,47 @@ export const Comparison = () => {
                 setEmployees(res.data)
             }
 
+            setLoading(true)
             getEmployees()
+                .catch(() => message.error('Не удалось получить сотрудников для сравнения :('))
+                .finally(() => setLoading(false))
         }
     }, [compareList, removeFromCompareListByIndex])
 
     return (
         <Layout>
             <ContentHeader title='Сравнение' paddingBottom={true}>
-                <TreeSelect
-                    value={selectedProps}
-                    onChange={setSelectedProps}
-                    style={{width: '100%', marginBottom: 20}}
-                    dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
-                    placeholder='Выберите свойства'
-                    fieldNames={{label: 'title', value: 'id', children: 'props'}}
-                    treeData={initClusters}
-                    showSearch={false}
-                    treeDefaultExpandAll
-                    treeCheckable
-                />
-                <ComparisonHeaderBlock
-                    employees={employees.map(e => e.user)}
-                    onlyDifferent={onlyDifferent}
-                    setOnlyDifferent={setOnlyDifferent}
-                />
+                {!loading
+                    ? <>
+                        <TreeSelect
+                            value={selectedProps}
+                            onChange={setSelectedProps}
+                            style={{width: '100%', marginBottom: 20}}
+                            dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
+                            placeholder='Выберите свойства'
+                            fieldNames={{label: 'title', value: 'id', children: 'props'}}
+                            treeData={initClusters}
+                            showSearch={false}
+                            treeDefaultExpandAll
+                            treeCheckable
+                        />
+                        <ComparisonHeaderBlock
+                            employees={employees.map(e => e.user)}
+                            onlyDifferent={onlyDifferent}
+                            setOnlyDifferent={setOnlyDifferent}
+                        />
+                    </> : <Loader/>}
             </ContentHeader>
             <Layout.Content style={{margin: '27px 34px'}}>
-                {!clusters.every(c => c.props.length === 0) ? <ComparisonClusters employees={employees} clusters={clusters}/> :
-                    <Empty description={'Нет свойств, удовлетворяющих фильтрам'}/>}
+                {!loading ?
+                    <>
+                        {!clusters.every(c => c.props.length === 0) ?
+                            <ComparisonClusters employees={employees} clusters={clusters}/> :
+                            <Empty description={'Нет свойств, удовлетворяющих фильтрам'}/>
+                        }
+                    </>
+                    : <Loader/>
+                }
             </Layout.Content>
         </Layout>
     );

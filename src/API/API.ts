@@ -105,7 +105,7 @@ export const employeesAPI = {
 }
 
 export const historyAPI = {
-	getHistory: async (userId: Id, beginDate: string, endDate: string) => {
+	getHistory: async (userId: Id | undefined, beginDate: string, endDate: string) => {
 		const params = new URLSearchParams();
 		params.append('beginDate', beginDate);
 		params.append('endDate', endDate);
@@ -115,7 +115,7 @@ export const historyAPI = {
 		return res.data.propertyHistories;
 	},
 
-	excelLoad: async (userId: Id, beginDate: string, endDate: string, excelParams: ExcelParams) => {
+	excelLoad: async (userId: Id | undefined, beginDate: string, endDate: string, excelParams: ExcelParams) => {
 		const params = new URLSearchParams();
 		params.append('beginDate', beginDate);
 		params.append('endDate', endDate);

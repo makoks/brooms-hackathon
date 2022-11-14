@@ -15,7 +15,7 @@ export const usePropertyTypes = () => {
 
         getPropertyTypes()
             .then(data => setTypes(data))
-            .catch(() => message.error('Не удалось загрузить ипы свойств :('))
+            .catch(() => message.error('Не удалось загрузить типы свойств :('))
             .finally(() => setLoading(false));
     }, [])
 

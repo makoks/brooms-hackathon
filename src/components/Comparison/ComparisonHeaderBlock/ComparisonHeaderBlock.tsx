@@ -5,6 +5,7 @@ import {CompareListContext} from "../../../providers/CompareListProvider";
 import EmployeesTable from "../../Employee/EmployeesTable/EmployeesTable";
 import {useEmployees} from "../../../hooks";
 import {EmployeeForPage} from "../../../hooks/types";
+import {Loader} from "../../common/Loader";
 
 
 type ComparisonHeaderBlockProps = {
@@ -28,38 +29,43 @@ const ComparisonHeaderBlock: React.FC<ComparisonHeaderBlockProps> = ({employees,
 
     return (
         <>
-            <Row justify='space-between' align='middle' gutter={24}>
-                <Col flex='224px'>
-                    <Space size='small'>
-                        Только различия:
-                        <Switch
-                            checkedChildren="вкл"
-                            unCheckedChildren="выкл"
-                            checked={onlyDifferent}
-                            onChange={setOnlyDifferent}
-                            disabled={employees.length < 2}
-                        />
-                    </Space>
-                </Col>
-                <Col flex='auto'>
-                    <ComparisonPersons employees={employees} removeFromCompareList={removeFromCompareList}/>
-                </Col>
-                <Col flex='194px'>
-                    <Button
-                        type='primary'
-                        disabled={employees.length === 6}
-                        onClick={showModal}
-                    >
-                        Добавить сотрудника
-                    </Button>
-                </Col>
-            </Row>
+            {!loading
+                ? <Row justify='space-between' align='middle' gutter={24}>
+                    <Col flex='224px'>
+                        <Space size='small'>
+                            Только различия:
+                            <Switch
+                                checkedChildren="вкл"
+                                unCheckedChildren="выкл"
+                                checked={onlyDifferent}
+                                onChange={setOnlyDifferent}
+                                disabled={employees.length < 2}
+                            />
+                        </Space>
+                    </Col>
+                    <Col flex='auto'>
+                        <ComparisonPersons employees={employees} removeFromCompareList={removeFromCompareList}/>
+                    </Col>
+                    <Col flex='194px'>
+                        <Button
+                            type='primary'
+                            disabled={employees.length === 6}
+                            onClick={showModal}
+                        >
+                            Добавить сотрудника
+                        </Button>
+                    </Col>
+                </Row>
+                : <Loader size='default'/>
+            }
+
             <Modal
                 title="Сотрудники"
-                visible={isModalVisible}
+                open={isModalVisible}
                 onCancel={hideModal}
                 footer={null}
                 width='fit-content'
+
             >
                 <EmployeesTable
                     employeesLoading={loading}
