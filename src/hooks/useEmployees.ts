@@ -25,7 +25,7 @@ export const useEmployees = () => {
 					})
 				onSuccess?.()
 			}).catch((err: Error) => {
-				message.error(err.response?.data.message)
+				message.error(err.response?.data.message ?? 'Не удалось создать сотрудника :(')
 			})
 			.finally(() => setLoading(false))
 	}

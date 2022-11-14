@@ -1,19 +1,18 @@
 import React from 'react';
-import { Spin } from 'antd';
+import {Spin, SpinProps} from 'antd';
 
-
-export const Loader = () => {
+export const Loader = (props: SpinProps) => {
 	return (
 		<div
 			style={{
 				display: 'flex',
 				alignItems: 'start',
-				justifyContent: 'space-between',
+				justifyContent: 'center',
 				padding: 24,
 				margin: '0 auto'
 			}}
 		>
-			<Spin size="large"/>
+			<Spin size="large" {...props}/>
 		</div>
 	);
 };

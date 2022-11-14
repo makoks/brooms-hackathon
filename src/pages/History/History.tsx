@@ -40,11 +40,11 @@ export const History = () => {
     const {search} = useLocation()
     const {employees, loading: employeesLoading} = useEmployees()
     const [dates, setDates] = useState<[Moment | null, Moment | null] | null>(null)
-    const [employeeId, setEmployeeId] = useState<Id>(Number(new URLSearchParams(search).get('id') || ''))
+    const [employeeId, setEmployeeId] = useState<Id | undefined>(Number(new URLSearchParams(search).get('id')) || undefined)
     const [history, setHistory] = useState<HistoryLine[]>([])
     const [loading, setLoading] = useState(false)
     const [filters, setFilters] = useState<FilterParam[]>([])
-    const [loadedEmployee, setLoadedEmployee] = useState<Id>('')
+    const [loadedEmployee, setLoadedEmployee] = useState<Id | undefined>()
     const [loadedDates, setLoadedDates] = useState<string[]>([])
     const [isExcelLoading, setIsExcelLoading] = useState(false)
     const [isExcelDisabled, setIsExcelDisabled] = useState(
