@@ -1,5 +1,5 @@
-import React, {createContext, useState} from 'react';
-import {Id} from "../API/types";
+import React, { createContext, useState } from 'react';
+import { Id } from "../API/types";
 
 type CompareListContextType = {
     compareList: Id[];
@@ -23,7 +23,7 @@ type CompareListProviderProps = {
 };
 
 export const CompareListProvider: React.FC<CompareListProviderProps> = ({ children }) => {
-    const [compareList, setCompareList] = useState<Id[]>(JSON.parse(localStorage.getItem('compareList') ?? '') ?? []);
+    const [compareList, setCompareList] = useState<Id[]>(JSON.parse(JSON.stringify(localStorage.getItem('compareList'))) || []);
 
     const addToCompareList = (id: Id) => {
         const newList = [...compareList, id];
@@ -46,7 +46,7 @@ export const CompareListProvider: React.FC<CompareListProviderProps> = ({ childr
 
     return (
         <CompareListContext.Provider
-            value={{compareList, addToCompareList, removeFromCompareList, removeFromCompareListByIndex}}>
+            value={{ compareList, addToCompareList, removeFromCompareList, removeFromCompareListByIndex }}>
             {children}
         </CompareListContext.Provider>
     )
