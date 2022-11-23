@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import {
     Avatar,
     Button,
@@ -12,13 +12,13 @@ import {
     Space,
     Typography,
     Upload,
-    UploadFile
 } from "antd";
-import {AvatarPreview} from "../../../images";
-import {emailRules, maxLengthRule, requiredRules} from "../../../common/form";
-import {useReferenceBooks} from "../../../hooks";
+import { AvatarPreview } from "../../../images";
+import { emailRules, maxLengthRule, requiredRules } from "../../../common/form";
+import { useReferenceBooks } from "../../../hooks";
 import './style.css'
-import {NewEmployeeData} from "../../../hooks/types";
+import { NewEmployeeData } from "../../../hooks/types";
+import { UploadFile } from 'antd/lib/upload/interface';
 
 
 const mask = (inputValue: string) => {
@@ -30,7 +30,7 @@ const mask = (inputValue: string) => {
 
     for (let i = 0; i < value.length && i < numberLength; i++) {
         switch (i) {
-            case 1 :
+            case 1:
                 result += ' ('
                 break;
             case 4:
@@ -50,7 +50,7 @@ const mask = (inputValue: string) => {
     return result;
 }
 
-const {Option} = Select;
+const { Option } = Select;
 
 type CreateEmployeeModalProps = {
     isModalVisible: boolean;
@@ -60,18 +60,18 @@ type CreateEmployeeModalProps = {
 }
 
 const CreateEmployeeModal: React.FC<CreateEmployeeModalProps> = ({
-                                                                     isModalVisible,
-                                                                     onCancel,
-                                                                     createEmployee,
-                                                                     loading
-                                                                 }) => {
-    const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks();
+    isModalVisible,
+    onCancel,
+    createEmployee,
+    loading
+}) => {
+    const { loading: referenceBooksLoading, departments, positions, projects, roles } = useReferenceBooks();
     const fieldNames = ['fioUser', 'email', 'telephone', 'idDepartment', 'idPosition', 'idRole', 'idProject'];
     const [form] = Form.useForm();
     const [avatarPreview, setAvatarPreview] = useState(AvatarPreview);
     const [fileList, setFileList] = useState<UploadFile<any>[] | undefined>([]);
 
-    const onUploadChange = ({fileList: newFileList}: { fileList: UploadFile<any>[] | undefined }) => {
+    const onUploadChange = ({ fileList: newFileList }: { fileList: UploadFile<any>[] | undefined }) => {
         if (newFileList?.length) {
             const isAvailableSize = (newFileList[0]?.size ?? 0) / 1024 / 1024 <= 5;
             const isAvailableType = newFileList[0].type === 'image/png' || newFileList[0].type === 'image/jpg';
@@ -91,7 +91,7 @@ const CreateEmployeeModal: React.FC<CreateEmployeeModalProps> = ({
     }
 
     const handleCreateEmployee = async (data: NewEmployeeData) => {
-        const userDataWithAvatar = fileList?.length ? {...data, avatar: fileList[0].originFileObj} : data
+        const userDataWithAvatar = fileList?.length ? { ...data, avatar: fileList[0].originFileObj } : data
         createEmployee(userDataWithAvatar, () => {
             onCancel()
             form.resetFields()
@@ -101,7 +101,7 @@ const CreateEmployeeModal: React.FC<CreateEmployeeModalProps> = ({
     }
 
     const onNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
-        form.setFieldsValue({telephone: mask(e.currentTarget.value)})
+        form.setFieldsValue({ telephone: mask(e.currentTarget.value) })
     }
 
     return (
@@ -119,7 +119,7 @@ const CreateEmployeeModal: React.FC<CreateEmployeeModalProps> = ({
                         .then(() => handleCreateEmployee(form.getFieldsValue(fieldNames)))
                 }
             }}
-            style={{minWidth: 800}}
+            style={{ minWidth: 800 }}
             destroyOnClose={true}
             className='create-employee-modal'
         >
@@ -127,13 +127,13 @@ const CreateEmployeeModal: React.FC<CreateEmployeeModalProps> = ({
                 <Row justify='space-between'>
                     <Col span={16} className='form'>
                         <Form.Item name="fioUser" label="ФИО" rules={[requiredRules, maxLengthRule(250)]}>
-                            <Input/>
+                            <Input />
                         </Form.Item>
                         <Form.Item name="email" label="Почта" rules={[requiredRules, emailRules, maxLengthRule(250)]}>
-                            <Input/>
+                            <Input />
                         </Form.Item>
                         <Form.Item name="telephone" label="Телефон" rules={[requiredRules, maxLengthRule(20)]}>
-                            <Input onChange={onNumberChange}/>
+                            <Input onChange={onNumberChange} />
                         </Form.Item>
                         <Form.Item name="idDepartment" label='Отдел' rules={[requiredRules]}>
                             <Select loading={referenceBooksLoading}>
@@ -166,7 +166,7 @@ const CreateEmployeeModal: React.FC<CreateEmployeeModalProps> = ({
                     </Col>
                     <Col span={8} className='upload'>
                         <Space direction='vertical' align='center' className='upload-avatar'>
-                            <Avatar src={avatarPreview} size={140}/>
+                            <Avatar src={avatarPreview} size={140} />
                             <Upload
                                 name="avatar"
                                 accept='image/png, image/jpg'

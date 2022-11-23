@@ -1,11 +1,11 @@
-import React, {useContext, useState} from 'react'
-import {Button, Col, Modal, Row, Space, Switch} from "antd";
+import React, { useContext, useState } from 'react'
+import { Button, Col, Modal, Row, Space, Switch } from "antd";
 import ComparisonPersons from "./ComparisonPersons/ComparisonPersons";
-import {CompareListContext} from "../../../providers/CompareListProvider";
+import { CompareListContext } from "../../../providers/CompareListProvider";
 import EmployeesTable from "../../Employee/EmployeesTable/EmployeesTable";
-import {useEmployees} from "../../../hooks";
-import {EmployeeForPage} from "../../../hooks/types";
-import {Loader} from "../../common/Loader";
+import { useEmployees } from "../../../hooks";
+import { EmployeeForPage } from "../../../hooks/types";
+import { Loader } from "../../common/Loader";
 
 
 type ComparisonHeaderBlockProps = {
@@ -14,9 +14,9 @@ type ComparisonHeaderBlockProps = {
     setOnlyDifferent: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ComparisonHeaderBlock: React.FC<ComparisonHeaderBlockProps> = ({employees, onlyDifferent, setOnlyDifferent}) => {
-    const {loading, employees: allEmployees, deleteEmployee, deletingIds} = useEmployees()
-    const {removeFromCompareList} = useContext(CompareListContext)
+const ComparisonHeaderBlock: React.FC<ComparisonHeaderBlockProps> = ({ employees, onlyDifferent, setOnlyDifferent }) => {
+    const { loading, employees: allEmployees, deleteEmployee, deletingIds } = useEmployees()
+    const { removeFromCompareList } = useContext(CompareListContext)
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const showModal = () => {
@@ -44,7 +44,7 @@ const ComparisonHeaderBlock: React.FC<ComparisonHeaderBlockProps> = ({employees,
                         </Space>
                     </Col>
                     <Col flex='auto'>
-                        <ComparisonPersons employees={employees} removeFromCompareList={removeFromCompareList}/>
+                        <ComparisonPersons employees={employees} removeFromCompareList={removeFromCompareList} />
                     </Col>
                     <Col flex='194px'>
                         <Button
@@ -56,12 +56,12 @@ const ComparisonHeaderBlock: React.FC<ComparisonHeaderBlockProps> = ({employees,
                         </Button>
                     </Col>
                 </Row>
-                : <Loader size='default'/>
+                : <Loader size='default' />
             }
 
             <Modal
                 title="Сотрудники"
-                open={isModalVisible}
+                visible={isModalVisible}
                 onCancel={hideModal}
                 footer={null}
                 width='fit-content'
