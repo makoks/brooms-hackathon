@@ -1,16 +1,16 @@
-import {FormRule} from "antd";
+import { Rule } from "antd/lib/form"
 
-export const requiredRules: FormRule = {
+export const requiredRules: Rule = {
 	required: true,
 	message: 'Это обязательное поле'
 }
 
-export const emailRules: FormRule = {
+export const emailRules: Rule = {
 	type: 'email',
 	message: 'Почта введена некорректно'
 }
 
-export const maxLengthRule = (len: number): FormRule => ({
+export const maxLengthRule = (len: number): Rule => ({
 	max: len,
 	message: 'Превышена максимальная длина'
 })
