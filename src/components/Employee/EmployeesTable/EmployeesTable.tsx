@@ -1,16 +1,16 @@
-import {Avatar, PaginationProps, Table} from 'antd';
-import {NavLink} from "react-router-dom";
-import React, {useContext, useState} from "react";
-import {tableLocale} from "../../../common/locale";
-import {alphabetSort} from "../../../common/helpers";
-import {CompareListContext} from "../../../providers/CompareListProvider";
-import {useReferenceBooks} from "../../../hooks";
-import {AvatarPreview} from "../../../images";
+import { Avatar, PaginationProps, Table } from 'antd';
+import { NavLink } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { tableLocale } from "../../../common/locale";
+import { alphabetSort } from "../../../common/helpers";
+import { CompareListContext } from "../../../providers/CompareListProvider";
+import { useReferenceBooks } from "../../../hooks";
+import { AvatarPreview } from "../../../images";
 import './style.css'
-import {ActionBlock} from "./ActionBlock/ActionBlock";
-import {EmployeeForTable} from "../../../hooks/types";
-import {ColumnsType, SorterResult} from "antd/es/table/interface";
-import {Id} from "../../../API/types";
+import { ActionBlock } from "./ActionBlock/ActionBlock";
+import { EmployeeForTable } from "../../../hooks/types";
+import { ColumnsType, SorterResult } from "antd/es/table/interface";
+import { Id } from "../../../API/types";
 
 type EmployeesTableProps = {
     employees: EmployeeForTable[];
@@ -23,17 +23,17 @@ type EmployeesTableProps = {
 }
 
 export const EmployeesTable: React.FC<EmployeesTableProps> = ({
-                                                                  employees,
-                                                                  employeesLoading,
-                                                                  deleteEmployee,
-                                                                  deletingIds,
-                                                                  setFilters,
-                                                                  setSorters,
-                                                                  setIsExcelDisabled
-                                                              }) => {
-    const {loading: referenceBooksLoading, departments, positions, projects, roles} = useReferenceBooks()
-    const {compareList, addToCompareList, removeFromCompareList} = useContext(CompareListContext)
-    const [tableParams, setTableParams] = useState<{pagination: PaginationProps}>({
+    employees,
+    employeesLoading,
+    deleteEmployee,
+    deletingIds,
+    setFilters,
+    setSorters,
+    setIsExcelDisabled
+}) => {
+    const { loading: referenceBooksLoading, departments, positions, projects, roles } = useReferenceBooks()
+    const { compareList, addToCompareList, removeFromCompareList } = useContext(CompareListContext)
+    const [tableParams, setTableParams] = useState<{ pagination: PaginationProps }>({
         pagination: {
             showTotal: (total: number, range: number[]) => `${range[0]}-${range[1]} из ${total}`,
             showSizeChanger: true,
@@ -48,46 +48,46 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
             title: 'Аватар',
             dataIndex: 'avatarUrl',
             key: 'avatarUrl',
-            render: (_, {avatarUrl}) => <Avatar size='large' src={avatarUrl ?? AvatarPreview}/>
+            render: (_, { avatarUrl }) => <Avatar size='large' src={avatarUrl ?? AvatarPreview} />
         },
         {
             title: 'ФИО',
             dataIndex: 'fioUser',
             key: 'fioUser',
-            render: (_, {id, fioUser}) => <NavLink to={`employee/${id}`}>{fioUser}</NavLink>,
+            render: (_, { id, fioUser }) => <NavLink to={`employee/${id}`}>{fioUser}</NavLink>,
             // filters: employees.map(e => ({text: e.fioUser, value: e.fioUser})),
             // filterSearch: true,
             // onFilter: (value, record) => record.fioUser === value,
             sorter: (a, b) => alphabetSort(a.fioUser, b.fioUser),
         },
-        {title: 'Почта', dataIndex: 'email', key: 'email'},
-        {title: 'Телефон', dataIndex: 'telephone', key: 'telephone'},
+        { title: 'Почта', dataIndex: 'email', key: 'email' },
+        { title: 'Телефон', dataIndex: 'telephone', key: 'telephone' },
         {
             title: 'Отдел',
             dataIndex: ['userDepartment', 'name'],
             key: 'userDepartment',
-            filters: departments?.map(d => ({text: d.name, value: d.name})),
+            filters: departments?.map(d => ({ text: d.name, value: d.name })),
             onFilter: (value, record) => record.userDepartment.name === value,
         },
         {
             title: 'Должность',
             dataIndex: ['userPosition', 'name'],
             key: 'userPosition',
-            filters: positions?.map(p => ({text: p.name, value: p.name})),
+            filters: positions?.map(p => ({ text: p.name, value: p.name })),
             onFilter: (value, record) => record.userPosition.name === value
         },
         {
             title: 'Роль',
             dataIndex: ['userRole', 'name'],
             key: 'userRole',
-            filters: roles?.map(r => ({text: r.name, value: r.name})),
+            filters: roles?.map(r => ({ text: r.name, value: r.name })),
             onFilter: (value, record) => record.userRole.name === value
         },
         {
             title: 'Проект',
             dataIndex: ['userProject', 'name'],
             key: 'userProject',
-            filters: projects?.map(p => ({text: p.name, value: p.name})),
+            filters: projects?.map(p => ({ text: p.name, value: p.name })),
             onFilter: (value, record) => record.userProject.name === value
         },
         {
@@ -96,7 +96,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
             key: 'action',
             colSpan: 2,
             align: 'left',
-            render: (_, {id}) => (
+            render: (_, { id }) => (
                 <ActionBlock
                     inCompareList={compareList?.includes(id)}
                     onAddToCompareList={() => addToCompareList(id)}
@@ -118,7 +118,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
             dataSource={employees}
             locale={tableLocale}
             loading={referenceBooksLoading || employeesLoading}
-            onChange={(pagination, filters, sorters, {currentDataSource}) => {
+            onChange={(pagination, filters, sorters, { currentDataSource }) => {
                 setTableParams({
                     ...tableParams,
                     pagination: {
