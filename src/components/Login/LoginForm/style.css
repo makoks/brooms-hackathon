@@ -1,0 +1,16 @@
+.login-form {
+	width: 100%;
+}
+
+.login-form__item .ant-form-item-control {
+	max-width: none;
+}
+
+.login-form button[type='submit'] {
+	display: block;
+	width: 100%;
+}
+
+.login-form__input input::placeholder {
+	text-align: center;
+}

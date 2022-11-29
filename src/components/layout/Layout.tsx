@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { Layout as AntdLayout, Menu, Space, Typography, Switch, Badge } from 'antd';
+import { Layout as AntdLayout, Menu, Space, Typography, Switch, Badge, Button } from 'antd';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { ProfileOutlined, BulbOutlined, BulbFilled, UnorderedListOutlined, UserOutlined, ClusterOutlined } from '@ant-design/icons';
+import { ProfileOutlined, BulbOutlined, BulbFilled, UnorderedListOutlined, UserOutlined, ClusterOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Logo } from '../../images';
 import { useCurrentPage } from '../../hooks';
 import { CompareListContext } from "../../providers/CompareListProvider";
@@ -35,7 +35,7 @@ export const Layout = () => {
 						Сотрудники
 					</Typography.Text>
 				</Space>
-				<Space size="large">
+				<Space size={28} align='center'>
 					<Switch
 						checkedChildren={<BulbOutlined />}
 						unCheckedChildren={<BulbFilled />}
@@ -46,7 +46,10 @@ export const Layout = () => {
 							<UnorderedListOutlined style={{ color: 'white', fontSize: 20 }} />
 						</NavLink>
 					</Badge>
-
+					<Space align='center'>
+						Белов Артем Михайлович
+						<Button type='text' icon={<LogoutOutlined style={{ color: 'white', fontSize: 20 }} />} />
+					</Space>
 				</Space>
 			</AntdLayout.Header>
 			<AntdLayout>

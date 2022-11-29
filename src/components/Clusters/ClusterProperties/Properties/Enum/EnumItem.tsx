@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
-import {Button, Space} from "antd";
-import {DeleteOutlined} from "@ant-design/icons";
-import {EditingTextByDoubleClick} from "../../../../common/EditingTextByDoubleClick";
+import React, { useEffect, useState } from 'react'
+import { Button, Col, Input, InputNumber, Row, Space } from "antd";
+import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditingTextByDoubleClick } from "../../../../common/EditingTextByDoubleClick";
 
 
 type EnumItemProps = {
@@ -9,38 +9,64 @@ type EnumItemProps = {
 	deleteItem: (id: string) => Promise<void>;
 	id: string;
 	name: string;
-	changeItem: (id: string, name: string) => Promise<void>;
+	point: number;
+	changeItem: (id: string, name: string, point: number) => Promise<void>;
+	withWeights: boolean;
 }
 
-export const EnumItem: React.FC<EnumItemProps> = ({deleting, deleteItem, id, ...props}) => {
-	const [name, setName] = useState<string | undefined>(props.name)
-	const [isEdit, setIsEdit] = useState(false)
-	const [loading, setLoading] = useState(false)
+export const EnumItem: React.FC<EnumItemProps> = ({ deleting, deleteItem, id, withWeights, ...props }) => {
+	const [name, setName] = useState<string | undefined>(props.name);
+	const [point, setPoint] = useState<number | null>(withWeights ? props.point : 1);
+	const [isEdit, setIsEdit] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const changeItem = async () => {
 		setLoading(true)
-		await props.changeItem(id, name as string)
-		setLoading(false)
-		setIsEdit(false)
+		props.changeItem(id, String(name), Number(point))
+			.finally(() => {
+				setLoading(false)
+				setIsEdit(false)
+			})
 	}
 
+	useEffect(() => {
+		setPoint(withWeights ? props.point : 1);
+	}, [withWeights, props.point])
+
 	return (
-		<Space size="middle" style={{width: '100%'}}>
-			<Button
-				icon={<DeleteOutlined/>}
-				shape="circle" type="default"
-				danger size="small"
-				disabled={deleting}
-				onClick={() => deleteItem(id)}
-			/>
-			<EditingTextByDoubleClick
-				isEdit={isEdit}
-				setIsEdit={setIsEdit}
-				value={name}
-				onChange={setName}
-				onBlur={changeItem}
-				loading={loading}
-			/>
-		</Space>
+		<Row justify='space-between' align='middle' wrap={false}>
+			<Col>
+				<Space size='middle'>
+					<Button
+						icon={<DeleteOutlined />}
+						shape="circle" type="default"
+						danger size="small"
+						disabled={deleting}
+						onClick={() => deleteItem(id)}
+					/>
+					<EditingTextByDoubleClick
+						isEdit={isEdit}
+						setIsEdit={setIsEdit}
+						value={name}
+						onChange={setName}
+						onBlur={changeItem}
+						loading={loading}
+					/>
+				</Space>
+			</Col>
+			<Col>
+				<Input.Group compact style={{ display: 'flex', justifyContent: 'center' }} >
+					<InputNumber disabled={!withWeights} value={point} onChange={setPoint} />
+					<Button
+						type="primary"
+						onClick={changeItem}
+						loading={loading}
+						icon={<CheckOutlined />}
+						disabled={!withWeights}
+					/>
+				</Input.Group>
+
+			</Col>
+		</Row>
 	)
 }
