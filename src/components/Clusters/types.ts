@@ -22,8 +22,16 @@ export type NewPropertyData = {
     type?: PropertyType;
 };
 
+export type NewPropertyDataForAllUpdate = {
+    id: Id;
+    propertyDefinitionModel: {
+        name: string;
+        point: number;
+    };
+}
+
 export type Enum = {
-    id: string;
+    id: Id;
     name: string;
     point: number;
 }

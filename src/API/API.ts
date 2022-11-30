@@ -2,7 +2,7 @@ import axios from "axios";
 import {
 	DepartmentsResponse,
 	EmployeeResponse,
-	EmployeesResponse, HistoryResponse, Id,
+	EmployeesResponse, EnumListResponse, HistoryResponse, Id,
 	PositionsResponse,
 	ProjectsResponse,
 	RolesResponse, SourceOfChangeResponse
@@ -13,7 +13,12 @@ import {
 	NewProperty,
 	UserClusters
 } from "../components/Employee/types";
-import { NewClusterData, NewPropertyData, PropertyTypeObj } from "../components/Clusters/types";
+import {
+	NewClusterData,
+	NewPropertyData,
+	NewPropertyDataForAllUpdate,
+	PropertyTypeObj
+} from "../components/Clusters/types";
 
 const API_URL = 'https://brooms.herokuapp.com/';
 const config = {
@@ -175,7 +180,7 @@ export const propertiesAPI = {
 	},
 
 	getEnumList: async (id: Id) => {
-		const res = await instance.get(`property/${id}`);
+		const res = await instance.get<EnumListResponse>(`property/${id}`);
 		return res.data._embedded.definitions ?? [];
 	},
 
@@ -189,5 +194,9 @@ export const propertiesAPI = {
 
 	createEnumItem: async (name: string, idProperty: Id) => {
 		return instance.post(`property/${idProperty}/definition`, { name });
+	},
+
+	changeAllEnums: async (propsData: NewPropertyDataForAllUpdate[]) => {
+		return instance.put('property/definition', propsData);
 	}
 }
