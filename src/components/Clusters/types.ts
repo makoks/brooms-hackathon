@@ -1,4 +1,4 @@
-import {Id} from "../../API/types";
+import { Id } from "../../API/types";
 
 export type PropertyType = 'NUMBER' | 'STRING' | 'ENUM' | 'DATE';
 export type PropertyTitle = 'Число' | 'Строка' | 'Список' | 'Дата';
@@ -22,7 +22,16 @@ export type NewPropertyData = {
     type?: PropertyType;
 };
 
+export type NewPropertyDataForAllUpdate = {
+    id: Id;
+    propertyDefinitionModel: {
+        name: string;
+        point: number;
+    };
+}
+
 export type Enum = {
-    id: string;
+    id: Id;
     name: string;
+    point: number;
 }

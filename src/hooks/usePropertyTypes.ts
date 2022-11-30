@@ -4,8 +4,22 @@ import {message} from "antd";
 import {PropertyTypeObj} from "../components/Clusters/types";
 
 
+const PROPS_TYPES: PropertyTypeObj[] = JSON.parse(JSON.stringify([{
+    "type": "NUMBER",
+    "title": "Число"
+}, {
+    "type": "STRING",
+    "title": "Строка"
+}, {
+    "type": "DATE",
+    "title": "Дата"
+}, {
+    "type": "ENUM",
+    "title": "Список"
+}]))
+
 export const usePropertyTypes = () => {
-    const [types, setTypes] = useState<PropertyTypeObj[]>([]);
+    const [types, setTypes] = useState<PropertyTypeObj[]>(PROPS_TYPES);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

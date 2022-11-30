@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {Space, Button, message} from 'antd';
-import {DeleteOutlined} from '@ant-design/icons';
-import {ClusterPopover} from '../ClusterProperties/ClusterPopover';
-import {clustersAPI} from "../../../API/API";
-import {EditingTextByDoubleClick} from "../../common/EditingTextByDoubleClick";
-import {ClusterData, PropertyTypeObj} from "../types";
-import {Id} from "../../../API/types";
+import React, { useState } from 'react';
+import { Space, Button, message } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import { ClusterPopover } from '../ClusterProperties/ClusterPopover';
+import { clustersAPI } from "../../../API/API";
+import { EditingTextByDoubleClick } from "../../common/EditingTextByDoubleClick";
+import { ClusterData, PropertyTypeObj } from "../types";
+import { Id } from "../../../API/types";
 
 
 type ClusterItemProps = {
@@ -14,7 +14,7 @@ type ClusterItemProps = {
 	propertyTypes: PropertyTypeObj[];
 }
 
-export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster, propertyTypes}) => {
+export const ClusterItem: React.FC<ClusterItemProps> = ({ cluster, deleteCluster, propertyTypes }) => {
 	const [isEdit, setIsEdit] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [clusterName, setClusterName] = useState(cluster.name)
@@ -31,7 +31,7 @@ export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster,
 		<div>
 			<Space size="middle">
 				<Button
-					icon={<DeleteOutlined/>}
+					icon={<DeleteOutlined />}
 					shape="circle" type="default"
 					danger size="small"
 					onClick={() => deleteCluster(cluster.id)}
@@ -45,7 +45,7 @@ export const ClusterItem: React.FC<ClusterItemProps> = ({cluster, deleteCluster,
 					loading={loading}
 				/>
 			</Space>
-			<ClusterPopover cluster={cluster} propertyTypes={propertyTypes}/>
+			<ClusterPopover cluster={cluster} propertyTypes={propertyTypes} />
 		</div>
 	);
 };

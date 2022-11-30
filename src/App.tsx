@@ -5,7 +5,7 @@ import { Layout } from './components';
 import './light-and-dark-theme.css';
 import {
 	Clusters, Comparison,
-	Employee, History, Home
+	Employee, History, Home, Login
 } from './pages';
 import { Summary } from './pages/Summary';
 import { CompareListProvider } from "./providers/CompareListProvider";
@@ -16,6 +16,7 @@ function App() {
 		<BrowserRouter>
 			<CompareListProvider>
 				<Routes>
+					<Route path='/login' element={<Login />} />
 					<Route element={<Layout />}>
 						<Route path='/' element={<Home />} />
 						<Route path='clusters' element={<Clusters />} />
