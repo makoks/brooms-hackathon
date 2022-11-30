@@ -4,7 +4,7 @@ import { ContentHeader, SummaryTable } from '../components';
 import { ExcelIcon } from '../components/common/Icons/ExcelIcon';
 
 export const Summary = () => {
-    const [isExcelDisabled, setIsExcelDisabled] = useState(true);
+    const [isExcelDisabled] = useState(true);
 
     return (
         <Layout>
