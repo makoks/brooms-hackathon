@@ -197,6 +197,6 @@ export const propertiesAPI = {
 	},
 
 	changeAllEnums: async (propsData: NewPropertyDataForAllUpdate[]) => {
-		return instance.put('property/definition', propsData);
+		return instance.put('definition', propsData);
 	}
 }
