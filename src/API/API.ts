@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+	ClusterPropertiesResponse,
 	DepartmentsResponse,
 	EmployeeResponse,
 	EmployeesResponse, EnumListResponse, HistoryResponse, Id,
@@ -136,8 +137,8 @@ export const clustersAPI = {
 	},
 
 	getClusterProperties: async (id: Id) => {
-		const res = await instance.get(`cluster/${id}`);
-		return res.data._embedded.properties;
+		const res = await instance.get<ClusterPropertiesResponse>(`cluster/${id}`);
+		return res.data._embedded?.properties ?? [];
 	},
 
 	createCluster: async (clusterData: NewClusterData) => {
