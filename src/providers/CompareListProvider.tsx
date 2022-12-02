@@ -23,7 +23,7 @@ type CompareListProviderProps = {
 };
 
 export const CompareListProvider: React.FC<CompareListProviderProps> = ({ children }) => {
-    const [compareList, setCompareList] = useState<Id[]>(JSON.parse(JSON.stringify(localStorage.getItem('compareList'))) || []);
+    const [compareList, setCompareList] = useState<Id[]>(JSON.parse(localStorage.getItem('compareList') ?? '[]'));
 
     const addToCompareList = (id: Id) => {
         const newList = [...compareList, id];
