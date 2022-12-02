@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Input, InputNumber, Row, Space } from "antd";
-import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Col, InputNumber, Row, Space } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { EditingTextByDoubleClick } from "../../../../common/EditingTextByDoubleClick";
+import { Id } from "../../../../../API/types";
 
 
 type EnumItemProps = {
 	deleting: boolean;
-	deleteItem: (id: string) => Promise<void>;
-	id: string;
+	deleteItem: (id: Id) => Promise<void>;
+	id: Id;
 	name: string;
 	point: number;
-	changeItem: (id: string, name: string, point: number) => Promise<void>;
+	changeItem: (id: Id, name: string, point: number) => Promise<void>;
 	withWeights: boolean;
 }
 
@@ -55,17 +56,8 @@ export const EnumItem: React.FC<EnumItemProps> = ({ deleting, deleteItem, id, wi
 				</Space>
 			</Col>
 			<Col>
-				<Input.Group compact style={{ display: 'flex', justifyContent: 'center' }} >
-					<InputNumber disabled={!withWeights} value={point} onChange={setPoint} />
-					<Button
-						type="primary"
-						onClick={changeItem}
-						loading={loading}
-						icon={<CheckOutlined />}
-						disabled={!withWeights}
-					/>
-				</Input.Group>
-
+				<InputNumber disabled={!withWeights || loading} value={point} onChange={setPoint}
+					onBlur={changeItem} />
 			</Col>
 		</Row>
 	)

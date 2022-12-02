@@ -122,7 +122,7 @@ type ClusterPropertiesProps = {
 
 export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({ id, definition, propertyTypes }) => {
     const [addingProperty, setAddingProperty] = useState(false)
-    const [properties, setProperties] = useState<PropertyData[]>([])
+    const [properties, setProperties] = useState<PropertyData[]>(PROPS)
     const [deletingPropertyIds, setDeletingPropertyIds] = useState<Id[]>([])
     const [creating, setCreating] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -172,14 +172,11 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({ id, defini
     }
 
     useEffect(() => {
-        const getProperties = async () => {
-            setProperties(await clustersAPI.getClusterProperties(id))
-        }
-
         setLoading(true)
-        getProperties()
-            .finally(() => setLoading(false))
+        clustersAPI.getClusterProperties(id)
+            .then((data) => setProperties(data))
             .catch(() => message.error('Не удалось получить список свойств :('))
+            .finally(() => setLoading(false))
     }, [id])
 
     return (
@@ -205,7 +202,7 @@ export const ClusterProperties: React.FC<ClusterPropertiesProps> = ({ id, defini
             ) : (
                 <>
                     <AddButton onClick={() => setAddingProperty(true)} />
-                    {false
+                    {loading
                         ? <div style={{ display: 'flex', justifyContent: 'center' }}><Loader /></div>
                         : <Properties
                             properties={PROPS}

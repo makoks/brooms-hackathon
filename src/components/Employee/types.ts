@@ -1,5 +1,6 @@
 import {EmployeeForPage} from "../../hooks/types";
 import {PropertyType} from "../Clusters/types";
+import {Id} from "../../API/types";
 
 export type UserClusters = {
     user: EmployeeForPage;
@@ -24,7 +25,7 @@ export type ClusterPropertyValue = {
     dateTimeValue: string | null;
     numberValue: number | null;
     stringValue: string | null;
-    enumValue: { id: string, name: string } | null;
+    enumValue: { id: Id, name: string } | null;
 };
 
 export type SourceOfChange = {

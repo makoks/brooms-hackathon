@@ -2,6 +2,7 @@ import React from 'react'
 import {Collapse, Space, Typography} from "antd";
 import {Property} from "./ClusterCard/Property/Property";
 import {Cluster} from "../../types";
+import {Id} from "../../../../API/types";
 
 
 const {Panel} = Collapse
@@ -14,7 +15,7 @@ type ClusterListProps = {
         clusterId: string,
         propId: string,
         propType: string,
-        value: (string | number | { id: string, name: string } | null | undefined)
+        value: (string | number | { id: Id, name: string } | null | undefined)
     ) => void;
 }
 

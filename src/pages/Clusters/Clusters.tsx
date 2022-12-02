@@ -335,7 +335,7 @@ const CLUSTERS: ClusterData[] = JSON.parse(JSON.stringify({
 }))._embedded.cluster
 
 export const Clusters = () => {
-	const [clusters, setClusters] = useState<ClusterData[]>([]);
+	const [clusters, setClusters] = useState<ClusterData[]>(CLUSTERS);
 	const [loading, setLoading] = useState(false);
 	const { types, loading: typesLoading } = usePropertyTypes();
 
@@ -378,7 +378,7 @@ export const Clusters = () => {
 					{!(false)
 						? (
 							<Space direction="vertical" style={{ width: '100%' }}>
-								{CLUSTERS.map(cluster => (
+								{clusters.map(cluster => (
 									<ClusterItem
 										key={cluster.id}
 										cluster={cluster}
